@@ -48,6 +48,12 @@ let api = {
       ])
       .catch(_ => [false, 'refresh not available'])
   ,
+
+  deleteSource: async (source:Source):Promise<boolean> => 
+    server.delete(`/auth/sources/${source.id}`)
+      .then(response => response.status === 200)
+      .catch(_ => false)
+  ,
 }
 
 
