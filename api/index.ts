@@ -14,8 +14,8 @@ let api = {
       .catch(response => response.status === 401)
   ,
 
-  verify: async (email:string, password:string, verificationToken:string):Promise<boolean> => 
-    server.post('/users', { email, password, verification_token: verificationToken })
+  verify: async (email:string, verificationToken:string):Promise<boolean> => 
+    server.post('/users', { email, verificationToken: verificationToken })
       .then(response => response.status === 200)
       .catch(response => response.status === 401)
   ,
