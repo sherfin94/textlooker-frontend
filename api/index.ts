@@ -39,18 +39,20 @@ let api = {
       .catch(_ => false)
   ,
 
-  getSources: async ():Promise<[boolean,Source[]]|any[]> =>
+  getSources: async ():Promise<[boolean,{id:number, name:string}[]]|any[]> =>
     server.get('auth/sources')
-      .then(response => [
-        response.status === 200,
-        response.data.sources.map(
-          (source: {id:number, name:string}) => new Source(source.id, source.name))
-      ])
+      .then(response => [response.status === 200, response.data.sources])
       .catch(_ => [false, 'refresh not available'])
   ,
 
-  deleteSource: async (source:Source):Promise<boolean> => 
-    server.delete(`/auth/sources/${source.id}`)
+  deleteSource: async (id:number):Promise<boolean> => 
+    server.delete(`/auth/sources/${id}`)
+      .then(response => response.status === 200)
+      .catch(_ => false)
+  ,
+
+  createText: async (content:string, author:string, date:string, sourceID:string):Promise<boolean> => 
+    server.post('/auth/text', { content, author, date, sourceID })
       .then(response => response.status === 200)
       .catch(_ => false)
   ,
