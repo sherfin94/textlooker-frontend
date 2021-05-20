@@ -8,6 +8,14 @@ const server = axios.create({
   headers: {'Content-Type': 'application/json'}
 })
 
+interface text {
+  content:string,
+  author:string[],
+  date:string,
+  source_id:number,
+  analyzed:boolean
+}
+
 let api = {
   signup: async (email:string, password:string):Promise<boolean> => 
     server.post('/user_registrations', { email, password })
@@ -56,6 +64,18 @@ let api = {
       .then(response => response.status === 200)
       .catch(_ => false)
   ,
+
+  getText: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string):Promise<[boolean, text[]]|any[]> =>
+    server.post('auth/text', { sourceID, content, author, startDate, endDate })
+      .then(response => [
+        response.status === 200, 
+        response.data.texts
+      ])
+      .catch(_ => [false, "could not fetch texts"])
+  ,
+
+
+
 }
 
 
