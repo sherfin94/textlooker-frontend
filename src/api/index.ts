@@ -1,5 +1,5 @@
 import axios from 'axios'
-import process from 'process'
+import type {text, aggregation, countItem, source} from '../interface'
 
 const server = axios.create({
   baseURL: process.env.TEXTLOOKER_BACKEND_URL,
@@ -7,30 +7,6 @@ const server = axios.create({
   headers: {'Content-Type': 'application/json'}
 })
 
-interface text {
-  content:string,
-  author:string[],
-  date:string,
-  source_id:number,
-  analyzed:boolean,
-  gpe:string[],
-  people:string[],
-  tokens:string[]
-}
-
-interface aggregation {
-  authors:countItem[]
-  people:countItem[]
-  gpe:countItem[]
-  tokens:countItem[]
-  dates:countItem[]
-}
-
-interface countItem {
-  date:string
-  value:string
-  count:number
-}
 
 let api = {
   signup: async (email:string, password:string):Promise<boolean> => 
@@ -63,7 +39,7 @@ let api = {
       .catch(_ => false)
   ,
 
-  getSources: async ():Promise<[boolean,{id:number, name:string}[]]|any[]> =>
+  getSources: async ():Promise<[boolean,source[]]|any[]> =>
     server.get('auth/sources')
       .then(response => [response.status === 200, response.data.sources])
       .catch(_ => [false, 'refresh not available'])
