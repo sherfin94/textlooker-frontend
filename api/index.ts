@@ -1,6 +1,5 @@
 import axios from 'axios'
 import process from 'process'
-import Source from './source'
 
 const server = axios.create({
   baseURL: process.env.TEXTLOOKER_BACKEND_URL,
