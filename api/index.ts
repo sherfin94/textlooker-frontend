@@ -19,6 +19,20 @@ interface text {
   tokens:string[]
 }
 
+interface aggregation {
+  authors:countItem[]
+  people:countItem[]
+  gpe:countItem[]
+  tokens:countItem[]
+  dates:countItem[]
+}
+
+interface countItem {
+  date:string
+  value:string
+  count:number
+}
+
 let api = {
   signup: async (email:string, password:string):Promise<boolean> => 
     server.post('/user_registrations', { email, password })
@@ -84,7 +98,25 @@ let api = {
       response.data.texts
     ])
     .catch(_ => [false, "could not fetch texts"])
+  ,
 
+  getAggregation: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string, people:string[], gpe:string[]):Promise<[boolean, aggregation]|any[]> =>
+  server.post('auth/general_aggregation', { sourceID, content, author, startDate, endDate, people, gpe })
+    .then(response => [
+      response.status === 200, 
+      response.data.aggregation
+    ])
+    .catch(_ => [false, "could not fetch aggregation"])
+  ,
+
+  getPerDateAggregation: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string, people:string[], gpe:string[], field:string):Promise<[boolean, countItem[]]|any[]> =>
+  server.post('auth/per_date_aggregation', { sourceID, content, author, startDate, endDate, people, gpe, field })
+    .then(response => [
+      response.status === 200, 
+      response.data.aggregation
+    ])
+    .catch(_ => [false, "could not fetch per date aggregation"])
+  ,
 }
 
 
