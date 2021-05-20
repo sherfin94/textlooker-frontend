@@ -13,7 +13,10 @@ interface text {
   author:string[],
   date:string,
   source_id:number,
-  analyzed:boolean
+  analyzed:boolean,
+  gpe:string[],
+  people:string[],
+  tokens:string[]
 }
 
 let api = {
@@ -74,7 +77,13 @@ let api = {
       .catch(_ => [false, "could not fetch texts"])
   ,
 
-
+  getAnalyzedText: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string, people:string[], gpe:string[]):Promise<[boolean, text[]]|any[]> =>
+  server.post('auth/analyzed_text', { sourceID, content, author, startDate, endDate, people, gpe })
+    .then(response => [
+      response.status === 200, 
+      response.data.texts
+    ])
+    .catch(_ => [false, "could not fetch texts"])
 
 }
 
