@@ -1,12 +1,17 @@
-import axios from 'axios'
+import axios, { AxiosInstance } from 'axios'
 import type {text, aggregation, countItem, source} from '../interface'
 
-const server = axios.create({
-  baseURL: process.env.TEXTLOOKER_BACKEND_URL,
-  timeout: 1000,
-  headers: {'Content-Type': 'application/json'}
-})
+let server:AxiosInstance
 
+ let configureServer = (authorizationToken:string='') => {
+   server = axios.create({
+    baseURL: process.env.TEXTLOOKER_BACKEND_URL,
+    timeout: 1000,
+    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${authorizationToken}`}
+  })
+}
+
+configureServer()
 
 let api = {
   signup: async (email:string, password:string):Promise<boolean> => 
@@ -23,14 +28,20 @@ let api = {
  
   login: async (email:string, password:string):Promise<[boolean, string]|any[]> => 
     server.post('/login', { email, password })
-      .then(response => [response.status === 200, response.data.token])
-      .catch(_ => [false, 'token not available'])
+      .then(response => {
+        const token = response.data.token
+        configureServer(token)
+        return [response.status === 200, token]
+      }).catch(_ => [false, 'token not available'])
   ,
 
   refreshToken: async ():Promise<[boolean,string]|any[]> =>
     server.get('/auth/refresh_token')
-      .then(response => [response.status === 200, response.data.token])
-      .catch(_ => [false, 'refresh not available'])
+    .then(response => {
+      const token = response.data.token
+      configureServer(token)
+      return [response.status === 200, token]
+    }).catch(_ => [false, 'refresh not available'])
   ,
 
   createSource: async (name:string):Promise<boolean> => 
@@ -51,14 +62,14 @@ let api = {
       .catch(_ => false)
   ,
 
-  createText: async (content:string, author:string, date:string, sourceID:string):Promise<boolean> => 
+  createText: async (content:string, author:string[], date:string, sourceID:number):Promise<boolean> => 
     server.post('/auth/text', { content, author, date, sourceID })
       .then(response => response.status === 200)
       .catch(_ => false)
   ,
 
   getText: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string):Promise<[boolean, text[]]|any[]> =>
-    server.post('auth/text', { sourceID, content, author, startDate, endDate })
+    server.get('auth/text', {params:{ sourceID, content, author, startDate, endDate }})
       .then(response => [
         response.status === 200, 
         response.data.texts
@@ -67,7 +78,7 @@ let api = {
   ,
 
   getAnalyzedText: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string, people:string[], gpe:string[]):Promise<[boolean, text[]]|any[]> =>
-  server.post('auth/analyzed_text', { sourceID, content, author, startDate, endDate, people, gpe })
+  server.get('auth/analyzed_text', { params: { sourceID, content, author, startDate, endDate, people, gpe }})
     .then(response => [
       response.status === 200, 
       response.data.texts
@@ -76,7 +87,7 @@ let api = {
   ,
 
   getAggregation: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string, people:string[], gpe:string[]):Promise<[boolean, aggregation]|any[]> =>
-  server.post('auth/general_aggregation', { sourceID, content, author, startDate, endDate, people, gpe })
+  server.get('auth/general_aggregation', { params: { sourceID, content, author, startDate, endDate, people, gpe }})
     .then(response => [
       response.status === 200, 
       response.data.aggregation
@@ -85,7 +96,7 @@ let api = {
   ,
 
   getPerDateAggregation: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string, people:string[], gpe:string[], field:string):Promise<[boolean, countItem[]]|any[]> =>
-  server.post('auth/per_date_aggregation', { sourceID, content, author, startDate, endDate, people, gpe, field })
+  server.get('auth/per_date_aggregation', { params: { sourceID, content, author, startDate, endDate, people, gpe, field }})
     .then(response => [
       response.status === 200, 
       response.data.aggregation
