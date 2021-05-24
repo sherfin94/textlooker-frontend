@@ -5,5 +5,11 @@
 
 <div>
   <Logo />
-  <LoginBox />
+  <div class="columns">
+    <div class="column"></div>
+    <div class="column">
+      <LoginBox />
+    </div>
+    <div class="column"></div>
+  </div>
 </div>
