@@ -1,0 +1,3 @@
+Use singular fontawesome icons instead of downloading all the icons
+
+USE PUG INSTEAD OF RAW HTML!!!

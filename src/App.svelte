@@ -5,7 +5,7 @@
 
 <div>
   <Router primary={false}>
-    <Route path="/login">
+    <Route path="/login/*">
       <LoginView />
     </Route>
   </Router>

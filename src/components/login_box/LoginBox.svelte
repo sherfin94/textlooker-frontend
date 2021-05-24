@@ -1,5 +1,8 @@
 <script lang='typescript'>
+  import api from '../../api';
+
   import { validateEmail, validatePassword } from './validations'
+  import { Link } from "svelte-navigator";
 
   let [email, password] = ['', '']
   let disabled:boolean = true
@@ -10,9 +13,13 @@
     const [ passwordValid, passwordIssues ] = validatePassword(password)
     disabled = !emailValid || !passwordValid
   }
+
+  let handleSignup = async () => {
+    const status = await api.signup(email, password)
+
+  }
 </script>
 
-<div class="container has-background-light root">
   <div class="login-box p-6">
     <div class="field">
       <p class="control has-icons-left has-icons-right">
@@ -36,14 +43,9 @@
     <div class="field is-flex is-justify-content-center mt-4">
       <div class="control">
         <button class="button is-link" disabled={disabled}>Login</button>
-        <button class="button is-link has-background-primary" disabled={disabled}>Signup</button>
+        <Link to='/login/verification'>
+          <button class="button is-link has-background-primary" disabled={disabled} on:click={handleSignup}>Signup</button>
+        </Link>
       </div>
     </div>
   </div>
-</div>
-
-<style lang='scss'>
-  div.root {
-    border-radius: 10px;
-  }
-</style>
