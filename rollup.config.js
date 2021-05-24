@@ -84,7 +84,8 @@ export default {
 				env: {
 					TEXTLOOKER_BACKEND_URL: process.env.TEXTLOOKER_BACKEND_URL
 				}
-			})
+			}),
+			preventAssignment: true,
 		})
 	],
 	watch: {
