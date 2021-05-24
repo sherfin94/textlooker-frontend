@@ -5,11 +5,9 @@
 
 <div>
   <Logo />
-  <div class="columns">
-    <div class="column"></div>
-    <div class="column">
+  <div class="columns is-flex is-justify-content-center">
+    <div class="column is-one-quarter">
       <LoginBox />
     </div>
-    <div class="column"></div>
   </div>
 </div>
