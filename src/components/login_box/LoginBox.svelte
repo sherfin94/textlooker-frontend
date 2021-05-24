@@ -36,7 +36,7 @@
     <div class="field is-flex is-justify-content-center mt-4">
       <div class="control">
         <button class="button is-link" disabled={disabled}>Login</button>
-        <button class="button is-link" disabled={disabled}>Signup</button>
+        <button class="button is-link has-background-primary" disabled={disabled}>Signup</button>
       </div>
     </div>
   </div>
