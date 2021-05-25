@@ -1,8 +1,19 @@
 <script lang='typescript'>
+  import api from "../../../api";
+  
   let [token, disabled] = ['', true]
+
+  import { user } from '../../../store'
+  let email:string
+  user.subscribe(user => {email = user.email})
 
   let handleInput = () => {
     disabled = token.length < 6
+  }
+
+  let handleSubmit = async () => {
+    console.log(email, token)
+    const status = await api.verify(email, token)
   }
 </script>
 
@@ -14,7 +25,7 @@
     </div>
     <div class="field is-flex is-justify-content-center mt-4">
       <div class="control">
-        <button class="button is-link" disabled={disabled}>Verify</button>
+        <button class="button is-link" disabled={disabled} on:click={handleSubmit}>Verify</button>
       </div>
     </div>
   </div>

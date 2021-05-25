@@ -5,6 +5,7 @@
   import EmailField from './EmailField.svelte'
   import PasswordField from './PasswordField.svelte'
   import ButtonGroup from './ButtonGroup.svelte'
+  import { user } from '../../../store'
 
   let [email, password] = ['', '']
   let disabled:boolean = true
@@ -18,6 +19,7 @@
 
   let handleSignup = async () => {
     const status = await api.signup(email, password)
+    user.update(user => Object.assign({}, user, { email, password }))
   }
 </script>
 
