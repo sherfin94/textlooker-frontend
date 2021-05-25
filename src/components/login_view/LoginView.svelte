@@ -1,6 +1,6 @@
 <script lang='typescript'>
   import Logo from '../logo/Logo.svelte'
-  import LoginBox from '../login_box/LoginBox.svelte'
+  import LoginBox from './login_box/LoginBox.svelte'
   import EmailVerificationBox from './email_verification_box/EmailVerificationBox.svelte'
   import { Route } from "svelte-navigator"
 </script>
