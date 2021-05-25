@@ -12,7 +12,6 @@
   }
 
   let handleSubmit = async () => {
-    console.log(email, token)
     const status = await api.verify(email, token)
   }
 </script>

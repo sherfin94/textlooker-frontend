@@ -1,3 +1,5 @@
 Use singular fontawesome icons instead of downloading all the icons
 
-USE PUG INSTEAD OF RAW HTML!!!
+show loading for verify and navigate to app
+
+cllear all notifications when sign-up or login is clicked
