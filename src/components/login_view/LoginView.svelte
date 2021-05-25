@@ -2,6 +2,7 @@
   import Logo from '../logo/Logo.svelte'
   import LoginBox from './login_box/LoginBox.svelte'
   import EmailVerificationBox from './email_verification_box/EmailVerificationBox.svelte'
+  import Notifications from './Notifications.svelte'
   import { Route } from "svelte-navigator"
 </script>
 
@@ -9,6 +10,7 @@
   <Logo />
   <div class="columns is-flex is-justify-content-center">
     <div class="column is-one-quarter">
+      <Notifications />
       <div class="container has-background-light root">
         <Route path='/verification'>
           <EmailVerificationBox />

@@ -1,8 +1,6 @@
 export function validateEmail(email:string):boolean {
-  if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
-    return true
-  }
-  return false
+  let re:RegExp = /\S+@\S+\.\S+/
+  return re.test(email)
 }
 
 export function validatePassword(password:string):[boolean, string[]] {
