@@ -28,13 +28,24 @@
       user.update(user => Object.assign({}, user, { email, password }))
       navigate('/login/verification')
     } else
-      loginViewIssues.update(issues => ['Unable to create account. Please contact support.'])
+      loginViewIssues.update(_ => ['Unable to create account. Please contact support.'])
+  }
+
+  let handleLogin = async () => {
+    loading = true
+    const [status, _] = await api.login(email, password)
+    loading = false
+    if(status) {
+      user.update(user => Object.assign({}, user, { email, password }))
+      navigate('/app')
+    } else
+      loginViewIssues.update(_ => ['Please check your email or password'])
   }
 </script>
 
 <div class="login-box px-6 pt-6 pb-4">
   <EmailField bind:email={email} handleChange={handleChange} />
-  <PasswordField bind:password={password} handleChange={handleChange} />
-  <ButtonGroup bind:disabled={disabled} handleSignup={handleSignup} />
+  <PasswordField bind:password={password} handleChange={handleChange} handleLogin={handleLogin}/>
+  <ButtonGroup bind:disabled={disabled} handleSignup={handleSignup} handleLogin={handleLogin} />
   <progress class="progress is-small is-primary mt-2 {loading ? '':'is-invisible'}" max="100"></progress>
 </div>

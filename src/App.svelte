@@ -8,6 +8,7 @@
     <Route path="/login/*">
       <LoginView />
     </Route>
+    <Route path="/app">Hello World!</Route>
   </Router>
 </div>
 
