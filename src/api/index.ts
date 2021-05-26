@@ -3,12 +3,21 @@ import type {text, aggregation, countItem, source} from '../interface'
 
 let server:AxiosInstance
 
- let configureServer = (authorizationToken:string='') => {
-   server = axios.create({
+let configureServer = (authToken:string='') => {
+  server = axios.create({
     baseURL: process.env.TEXTLOOKER_BACKEND_URL,
     timeout: 1000,
-    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${authorizationToken}`}
+    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}`}
   })
+}
+
+let scheduleAuthTokenRefresh = () => {
+  setInterval(
+    () => {
+      api.refreshToken()
+    },
+    3600000 // ten seconds
+  )
 }
 
 configureServer()
@@ -31,6 +40,7 @@ let api = {
       .then(response => {
         const token = response.data.token
         configureServer(token)
+        scheduleAuthTokenRefresh()
         return [response.status === 200, token]
       }).catch(_ => [false, 'token not available'])
   ,
