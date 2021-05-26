@@ -16,7 +16,7 @@ let scheduleAuthTokenRefresh = () => {
     () => {
       api.refreshToken()
     },
-    3600000 // ten seconds
+    15 * 60 * 1000 // 15 minutes
   )
 }
 
