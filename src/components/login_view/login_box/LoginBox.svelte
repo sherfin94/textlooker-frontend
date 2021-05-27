@@ -6,7 +6,8 @@
   import PasswordField from './PasswordField.svelte'
   import ButtonGroup from './ButtonGroup.svelte'
   import { user, loginViewIssues } from '../../../store'
-  import { useNavigate } from "svelte-navigator";
+  import { useNavigate } from "svelte-navigator"
+  import { clearIssues } from '../actions'
 
 	const navigate = useNavigate();
 
@@ -21,6 +22,7 @@
   }
 
   let handleSignup = async () => {
+    clearIssues()
     loading = true
     const status = await api.signup(email, password)
     loading = false
@@ -32,6 +34,7 @@
   }
 
   let handleLogin = async () => {
+    clearIssues()
     loading = true
     const status = await api.login(email, password)
     loading = false
