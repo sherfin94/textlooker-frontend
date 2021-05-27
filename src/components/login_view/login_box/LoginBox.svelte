@@ -5,9 +5,9 @@
   import EmailField from './EmailField.svelte'
   import PasswordField from './PasswordField.svelte'
   import ButtonGroup from './ButtonGroup.svelte'
-  import { user, loginViewIssues } from '../../../store'
   import { useNavigate } from "svelte-navigator"
-  import { clearIssues } from '../actions'
+  import { clearIssues, setIssues } from '../actions'
+  import { setUserCredentials, signInUser } from '../../../actions/user_actions'
 
 	const navigate = useNavigate();
 
@@ -27,10 +27,10 @@
     const status = await api.signup(email, password)
     loading = false
     if(status) {
-      user.update(user => Object.assign({}, user, { email, password }))
+      setUserCredentials(email, password)
       navigate('/login/verification')
     } else
-      loginViewIssues.update(_ => ['Unable to create account. Please contact support.'])
+      setIssues(['Unable to create account. Please contact support.'])
   }
 
   let handleLogin = async () => {
@@ -39,10 +39,10 @@
     const status = await api.login(email, password)
     loading = false
     if(status) {
-      user.update(user => Object.assign({}, user, { email, password }))
+      signInUser(email, password)
       navigate('/app')
     } else
-      loginViewIssues.update(_ => ['Please check your email or password'])
+      setIssues(['Please check your email or password'])
   }
 </script>
 

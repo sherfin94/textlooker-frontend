@@ -1,18 +1,33 @@
 <script lang='typescript'>
+import { navigate } from "svelte-navigator";
+
+import { signInUser } from "../../../actions/user_actions";
+
   import api from "../../../api";
   
-  let [token, disabled] = ['', true]
+  let [token, disabled, loading] = ['', true, false]
 
-  import { user } from '../../../store'
-  let email:string
-  user.subscribe(user => {email = user.email})
+  import { user } from '../../../models/user'
+import { setIssues } from "../actions";
 
   let handleInput = () => {
     disabled = token.length < 6
   }
 
   let handleSubmit = async () => {
-    const status = await api.verify(email, token)
+    loading = true
+    const status = await api.verify(user.email, token)
+    if(status) {
+      const loggedIn = await api.login(user.email, user.password)
+      if(loggedIn) {
+        signInUser(user.email, user.password)
+        navigate('/app')
+      } else {
+        setIssues(["Token verified, but unable to login. Please try logging in using the email and password you have set."])
+      }
+    } else {
+      setIssues(["Could not verify token, please check your token."])
+    }
   }
 </script>
 
