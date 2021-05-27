@@ -7,7 +7,7 @@
   import ButtonGroup from './ButtonGroup.svelte'
   import { useNavigate } from "svelte-navigator"
   import { clearIssues, setIssues } from '../actions'
-  import { setUserCredentials, signInUser } from '../../../actions/user_actions'
+  import { setUserCredentials, signInUser } from '../../../models/user'
 
 	const navigate = useNavigate();
 

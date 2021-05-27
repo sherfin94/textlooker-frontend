@@ -1,14 +1,12 @@
 <script lang='typescript'>
 import { navigate } from "svelte-navigator";
 
-import { signInUser } from "../../../actions/user_actions";
-
   import api from "../../../api";
   
   let [token, disabled, loading] = ['', true, false]
 
-  import { user } from '../../../models/user'
-import { setIssues } from "../actions";
+  import { user, signInUser } from '../../../models/user'
+  import { setIssues } from "../actions";
 
   let handleInput = () => {
     disabled = token.length < 6

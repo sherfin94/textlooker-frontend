@@ -3,12 +3,16 @@
   import LoginView from "../../components/login_view/LoginView.svelte"
   import { useNavigate } from "svelte-navigator";
   import api from '../../api'
+  import { startPeriodicRefresh } from "../../models/user";
 
 
     const navigate = useNavigate();
 
     api.refreshToken().then(loggedIn => {
-      loggedIn && navigate('/app')
+      if(loggedIn) { 
+        navigate('/app')
+        startPeriodicRefresh()
+      }
     })
 
 </script>
