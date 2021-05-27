@@ -1,26 +1,12 @@
 import axios, { AxiosInstance } from 'axios'
 import type {text, aggregation, countItem, source} from '../interface'
 
-let server:AxiosInstance
-
-let configureServer = (authToken:string='') => {
-  server = axios.create({
-    baseURL: process.env.TEXTLOOKER_BACKEND_URL,
-    timeout: 1000,
-    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}`}
-  })
-}
-
-let scheduleAuthTokenRefresh = () => {
-  setInterval(
-    () => {
-      api.refreshToken()
-    },
-    15 * 60 * 1000 // 15 minutes
-  )
-}
-
-configureServer()
+let server = axios.create({
+  baseURL: process.env.TEXTLOOKER_BACKEND_URL,
+  timeout: 1000,
+  headers: {'Content-Type': 'application/json', "Accept": "*/*"},
+  withCredentials: true,
+})
 
 let api = {
   signup: async (email:string, password:string):Promise<boolean> => 
@@ -35,23 +21,18 @@ let api = {
       .catch(_ => false)
   ,
  
-  login: async (email:string, password:string):Promise<[boolean, string]|any[]> => 
+  login: async (email:string, password:string):Promise<boolean> => 
     server.post('/login', { email, password })
       .then(response => {
-        const token = response.data.token
-        configureServer(token)
-        scheduleAuthTokenRefresh()
-        return [response.status === 200, token]
-      }).catch(_ => [false, 'token not available'])
+        return response.status === 200
+      }).catch(_ => false)
   ,
 
-  refreshToken: async ():Promise<[boolean,string]|any[]> =>
+  refreshToken: async ():Promise<boolean> =>
     server.get('/auth/refresh_token')
     .then(response => {
-      const token = response.data.token
-      configureServer(token)
-      return [response.status === 200, token]
-    }).catch(_ => [false, 'refresh not available'])
+      return response.status === 200
+    }).catch(_ => false)
   ,
 
   createSource: async (name:string):Promise<boolean> => 

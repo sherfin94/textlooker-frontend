@@ -1,14 +1,13 @@
 <script lang="typescript">
   import { Router, Route } from "svelte-navigator";
-  import LoginView from "./components/login_view/LoginView.svelte"
+  import RouterGateway from "./components/router_gateway/RouterGateway.svelte"
 </script>
 
 <div>
   <Router primary={false}>
-    <Route path="/login/*">
-      <LoginView />
+    <Route path="/*">
+      <RouterGateway />
     </Route>
-    <Route path="/app">Hello World!</Route>
   </Router>
 </div>
 

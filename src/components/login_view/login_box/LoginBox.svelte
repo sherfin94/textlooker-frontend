@@ -33,7 +33,7 @@
 
   let handleLogin = async () => {
     loading = true
-    const [status, _] = await api.login(email, password)
+    const status = await api.login(email, password)
     loading = false
     if(status) {
       user.update(user => Object.assign({}, user, { email, password }))
