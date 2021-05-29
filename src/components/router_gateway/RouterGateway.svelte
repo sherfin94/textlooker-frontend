@@ -4,6 +4,7 @@
   import { useNavigate } from "svelte-navigator";
   import api from '../../api'
   import { startPeriodicRefresh } from "../../models/user";
+  import CoreApp from '../core_app/CoreApp.svelte'
 
 
     const navigate = useNavigate();
@@ -21,7 +22,9 @@
     <Route path="/login/*">
       <LoginView />
     </Route>
-    <Route path="/app">Hello World!</Route>
+    <Route path="/app/*">
+      <CoreApp />
+    </Route>
 </div>
 
 <style lang="scss" global>
