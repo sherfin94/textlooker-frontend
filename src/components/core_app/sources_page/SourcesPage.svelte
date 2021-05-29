@@ -3,25 +3,25 @@
   import type { source } from '../../../interface'
   import { fetchSources } from '../../../models/source'
   import SearchBox from './SearchBox.svelte'
-  import { sources as sourceStore } from '../../../store'
+  import { sources } from '../../../models/source'
 
   let searchText = ''
   let loading = false
   let sourceSlices:source[][] = []
 
-  sourceStore.subscribe(sourcesData => {
+  let createSourceSlices = ():source[][] => {
     let slices:source[][] = []
-    for(let i = 0; i < sourcesData.length; i += 4) {
-      const slice = sourcesData.slice(i, i + 4)
+    for(let i = 0; i < sources.length; i += 4) {
+      const slice = sources.slice(i, i + 4)
       if (slice.length !== 0) slices.push(slice)
     }
-    sourceSlices = slices
-  })
-  
+    return slices
+  }
 
   onMount(async () => {
     loading = true
-    await fetchSources()  
+    await fetchSources()
+    sourceSlices = createSourceSlices()
     loading = false
   })
 
