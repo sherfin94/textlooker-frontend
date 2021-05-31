@@ -10,14 +10,20 @@
   export let loading:boolean = false
   let sourceName:string = ''
   let inputBox
+  let showIssue = false
 
   let handleCreate = async () => {
     loading = true
     const status = await api.createSource(sourceName)
-    await fetchSources()
-    sourceName = ''
+    if(status) {
+      await fetchSources()
+      sourceName = ''
+      close()
+      showIssue = false
+    } else {
+      showIssue = true
+    }
     loading = false
-    close()
   }
 
   let handleKeypress = (keyboardEvent:KeyboardEvent) => {   
@@ -26,7 +32,12 @@
     }
   }
 
-  afterUpdate(async () => {
+  let handleClose = () => {
+    showIssue = false
+    close()
+  }
+
+  afterUpdate(() => {
     on && inputBox.focus()
   })
 
@@ -35,8 +46,18 @@
 
 {#if on === true}
   <div class="modal is-active">
-    <div class="modal-background" on:click={close}></div>
+    <div class="modal-background" on:click={handleClose}></div>
     <div class="modal-content">
+      {#if showIssue === true}
+        <article class="message is-warning">
+          <div class="message-header">
+            <p>Unable to create source</p>
+          </div>
+          <div class="message-body">
+            Source could not be created. Possibly because there is another source by the same name. Please contact support if this is not the reason.          
+          </div>
+        </article>
+      {/if}
       <div class="card">
         <div class="card-content">
           <div class="content">
@@ -53,12 +74,12 @@
           <div class="container">
             <div class="buttons">
               <button class="button is-primary {loading ? 'is-loading' : ''}" on:click={handleCreate}>Create</button>
-              <button class="button is-info" on:click={close}>Cancel</button>
+              <button class="button is-info" on:click={handleClose}>Cancel</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <button class="modal-close is-large" aria-label="close" on:click={close}></button>
+    <button class="modal-close is-large" aria-label="close" on:click={handleClose}></button>
   </div>
 {/if}
