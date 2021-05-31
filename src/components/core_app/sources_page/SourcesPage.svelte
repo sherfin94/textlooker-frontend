@@ -3,14 +3,23 @@
   import { fetchSources } from '../../../models/source'
   import { sources as sourceStore } from '../../../store'
   import SearchBox from './SearchBox.svelte'
-  import Sources from './Sources.svelte'
+  import Items from './Items.svelte'
+  import NewSource from './NewSource.svelte'
   import type { source } from '../../../interface'
   import type { sourceListItem } from './interface'
 
   let searchText = ''
   let loading = false
-  let sources:source[]
+  let sources:source[] = []
   let itemsToBeDisplayed:sourceListItem[] = []
+  let newSourceModalOn:boolean = false
+
+  export let processAction = (actionName:string) => {
+    if (actionName === 'Create new source') {
+      newSourceModalOn = !newSourceModalOn
+
+    }
+  }
 
   let generateItemsToBeDisplayed = (sources:source[]):sourceListItem[] => {
     const filteredSources:source[] = sources.filter(
@@ -22,7 +31,9 @@
   }
 
   sourceStore.subscribe(sourceData => {
+    console.log(sourceData)
     sources = sourceData
+    itemsToBeDisplayed = generateItemsToBeDisplayed(sources)
   })
 
   onMount(async () => {
@@ -45,6 +56,7 @@
     <progress class="progress is-large is-info {loading ? '':'is-invisible'}" max="100" />
   </div>
 
-  <Sources items={itemsToBeDisplayed} />
+  <Items items={itemsToBeDisplayed} processAction={processAction} />
+  <NewSource on={newSourceModalOn} close={() => processAction('Create new source')} />
 </section>
 

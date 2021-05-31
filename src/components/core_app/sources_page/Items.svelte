@@ -4,6 +4,7 @@
   import Action from './Action.svelte'
 
   export let items:sourceListItem[]
+  export let processAction
 
   let Slice = (items:sourceListItem[]):sourceListItem[][] => {
     let slices:sourceListItem[][] = []
@@ -25,7 +26,7 @@
         {#if item.type === 'source'}
           <Source source={item} />
         {:else if item.type === 'action'}
-          <Action action={item} />
+          <Action action={item} processAction={processAction} />
         {/if}
       </div>
     {/each}

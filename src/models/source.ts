@@ -10,6 +10,8 @@ sourcesStore.subscribe(sourcesData => {
 
 export let fetchSources = async () => {
   let [status, sources] = await api.getSources()
+  console.log(sources)
+  
   if (status)
     sourcesStore.update(_ => sources)
   else {
