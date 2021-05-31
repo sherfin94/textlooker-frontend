@@ -1,19 +1,17 @@
 <script lang='typescript'>
-  import type { source } from '../../../interface'
-  export let source:source
+  import type { sourceListItem } from './interface'
+  export let action:sourceListItem
 </script>
 
 <div>
-  {#if source.id !== null}
     <div class="block p-3">
-      <span class="icon has-text-info">
-        <i class="fas fa-database"></i>
+      <span class="icon has-text-success">
+        <i class="fas fa-plus"></i>
       </span>
       <span class="icon-text">
-        {source.name}
+        { action.name }
       </span>
     </div>
-  {/if}
 </div>
 
 <style lang='scss'>
@@ -21,12 +19,11 @@
     border-radius: 4px;
   }
   div.block:hover {
-    background-color: aliceblue;
+    background-color: rgb(241, 248, 245);
     cursor: pointer;
   }
 
   span.icon-text {
     position: relative;
-    top: 1px;
   }
 </style>

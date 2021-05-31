@@ -5,26 +5,35 @@
   import SearchBox from './SearchBox.svelte'
   import Sources from './Sources.svelte'
   import type { source } from '../../../interface'
+  import type { sourceListItem } from './interface'
 
   let searchText = ''
   let loading = false
   let sources:source[]
-  let sourcesToBeDisplayed:source[]
+  let itemsToBeDisplayed:sourceListItem[] = []
+
+  let generateItemsToBeDisplayed = (sources:source[]):sourceListItem[] => {
+    const filteredSources:source[] = sources.filter(
+      source => source.name.toLowerCase().includes(searchText.toLowerCase())
+    )
+    const listItems:sourceListItem[] = filteredSources.map(source => ({...source,  type:'source'}))
+
+    return [...listItems, { type: 'action', name: 'Create new source', id:null }]
+  }
 
   sourceStore.subscribe(sourceData => {
     sources = sourceData
-    sourcesToBeDisplayed = sources
   })
 
   onMount(async () => {
     loading = true
     await fetchSources()
+    itemsToBeDisplayed = generateItemsToBeDisplayed(sources)
     loading = false
   })
 
-  let handleChange = () => {   
-    sourcesToBeDisplayed = sources.filter(
-      source => source.name.toLowerCase().includes(searchText.toLowerCase()))
+  let handleChange = () => {
+    itemsToBeDisplayed = generateItemsToBeDisplayed(sources)
   }
 
 </script>
@@ -36,6 +45,6 @@
     <progress class="progress is-large is-info {loading ? '':'is-invisible'}" max="100" />
   </div>
 
-  <Sources bind:sources={sourcesToBeDisplayed} />
+  <Sources items={itemsToBeDisplayed} />
 </section>
 
