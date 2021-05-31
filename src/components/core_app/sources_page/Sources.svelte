@@ -1,5 +1,6 @@
 <script lang='typescript'>
   import type { source } from '../../../interface'
+  import Source from './Source.svelte'
 
   export let sources:source[]
 
@@ -20,14 +21,7 @@
   <div class="columns">
     {#each slice as source}
     <div class="column p-0">
-        {#if source.id !== null}
-          <div class="block p-3">
-            <span class="icon has-text-success">
-              <i class="fas fa-database"></i>
-            </span>
-            {source.name}
-          </div>
-        {/if}
+        <Source source={source} />
       </div>
     {/each}
   </div>
