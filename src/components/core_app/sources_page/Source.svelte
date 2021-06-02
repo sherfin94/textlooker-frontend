@@ -1,18 +1,21 @@
 <script lang='typescript'>
   import type { source } from '../../../interface'
+  import { Link } from 'svelte-navigator'
   export let source:source
 </script>
 
 <div>
   {#if source.id !== null}
-    <div class="block p-3">
-      <span class="icon has-text-info">
-        <i class="fas fa-database"></i>
-      </span>
-      <span class="icon-text">
-        {source.name}
-      </span>
-    </div>
+    <Link to={`source/${source.id}`}>
+      <div class="block p-3 has-text-black">
+        <span class="icon has-text-info">
+          <i class="fas fa-database"></i>
+        </span>
+        <span class="icon-text">
+          {source.name}
+        </span>
+      </div>
+    </Link>
   {/if}
 </div>
 
