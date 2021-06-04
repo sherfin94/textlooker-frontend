@@ -5,6 +5,7 @@
   import SearchBox from './SearchBox.svelte'
   import Items from './Items.svelte'
   import NewSource from './NewSource.svelte'
+  import NavBar from './nav_bar/NavBar.svelte'
   import type { source } from '../../../interface'
   import type { sourceListItem } from './interface'
 
@@ -49,14 +50,17 @@
 
 </script>
 
-<section class="section px-3">
-  <SearchBox bind:searchText={searchText} handleChange={handleChange}/>
+<div>
+  <NavBar />
+  <section class="section px-3">
+    <SearchBox bind:searchText={searchText} handleChange={handleChange}/>
 
-  <div class="container mt-4">
-    <progress class="progress is-large is-info {loading ? '':'is-invisible'}" max="100" />
-  </div>
+    <div class="container mt-4">
+      <progress class="progress is-large is-info {loading ? '':'is-invisible'}" max="100" />
+    </div>
 
-  <Items items={itemsToBeDisplayed} processAction={processAction} />
-  <NewSource on={newSourceModalOn} close={() => processAction('Create new source')} />
-</section>
+    <Items items={itemsToBeDisplayed} processAction={processAction} />
+    <NewSource on={newSourceModalOn} close={() => processAction('Create new source')} />
+  </section>
+</div>
 
