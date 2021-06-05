@@ -10,7 +10,7 @@
       <SourcesPage />
     </Route>
     <Route path="source/:sourceID/*" let:params>
-      <Editor sourceID={params.sourceID}/>
+      <Editor sourceID={parseInt(params.sourceID)}/>
     </Route>
   </div>
 </div>

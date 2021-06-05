@@ -52,7 +52,7 @@
 
 <div>
   <NavBar />
-  <section class="section px-3">
+  <section class="section px-3 pt-3">
     <SearchBox bind:searchText={searchText} handleChange={handleChange}/>
 
     <div class="container mt-4">
