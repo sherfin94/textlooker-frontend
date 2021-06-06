@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 import type {text, aggregation, countItem, source} from '../interface'
+import { toServerDateFormat } from '../util/date'
 
 let server = axios.create({
   baseURL: process.env.TEXTLOOKER_BACKEND_URL,
@@ -53,11 +54,13 @@ let api = {
       .catch(_ => false)
   ,
 
-  createText: async (content:string, author:string[], date:string, sourceID:number):Promise<boolean> => 
-    server.post('/auth/text', { content, author, date, sourceID })
+  createText: async (content:string, author:string[], date:string, time:string, sourceID:number):Promise<boolean> => {
+    date = toServerDateFormat(date, time)
+    
+    return server.post('/auth/text', { content, author, date, sourceID })
       .then(response => response.status === 200)
       .catch(_ => false)
-  ,
+  },
 
   getText: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string):Promise<[boolean, text[]]|any[]> =>
     server.get('auth/text', {params:{ sourceID, content, author, startDate, endDate }})
