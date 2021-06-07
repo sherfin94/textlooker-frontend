@@ -1,10 +1,10 @@
 <script lang='typescript'>
   const menu = [
     {label: 'Manual', handle:'manual'},
-    {label: 'From File', handle:'from-file'},
+    {label: 'From File', handle:'file'},
     {label: 'API', handle:'api'},
   ]
-  export let selected = menu[0].handle
+  export let selected = menu[1].handle
 </script>
 
 <div class="box">

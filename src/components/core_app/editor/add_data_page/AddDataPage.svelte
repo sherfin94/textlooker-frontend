@@ -1,6 +1,8 @@
 <script lang='typescript'>
   import SideBar from './SideBar.svelte'
   import ManualDataEntry from './ManualDataEntry.svelte'
+  import FromFileDataEntry from './from_file/FromFileDataEntry.svelte'
+
   let selectedMenuItem:string
   export let sourceID:number
 </script>
@@ -15,6 +17,8 @@
         <div class="box">
           {#if selectedMenuItem === 'manual'}
             <ManualDataEntry sourceID={sourceID}/>
+          {:else if selectedMenuItem === 'file'}
+            <FromFileDataEntry sourceID={sourceID} />
           {/if}
         </div>
       </div>
