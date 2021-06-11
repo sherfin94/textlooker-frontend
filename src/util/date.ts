@@ -26,6 +26,5 @@ export let toServerDateFormat = (date:string, time:string):string => {
   givenDate.setHours(parseInt(hours))
   givenDate.setMinutes(parseInt(minutes))
   const timestamp = Math.floor(givenDate.getTime())
-  console.log(givenDate, time, hours, minutes, timestamp)
   return `${timestamp}`
 }

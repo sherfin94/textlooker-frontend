@@ -1,10 +1,10 @@
 import axios, { AxiosInstance } from 'axios'
-import type {text, aggregation, countItem, source} from '../interface'
+import type {text, analyzedText, aggregation, countItem, source} from '../interface'
 import { toServerDateFormat } from '../util/date'
 
 let server = axios.create({
   baseURL: process.env.TEXTLOOKER_BACKEND_URL,
-  timeout: 1000,
+  timeout: 10000,
   headers: {'Content-Type': 'application/json', "Accept": "*/*"},
   withCredentials: true,
 })
@@ -54,15 +54,22 @@ let api = {
       .catch(_ => false)
   ,
 
-  createText: async (content:string, author:string[], date:string, time:string, sourceID:number):Promise<boolean> => {
-    date = toServerDateFormat(date, time)
+  createText: async (textSet: text[], sourceID: number):Promise<[boolean, string]|any[]> => {
+    let batch = {
+      batch: textSet.map(text => ({
+        content: text.content,
+        author: text.author,
+        date: toServerDateFormat(text.date, text.time)
+      })),
+      sourceID: sourceID
+    }
     
-    return server.post('/auth/text', { content, author, date, sourceID })
-      .then(response => response.status === 200)
-      .catch(_ => false)
+    return server.post('/auth/text', batch)
+      .then(response => [response.status === 200, response.data.savedTextCount])
+      .catch(_ => [false, ''])
   },
 
-  getText: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string):Promise<[boolean, text[]]|any[]> =>
+  getText: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string):Promise<[boolean, analyzedText[]]|any[]> =>
     server.get('auth/text', {params:{ sourceID, content, author, startDate, endDate }})
       .then(response => [
         response.status === 200, 
@@ -71,7 +78,7 @@ let api = {
       .catch(_ => [false, "could not fetch texts"])
   ,
 
-  getAnalyzedText: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string, people:string[], gpe:string[]):Promise<[boolean, text[]]|any[]> =>
+  getAnalyzedText: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string, people:string[], gpe:string[]):Promise<[boolean, analyzedText[]]|any[]> =>
   server.get('auth/analyzed_text', { params: { sourceID, content, author, startDate, endDate, people, gpe }})
     .then(response => [
       response.status === 200, 

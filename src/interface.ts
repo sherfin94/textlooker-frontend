@@ -1,11 +1,18 @@
 export interface text {
-  content:string,
-  author:string[],
-  date:string,
-  source_id:number,
-  analyzed:boolean,
-  gpe:string[],
-  people:string[],
+  content:string
+  author:string[]
+  date:string
+  time: string
+}
+
+export interface analyzedText {
+  content:string
+  author:string[]
+  date:string
+  source_id:number
+  analyzed:boolean
+  gpe:string[]
+  people:string[]
   tokens:string[]
 }
 
@@ -24,6 +31,6 @@ export interface countItem {
 }
 
 export interface source {
-  id:number,
+  id:number
   name:string
 }

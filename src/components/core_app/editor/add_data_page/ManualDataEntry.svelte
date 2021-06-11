@@ -17,7 +17,14 @@ import { onMount } from "svelte";
   }
 
   let submitText = async () => {
-    let status = await api.createText(content, author.split(','), date, time, sourceID)
+
+    let textSet = [{
+      content:content,
+      author: author.split(','),
+      date: date,
+      time: time
+    }]
+    let status = await api.createText(textSet, sourceID)
     if(status) {
       notificationText = 'Text added successfully.'
       notificationClass = 'is-success'

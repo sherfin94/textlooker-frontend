@@ -32,7 +32,6 @@
   }
 
   sourceStore.subscribe(sourceData => {
-    console.log(sourceData)
     sources = sourceData
     itemsToBeDisplayed = generateItemsToBeDisplayed(sources)
   })
