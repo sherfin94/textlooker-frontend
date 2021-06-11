@@ -1,40 +1,26 @@
 <script lang='typescript'>
-  import Table from './Table.svelte'
-  import Papa from 'papaparse'
   import DateFormatInput from './DateFormatInput.svelte'
   import Notification from './Notification.svelte'
+  import FileSelectStage from './FileSelectStage.svelte'
+  import ColumnsSelectStage from './ColumnsSelectStage.svelte'
   import api from '../../../../../api';
   import type dayjs from 'dayjs'
   import type { text } from '../../../../../interface'
 
   export let sourceID:number
-  let files: FileList
-  let data: any, errors: any
+
+  let data: any, parseErrors: any
   let stage = 'start'
 
-  let handleFileChange = async () => {
-    let text = await files[0].text()
-    let parseResult = Papa.parse(text)
-    data = parseResult.data
-    errors = parseResult.errors
+  let fileSelectHandler = async () => {
     stage = 'select'
   }
 
   let indices = []
-  let field = 'content'
-  const fieldToRequestTextMapping = {
-    content: ' text content to be analyzed',
-    author: ' author name',
-    date: ' date'
+  let columnSelectHandler = async () => {
+    stage = 'dateformat'
   }
-
-  let handleIndexSubmission = (index:number) => {
-    indices = [...indices, { index, field }]
-
-    if(field === 'date') stage = 'dateformat'
-    if(field === 'author') field = 'date'
-    if(field === 'content') field = 'author'    
-  }
+  
 
   let column = (field:string) => {
     let index = indices.filter(index => index.field === field)[0].index
@@ -87,24 +73,10 @@
 
 <div class="container">
   {#if stage === 'start'}
-    <h4 class="is-size-4">Select a CSV file</h4>
-    <div class="file mt-3">
-      <label class="file-label">
-        <input class="file-input" type="file" name='resume' bind:files={files} accept=".csv" on:change={handleFileChange}>
-        <span class="file-cta">
-          <span class="file-icon">
-            <i class="fas fa-upload"></i>
-          </span>
-          <span class="file-label">
-            Choose file
-          </span>
-        </span>
-      </label>
-    </div>
+    <FileSelectStage bind:data={data} bind:errors={parseErrors} fileSelectedCallback={fileSelectHandler} />
   {/if}
   {#if stage === 'select'}
-    <h4 class="is-size-4">Click on the column that contains <span class='has-text-primary'>{fieldToRequestTextMapping[field]}</span></h4><br />
-    <Table data={data.slice(1, 6)} titles={data[0]} giveIndex={handleIndexSubmission} bind:hide={indices}/>
+    <ColumnsSelectStage bind:indices={indices} data={data} columnSelectionCompleteCallback={columnSelectHandler} />
   {/if}
   {#if stage === 'dateformat'}
     <DateFormatInput data={column('date')} bind:parsedDates={parsedDates} />
