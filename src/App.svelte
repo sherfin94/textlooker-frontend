@@ -1,11 +1,30 @@
 <script lang="typescript">
-  import { Router, Route } from "svelte-navigator";
+  import { Route, useNavigate, Router } from "svelte-navigator"
   import LoginView from './components/login_view/LoginView.svelte'
   import CoreApp from './components/core_app/CoreApp.svelte'
+  import api from './api/index'
+  import { startPeriodicRefresh } from './models/user'
+
+  
+  let autoLogin = () => {
+    const navigate = useNavigate()
+  
+    api.refreshToken().then(loggedIn => {
+      if(loggedIn) {
+        startPeriodicRefresh()
+        navigate('/app')
+      }
+    })
+    return ''
+  }
+
 </script>
 
 <div>
   <Router primary={false}>
+    {
+    autoLogin()
+    }
     <Route path="/login/*">
       <LoginView />
     </Route>

@@ -28,8 +28,7 @@ let refresherHandle:number
 
 export let startPeriodicRefresh = () => {
   refresherHandle = window.setInterval(async () => {
-    let status = api.refreshToken()
-    console.log(`Refresh status is ${status}`)
+    await api.refreshToken()
   }, 15 * 60 * 1000)
 }
 

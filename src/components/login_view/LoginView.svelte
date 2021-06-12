@@ -3,18 +3,7 @@
   import LoginBox from './login_box/LoginBox.svelte'
   import EmailVerificationBox from './email_verification_box/EmailVerificationBox.svelte'
   import Notifications from './Notifications.svelte'
-  import { Route, useNavigate } from "svelte-navigator"
-  import { startPeriodicRefresh } from '../../models/user'
-  import api from '../../api';
-
-  const navigate = useNavigate();
-
-  api.refreshToken().then(loggedIn => {
-    if(loggedIn) { 
-      navigate('/app')
-      startPeriodicRefresh()
-    }
-  })
+  import { Route } from "svelte-navigator"
 </script>
 
 <div>
