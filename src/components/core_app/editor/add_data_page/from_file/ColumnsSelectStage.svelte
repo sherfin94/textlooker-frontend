@@ -36,5 +36,5 @@
 
 <div>
   <h4 class="is-size-4">Click on the column that contains <span class='has-text-primary'>{fieldToRequestTextMapping[field]}</span></h4><br />
-  <Table data={data.slice(1, 6)} giveIndex={handleIndexSubmission} bind:hide={indices} columnSelectable={true} titleRowPresent={titleAvailable}/>
+  <Table data={data} giveIndex={handleIndexSubmission} bind:hide={indices} columnSelectable={true} titleRowPresent={titleAvailable}/>
 </div>

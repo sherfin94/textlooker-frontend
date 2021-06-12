@@ -20,9 +20,6 @@
 
   let titleRowPresent: boolean = true
   let titleRowSelectHandler = async () => {
-    if (titleRowPresent) {
-      data = data.slice(1)
-    }
     stage = 'select'
   }
 
@@ -53,7 +50,8 @@
 
   let column = (field:string) => {
     let index = indices.filter(index => index.field === field)[0].index
-    return data.map(row => row[index])
+    let columnData = data.map(row => row[index])
+    return titleRowPresent ? columnData.slice(1) : columnData
   }
 
   let displayModal = false
@@ -67,7 +65,7 @@
     let authorColumn = authorAvailable ? column('author') : []
     let dateColumn = dateAvailable ? parsedDates : []
 
-    submissionData = data.map((_:any, index:number) => ({
+    submissionData = data.slice(titleRowPresent ? 1 : 0).map((_:any, index:number) => ({
         ...{content: contentColumn[index]},
         ...(authorAvailable && authorColumn[index] != undefined ? {author: authorColumn[index].split(',')} : {}),
         ...(dateAvailable && dateColumn[index].isValid() ? {date: dateColumn[index].format('YYYY-MM-DD')} : {}),
@@ -87,9 +85,9 @@
   
   let uploaded = 0
   let uploadData = async () => {
-    generateSubmissionData()
     displayModal = false
     stage = 'uploading'
+    generateSubmissionData()
     let [status, savedTextCount] = await api.createText(submissionData, sourceID)
     if(status) {
       stage = 'success'
@@ -122,7 +120,7 @@
   {/if}
   {#if stage === 'success'}
     <div class="notification is-light is-success m-0">
-      Successfully uploaded {uploaded} out of {data.length - 1} records.
+      Successfully uploaded {uploaded} out of {titleRowPresent ? data.length - 1 : data.length} records.
     </div>
   {/if}
   {#if stage === 'failure'}

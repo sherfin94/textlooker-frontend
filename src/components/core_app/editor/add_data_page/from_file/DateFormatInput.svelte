@@ -18,7 +18,9 @@
     return result.format('ddd, D MMM, YYYY hh:mm A')
   }
 
-  $: parsedDates = data.map(date => dayjs(date, format).tz(userTimezone))
+  $: {
+    parsedDates = data.map(date => dayjs(date, format).tz(userTimezone))
+  }
 </script>
 
 <div class="container">
