@@ -11,6 +11,8 @@
   let sourceName:string = ''
   let inputBox
   let showIssue = false
+  let authorAvailable = false
+  let dateAvailable = false
 
   let handleCreate = async () => {
     loading = true
@@ -71,7 +73,18 @@
               on:keypress={handleKeypress}
             />
           </div>
-          <div class="container">
+          <div class="container m-2">
+            <div class="subtitle is-6">Text added to this source will also contain</div>
+            <div class="field mt-2">
+              <input id="authorAvailable" type="checkbox" name="authorAvailable" class="switch is-rounded" bind:checked={authorAvailable}>
+              <label for="authorAvailable">Author(s)</label>
+            </div>
+            <div class="field">
+              <input id="dateAvailable" type="checkbox" name="dateAvailable" class="switch is-rounded" bind:checked={dateAvailable}>
+              <label for="dateAvailable">Date</label>
+            </div>
+          </div>
+          <div class="container mt-5">
             <div class="buttons">
               <button class="button is-primary {loading ? 'is-loading' : ''}" on:click={handleCreate}>Create</button>
               <button class="button is-info" on:click={handleClose}>Cancel</button>
