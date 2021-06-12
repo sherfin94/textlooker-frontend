@@ -17,3 +17,6 @@ export let fetchSources = async () => {
     console.log('Unable to fetch sources')
   }
 }
+
+export let getSource = (sourceID:number): source => 
+  sources.find(source => source.id === sourceID)

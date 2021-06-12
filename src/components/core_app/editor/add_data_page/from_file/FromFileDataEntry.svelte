@@ -98,7 +98,7 @@
     <FileSelectStage bind:data={data} bind:errors={parseErrors} fileSelectedCallback={fileSelectHandler} />
   {/if}
   {#if stage === 'select'}
-    <ColumnsSelectStage bind:indices={indices} data={data} columnSelectionCompleteCallback={columnSelectHandler} />
+    <ColumnsSelectStage bind:indices={indices} data={data} columnSelectionCompleteCallback={columnSelectHandler} sourceID={sourceID}/>
   {/if}
   {#if stage === 'dateformat'}
     <DateFormatInput data={column('date')} bind:parsedDates={parsedDates} />

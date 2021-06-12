@@ -1,12 +1,20 @@
 <script lang='typescript'>
   import Table from './Table.svelte'
+  import { getSource } from '../../../../../models/source'
 
   export let indices: any[]
   export let columnSelectionCompleteCallback: any
   export let data:any
+  export let sourceID:number
+
+  let source = getSource(sourceID)
 
   let field = 'content'
-  let skippable = false
+  let fieldsToBeCollected = [
+    ...(source.authorAvailable ? ['author'] : []),
+    ...(source.dateAvailable ? ['date'] : [])
+  ]
+  console.log(source, fieldsToBeCollected)
   const fieldToRequestTextMapping = {
     content: ' text content to be analyzed',
     author: ' author name',
@@ -14,12 +22,9 @@
   }
 
   let progressToNextField = () => {
-    if(field === 'date') columnSelectionCompleteCallback()
-    if(field === 'author') field = 'date'
-    if(field === 'content') {
-      field = 'author'
-      skippable = true
-    }
+    if (fieldsToBeCollected.length > 0) {
+      field = fieldsToBeCollected.shift()
+    } else columnSelectionCompleteCallback()
   }
 
   let handleIndexSubmission = (index:number) => {
@@ -29,14 +34,6 @@
 </script>
 
 <div>
-  <div class="columns">
-    <div class="column is-four-fifths">
-      <h4 class="is-size-4">Click on the column that contains <span class='has-text-primary'>{fieldToRequestTextMapping[field]}</span></h4><br />
-    </div>
-    <div class="column is-one-fifth">
-      <button class="button is-info is-light {skippable ? '': 'is-hidden'}" on:click={progressToNextField}>Skip {field}</button>
-    </div>
-  </div>
-  
+  <h4 class="is-size-4">Click on the column that contains <span class='has-text-primary'>{fieldToRequestTextMapping[field]}</span></h4><br />
   <Table data={data.slice(1, 6)} titles={data[0]} giveIndex={handleIndexSubmission} bind:hide={indices}/>
 </div>

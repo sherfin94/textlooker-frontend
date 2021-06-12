@@ -33,4 +33,6 @@ export interface countItem {
 export interface source {
   id:number
   name:string
+  authorAvailable: boolean
+  dateAvailable: boolean
 }
