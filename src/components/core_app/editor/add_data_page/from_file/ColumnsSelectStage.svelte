@@ -6,6 +6,7 @@
   export let columnSelectionCompleteCallback: any
   export let data:any
   export let sourceID:number
+  export let titleAvailable: boolean
 
   let source = getSource(sourceID)
 
@@ -14,7 +15,7 @@
     ...(source.authorAvailable ? ['author'] : []),
     ...(source.dateAvailable ? ['date'] : [])
   ]
-  console.log(source, fieldsToBeCollected)
+
   const fieldToRequestTextMapping = {
     content: ' text content to be analyzed',
     author: ' author name',
@@ -35,5 +36,5 @@
 
 <div>
   <h4 class="is-size-4">Click on the column that contains <span class='has-text-primary'>{fieldToRequestTextMapping[field]}</span></h4><br />
-  <Table data={data.slice(1, 6)} titles={data[0]} giveIndex={handleIndexSubmission} bind:hide={indices}/>
+  <Table data={data.slice(1, 6)} giveIndex={handleIndexSubmission} bind:hide={indices} columnSelectable={true} titleRowPresent={titleAvailable}/>
 </div>

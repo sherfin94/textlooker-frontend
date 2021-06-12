@@ -3,20 +3,34 @@
 
 
 
+  let titles: any[] = []
+  let coreData: any[] = []
   export let data: any[]
-  export let titles: any[]
   export let hide: number[]
   export let giveIndex: (index:number) => void
+  export let columnSelectable:boolean
+  export let titleRowPresent: boolean
 
   let handleClick = (index: number) => {
     giveIndex(index)
+  }
+
+  $: {
+    console.log(titleRowPresent)
+    if (titleRowPresent) {
+      titles = data[0]
+      coreData = data.slice(1, 6)
+    } else {
+      titles = []
+      coreData = data.slice(0, 5)
+    }
   }
 
 </script>
 
 <div class="container m-3">
   <div class="columns scroller">
-    <table class="table is-striped is-size-7">
+    <table class="table is-striped is-size-7 {columnSelectable ? 'selectable':''}">
       {#if titles}
         <thead>
           <tr>
@@ -31,7 +45,7 @@
         </thead>
       {/if}
       <tbody>
-        {#each data as row}
+        {#each coreData as row}
           <tr>
             {#each row as item, index}
             {#if pluck(hide, 'index').includes(index)}
@@ -65,7 +79,9 @@
     td {
       border: none;
     }
+  }
 
+  table.table.selectable {
     th.selectable:hover::after, td.selectable:hover::after {
       content: '';
       position: absolute;

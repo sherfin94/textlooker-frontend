@@ -3,6 +3,7 @@
   import Notification from './Notification.svelte'
   import FileSelectStage from './FileSelectStage.svelte'
   import ColumnsSelectStage from './ColumnsSelectStage.svelte'
+  import TitleRowSelectStage from './TitleRowSelectStage.svelte'
   import api from '../../../../../api';
   import type dayjs from 'dayjs'
   import type { text } from '../../../../../interface'
@@ -14,6 +15,14 @@
   let stage = 'start'
 
   let fileSelectHandler = async () => {
+    stage = 'first-row-title-check'
+  }
+
+  let titleRowPresent: boolean = true
+  let titleRowSelectHandler = async () => {
+    if (titleRowPresent) {
+      data = data.slice(1)
+    }
     stage = 'select'
   }
 
@@ -44,7 +53,7 @@
 
   let column = (field:string) => {
     let index = indices.filter(index => index.field === field)[0].index
-    return data.map(row => row[index]).slice(1)
+    return data.map(row => row[index])
   }
 
   let displayModal = false
@@ -58,7 +67,7 @@
     let authorColumn = authorAvailable ? column('author') : []
     let dateColumn = dateAvailable ? parsedDates : []
 
-    submissionData = data.slice(1).map((_:any, index:number) => ({
+    submissionData = data.map((_:any, index:number) => ({
         ...{content: contentColumn[index]},
         ...(authorAvailable && authorColumn[index] != undefined ? {author: authorColumn[index].split(',')} : {}),
         ...(dateAvailable && dateColumn[index].isValid() ? {date: dateColumn[index].format('YYYY-MM-DD')} : {}),
@@ -76,8 +85,6 @@
       or proceed with ${parsedDates.length - invalidDates()} records?`
   }
   
-
-  let progress = 0.0
   let uploaded = 0
   let uploadData = async () => {
     generateSubmissionData()
@@ -97,8 +104,11 @@
   {#if stage === 'start'}
     <FileSelectStage bind:data={data} bind:errors={parseErrors} fileSelectedCallback={fileSelectHandler} />
   {/if}
+  {#if stage === 'first-row-title-check'}
+    <TitleRowSelectStage bind:data={data} callback={titleRowSelectHandler} bind:titleRowPresent={titleRowPresent} />
+  {/if}
   {#if stage === 'select'}
-    <ColumnsSelectStage bind:indices={indices} data={data} columnSelectionCompleteCallback={columnSelectHandler} sourceID={sourceID}/>
+    <ColumnsSelectStage bind:indices={indices} data={data} columnSelectionCompleteCallback={columnSelectHandler} sourceID={sourceID} titleAvailable={titleRowPresent}/>
   {/if}
   {#if stage === 'dateformat'}
     <DateFormatInput data={column('date')} bind:parsedDates={parsedDates} />
