@@ -58,12 +58,12 @@ let api = {
     let batch = {
       batch: textSet.map(text => ({
         content: text.content,
-        author: text.author,
-        date: toServerDateFormat(text.date, text.time)
+        ...(text.author ? {author: text.author} : {}),
+        ...(text.date ? {date: toServerDateFormat(text.date, text.time)} : {}),
       })),
       sourceID: sourceID
     }
-    
+
     return server.post('/auth/text', batch)
       .then(response => [response.status === 200, response.data.savedTextCount])
       .catch(_ => [false, ''])

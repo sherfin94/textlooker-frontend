@@ -6,6 +6,7 @@
   import api from '../../../../../api';
   import type dayjs from 'dayjs'
   import type { text } from '../../../../../interface'
+  import { pluck } from '../../../../../util/array_operations'
 
   export let sourceID:number
 
@@ -16,9 +17,28 @@
     stage = 'select'
   }
 
-  let indices = []
+  let indices = [], dateAvailable = false, authorAvailable = false
   let columnSelectHandler = async () => {
-    stage = 'dateformat'
+    let fields = pluck(indices, 'field')
+
+    if(fields.includes('date'))
+      dateAvailable = true
+    if(fields.includes('author'))
+      authorAvailable = true
+
+    if (dateAvailable) {
+      stage = 'dateformat'
+    } else {
+      console.log('went to upload data')
+      uploadData()
+    }
+  }
+
+  let dateFormatSelectHandler = () => {
+    if (invalidDates() > 0) showInvalidDateModal()
+    else {
+      uploadData()
+    }
   }
   
 
@@ -33,32 +53,34 @@
   let parsedDates:dayjs.Dayjs[]
   let submissionData: text[] = []
 
-  let handleDataSubmit = () => {
+  let generateSubmissionData = () => {
     let contentColumn = column('content')
-    let authorColumn = column('author')
-    let dateColumn = parsedDates
-    
-    data.slice(1).map((_:any, index:number) => {
-      let parsedDate = parsedDates[index]
-      if(parsedDate.isValid()) {
-        let content = contentColumn[index]
-        let author = authorColumn[index].split(',')
-        let date = parsedDates[index].format('YYYY-MM-DD')
-        let time = parsedDates[index].format('HH:mm')
-        submissionData = [...submissionData, { content, author, date, time}]
-      }
-    })
+    let authorColumn = authorAvailable ? column('author') : []
+    let dateColumn = dateAvailable ? parsedDates : []
 
-    let invalidDateCount = dateColumn.filter(date => !date.isValid()).length
-    if(invalidDateCount > 0) {
-      displayModal = true
-      notificationText = `Out of ${dateColumn.length} records, ${invalidDateCount} dates could not be parsed. Would you like to modify the date format or proceed with ${dateColumn.length - invalidDateCount} records?`
-    }
+    submissionData = data.slice(1).map((_:any, index:number) => ({
+        ...{content: contentColumn[index]},
+        ...(authorAvailable && authorColumn[index] != undefined ? {author: authorColumn[index].split(',')} : {}),
+        ...(dateAvailable && dateColumn[index].isValid() ? {date: dateColumn[index].format('YYYY-MM-DD')} : {}),
+        ...(dateAvailable && dateColumn[index].isValid() ? {time: dateColumn[index].format('HH:mm')} : {})
+    }))
   }
+
+  let invalidDates = ():number => parsedDates.filter(date => !date.isValid()).length
+
+  let showInvalidDateModal = () => {
+    displayModal = true
+    notificationText = 
+      `Out of ${parsedDates.length} records, 
+      ${invalidDates()} dates could not be parsed. Would you like to modify the date format 
+      or proceed with ${parsedDates.length - invalidDates()} records?`
+  }
+  
 
   let progress = 0.0
   let uploaded = 0
   let uploadData = async () => {
+    generateSubmissionData()
     displayModal = false
     stage = 'uploading'
     let [status, savedTextCount] = await api.createText(submissionData, sourceID)
@@ -81,7 +103,7 @@
   {#if stage === 'dateformat'}
     <DateFormatInput data={column('date')} bind:parsedDates={parsedDates} />
     <div class="container is-flex is-justify-content-center">
-      <button class="button is-primary mt-5" on:click={handleDataSubmit}>Add data to source</button>
+      <button class="button is-primary mt-5" on:click={dateFormatSelectHandler}>Add data to source</button>
     </div>
   {/if}
   {#if stage === 'uploading'}
