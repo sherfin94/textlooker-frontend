@@ -10,7 +10,7 @@
 
   export let sourceID:number
 
-  let data: any, parseErrors: any
+  let [data, parseErrors]:[any, any] = [[], []]
   let stage = 'start'
 
   let fileSelectHandler = async () => {

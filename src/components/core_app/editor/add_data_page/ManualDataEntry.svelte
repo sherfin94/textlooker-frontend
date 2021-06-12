@@ -3,6 +3,7 @@ import { onMount } from "svelte";
 
   import api from "../../../../api";
   import { today, now } from '../../../../util/date'
+  import { getSource } from '../../../../models/source'
 
 
   export let sourceID: number
@@ -11,6 +12,8 @@ import { onMount } from "svelte";
   let [content, author, date, time] = ['', '', today(), now()]
   let textarea: any
   let notificationText: string
+
+  let source = getSource(sourceID)
   
   let focusTextArea = () => {
     textarea.focus()
@@ -53,29 +56,35 @@ import { onMount } from "svelte";
         <textarea class="textarea" placeholder="Content" bind:value={content} rows={6} bind:this={textarea}></textarea>
       </div>
     </div>
-    <div class="columns">
-      <div class="column">
-        <div class="field">
-          <div class="control">
-            <input class="input" type="text" placeholder="Author" bind:value={author}>
+    {#if source.authorAvailable || source.dateAvailable}
+      <div class="columns">
+        {#if source.authorAvailable}
+          <div class="column">
+            <div class="field">
+              <div class="control">
+                <input class="input" type="text" placeholder="Author" bind:value={author}>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="column">
-        <div class="field">
-          <div class="control">
-            <input class="input" type="date" placeholder="Date" bind:value={date}>
+        {/if}
+        {#if source.dateAvailable}
+          <div class="column">
+            <div class="field">
+              <div class="control">
+                <input class="input" type="date" placeholder="Date" bind:value={date}>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="column">
-        <div class="field">
-          <div class="control">
-            <input class="input" type="time" placeholder="Time" bind:value={time}>
+          <div class="column">
+            <div class="field">
+              <div class="control">
+                <input class="input" type="time" placeholder="Time" bind:value={time}>
+              </div>
+            </div>
           </div>
-        </div>
+        {/if}
       </div>
-    </div>    
+    {/if}
     <div class="control">
       <button class="button is-link" on:click={submitText}>Submit</button>
     </div>
