@@ -16,7 +16,7 @@
 
   let handleCreate = async () => {
     loading = true
-    const status = await api.createSource(sourceName)
+    const status = await api.createSource(sourceName, authorAvailable, dateAvailable)
     if(status) {
       await fetchSources()
       sourceName = ''

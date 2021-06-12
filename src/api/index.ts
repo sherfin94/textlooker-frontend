@@ -36,8 +36,8 @@ let api = {
     }).catch(_ => false)
   ,
 
-  createSource: async (name:string):Promise<boolean> => 
-    server.post('/auth/sources', { name })
+  createSource: async (name:string, authorAvailable:boolean, dateAvailable:boolean):Promise<boolean> => 
+    server.post('/auth/sources', { name, authorAvailable, dateAvailable })
       .then(response => response.status === 200)
       .catch(_ => false)
   ,
