@@ -35,7 +35,6 @@
     if (dateAvailable) {
       stage = 'dateformat'
     } else {
-      console.log('went to upload data')
       uploadData()
     }
   }

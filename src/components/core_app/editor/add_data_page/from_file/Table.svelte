@@ -16,7 +16,6 @@
   }
 
   $: {
-    console.log(titleRowPresent)
     if (titleRowPresent) {
       titles = data[0]
       coreData = data.slice(1, 6)

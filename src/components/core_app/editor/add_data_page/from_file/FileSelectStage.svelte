@@ -6,7 +6,7 @@
 
   let handleFileChange = async () => {
     let text = await files[0].text()
-    let parseResult = Papa.parse(text)
+    let parseResult = Papa.parse(text, {skipEmptyLines: true})
     data = parseResult.data
     errors = parseResult.errors
     fileSelectedCallback()
