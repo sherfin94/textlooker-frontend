@@ -1,8 +1,8 @@
 export interface text {
   content:string
-  author:string[]|any
-  date:string|any
-  time: string|any
+  author?:string[]|any
+  date?:string|any
+  time?: string|any
 }
 
 export interface analyzedText {

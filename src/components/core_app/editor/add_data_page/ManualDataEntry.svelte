@@ -12,6 +12,7 @@ import { onMount } from "svelte";
   let [content, author, date, time] = ['', '', today(), now()]
   let textarea: any
   let notificationText: string
+  let loading = false
 
   let source = getSource(sourceID)
   
@@ -20,24 +21,32 @@ import { onMount } from "svelte";
   }
 
   let submitText = async () => {
-
-    let textSet = [{
-      content:content,
-      author: author.split(','),
-      date: date,
-      time: time
-    }]
-    let status = await api.createText(textSet, sourceID)
-    if(status) {
-      notificationText = 'Text added successfully.'
-      notificationClass = 'is-success'
-      content = ''
-    } else {
-      notificationText = 'Could not add text. Please make sure that the content is not empty'
-      notificationClass = 'is-warning'
-    }
     displayMessage = true
+    loading = true
+    if(content === '') {
+        notificationText = 'Please provide content for your text'
+        notificationClass = 'is-warning'
+    } else {
+      let textSet = [{
+        content:content,
+        ...(source.authorAvailable ? { author: author.split(',') } : {}),
+        ...(source.dateAvailable ? { date } : {}),
+        ...(source.dateAvailable ? { time } : {})
+      }]
+      let [status, savedCount] = await api.createText(textSet, sourceID)
+      if(status && savedCount > 0) {
+        notificationText = 'Text added successfully.'
+        notificationClass = 'is-success'
+        content = ''
+        author = ''
+      } else {
+          notificationText = "This is an issue from our side, we'll inform you as soon as this is fixed. Meanwhile, please try to add data with different values"
+          notificationClass = 'is-warning'
+      }
+    }
+
     focusTextArea()
+    loading = false
   }
 
   onMount(focusTextArea)
@@ -86,7 +95,7 @@ import { onMount } from "svelte";
       </div>
     {/if}
     <div class="control">
-      <button class="button is-link" on:click={submitText}>Submit</button>
+      <button class="button is-link {loading ? 'is-loading':''}" on:click={submitText}>Submit</button>
     </div>
   </section>
 </div>
