@@ -6,7 +6,7 @@
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <Link to='//app'>
-    <div class="navbar-brand navbar-item">
+    <div class="navbar-brand navbar-item pl-0">
       <Logo />
     </div>
   </Link>

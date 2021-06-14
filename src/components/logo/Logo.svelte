@@ -1,6 +1,6 @@
 <div class="pb-6"></div>
 <section class="section pb-5">
-  <div class="container">
+  <div class="container pl-0">
     <h1 class='title logo'>
       TEXTLOOKER
     </h1>

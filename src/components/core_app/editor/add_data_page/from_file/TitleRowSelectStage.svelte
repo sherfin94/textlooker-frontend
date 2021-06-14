@@ -10,7 +10,7 @@
 <div>
   <div class="columns mb-6">
     <div class="column is-three-fifths is-flex is-align-items-center">
-      <h4 class="is-size-4">Is the first row a title row as shown?</h4><br />
+      <h4 class="is-size-4">Is the first row a title row{titleRowPresent ? 'as shown' : ''}?</h4><br />
     </div>
     <div class="column is-one-fifth is-flex is-align-items-center">
       <div class="field is-flex is-align-items-center">
