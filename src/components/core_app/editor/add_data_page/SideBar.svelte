@@ -4,7 +4,7 @@
     {label: 'From File', handle:'file'},
     {label: 'API', handle:'api'},
   ]
-  export let selected = menu[1].handle
+  export let selected = menu[2].handle
 </script>
 
 <div class="box">

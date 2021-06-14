@@ -12,7 +12,6 @@
     api.refreshToken().then(loggedIn => {
       if(loggedIn) {
         startPeriodicRefresh()
-        navigate('/app')
       }
     })
     return ''
