@@ -81,7 +81,7 @@
         </tr>
         <tr>
           <td>batch</td>
-          <td>Contains an array of objects. Each of which has the following parameters
+          <td>Contains an array of objects. Each of which has the following parameter{source.authorAvailable || source.dateAvailable ? 's' : ''}
 
             <table class="table inner is-striped mt-3">
               <tbody>
@@ -89,29 +89,33 @@
                   <td>content</td>
                   <td>Textual data which shall be analyzed by textlooker.</td>
                 </tr>
-                <tr>
-                  <td>author</td>
-                  <td>Array which consists names of authors of the text. Even if there is only one author, please do pass the name on an array.</td>
-                </tr>
-                <tr>
-                  <td>date</td>
-                  <td>
-                    Date on which the corresponding text as produced. If you're giving date without time, set time to 00:00 and remember to keep the timezone constant.<br />
-                    Date must be provided in the format:<br /> <span class='dateformat'>YYYY-MM-DDThh:mm:ssTZD</span><br />
-                    <div class="content">
-                      <ul>
-                        <li><span class='token'>YYYY</span> : four-digit year</li>
-                        <li><span class='token'>MM</span>   : two-digit month (01:January, etc.)</li>
-                        <li><span class='token'>DD</span>   : two-digit day of month (01 through 31)</li>
-                        <li><span class='token'>T</span>   : this is just a separator between date and time, provide the constant 'T' itself here</li>
-                        <li><span class='token'>hh</span>   : two digits of hour (00 through 23) (am/pm NOT allowed)</li>
-                        <li><span class='token'>mm</span>   : two digits of minute (00 through 59)</li>
-                        <li><span class='token'>ss</span>   : two digits of second (00 through 59)</li>
-                        <li><span class='token'>TZD</span>  : time zone designator (Z or +hh:mm or -hh:mm)</li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
+                {#if source.authorAvailable}
+                  <tr>
+                    <td>author</td>
+                    <td>Array which consists names of authors of the text. Even if there is only one author, please do pass the name on an array.</td>
+                  </tr>
+                {/if}
+                {#if source.dateAvailable}  
+                  <tr>
+                    <td>date</td>
+                    <td>
+                      Date on which the corresponding text as produced. If you're giving date without time, set time to 00:00 and remember to keep the timezone constant.<br />
+                      Date must be provided in the format:<br /> <span class='dateformat'>YYYY-MM-DDThh:mm:ssTZD</span><br />
+                      <div class="content">
+                        <ul>
+                          <li><span class='token'>YYYY</span> : four-digit year</li>
+                          <li><span class='token'>MM</span>   : two-digit month (01:January, etc.)</li>
+                          <li><span class='token'>DD</span>   : two-digit day of month (01 through 31)</li>
+                          <li><span class='token'>T</span>   : this is just a separator between date and time, provide the constant 'T' itself here</li>
+                          <li><span class='token'>hh</span>   : two digits of hour (00 through 23) (am/pm NOT allowed)</li>
+                          <li><span class='token'>mm</span>   : two digits of minute (00 through 59)</li>
+                          <li><span class='token'>ss</span>   : two digits of second (00 through 59)</li>
+                          <li><span class='token'>TZD</span>  : time zone designator (Z or +hh:mm or -hh:mm)</li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                {/if}
             </table>
 
           </td>
