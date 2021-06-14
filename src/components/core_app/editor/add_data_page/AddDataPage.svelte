@@ -2,6 +2,7 @@
   import SideBar from './SideBar.svelte'
   import ManualDataEntry from './ManualDataEntry.svelte'
   import FromFileDataEntry from './from_file/FromFileDataEntry.svelte'
+  import ApiDataEntry from './ApiDataEntry.svelte'
 
   let selectedMenuItem:string
   export let sourceID:number
@@ -19,6 +20,8 @@
             <ManualDataEntry sourceID={sourceID}/>
           {:else if selectedMenuItem === 'file'}
             <FromFileDataEntry sourceID={sourceID} />
+          {:else if selectedMenuItem === 'api'}
+            <ApiDataEntry sourceID={sourceID} />
           {/if}
         </div>
       </div>

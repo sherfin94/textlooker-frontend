@@ -35,4 +35,5 @@ export interface source {
   name:string
   authorAvailable: boolean
   dateAvailable: boolean
+  token: string
 }
