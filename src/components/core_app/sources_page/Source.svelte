@@ -9,7 +9,9 @@
     <Link to={`source/${source.id}/add`}>
       <div class="block p-3 has-text-black">
         <span class="icon has-text-info">
-          <i class="fas fa-database"></i>
+          <span class="material-icons">
+            storage
+            </span>
         </span>
         <span class="icon-text">
           {source.name}

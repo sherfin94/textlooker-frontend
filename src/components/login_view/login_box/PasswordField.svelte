@@ -21,7 +21,9 @@
       on:keypress={handleKeypress}
     />
     <span class="icon is-small is-left">
-      <i class="fas fa-lock"></i>
+      <span class="material-icons">
+        lock
+        </span>
     </span>
   </p>
 </div>

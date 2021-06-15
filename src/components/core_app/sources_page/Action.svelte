@@ -13,7 +13,9 @@
 <div>
     <div class="block p-3" on:click={handleClick}>
       <span class="icon has-text-success">
-        <i class="fas fa-plus"></i>
+        <span class="material-icons">
+          add_box
+        </span>
       </span>
       <span class="icon-text">
         { action.name }
