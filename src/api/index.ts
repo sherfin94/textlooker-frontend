@@ -104,6 +104,15 @@ let api = {
     ])
     .catch(_ => [false, "could not fetch per date aggregation"])
   ,
+
+  getDatelessAggregation: async (sourceID:number, content:string, author: string[], people:string[], gpe:string[]):Promise<[boolean, aggregation]|any[]> =>
+  server.get('auth/dateless_aggregation', { params: { sourceID, content, author, people, gpe }})
+    .then(response => [
+      response.status === 200, 
+      response.data.aggregation
+    ])
+    .catch(_ => [false, "could not fetch aggregation"])
+  ,
 }
 
 

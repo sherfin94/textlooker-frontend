@@ -25,7 +25,7 @@ export interface aggregation {
 }
 
 export interface countItem {
-  date:string
+  date?:string
   value:string
   count:number
 }

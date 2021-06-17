@@ -6,7 +6,7 @@
 
 <div>
   {#if source.id !== null}
-    <Link to={`source/${source.id}/add`}>
+    <Link to={`source/${source.id}/explore`}>
       <div class="block p-3 has-text-black">
         <span class="icon has-text-info">
           <span class="material-icons">
