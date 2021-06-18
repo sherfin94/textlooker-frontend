@@ -11,16 +11,19 @@
 
   export let data: countItem[]
   export let label: string
-  let chart: ChartJs.Chart<"bar", number[], string>
+  let chart: ChartJs.Chart
   let canvasContext: any
-
+  
   $: {
     if (chart) {
       chart.data = generateChartData(data)
       chart.update()
     }
   }
-
+  
+  export let selectedHandler: (item: string) => void
+  
+  let changeToCursor = false
   onMount(async () => {
     canvasContext = document.getElementById('myChart').getContext('2d');
     canvasContext.height = 200;
@@ -28,6 +31,14 @@
       type: 'bar',
       data: generateChartData(data),
       options: {
+        onClick: _ => {
+            const index = chart.getActiveElements()[0].index
+            const item = data[index].value
+            selectedHandler(item)
+        },
+        onHover: function(e, el) {
+          changeToCursor = el[0] ? true : false
+        },
         maintainAspectRatio: false,
         plugins:{
           legend: {
@@ -49,6 +60,14 @@
             beginAtZero: true,
             grid: {
               display: false,
+            },
+            ticks: {
+              font: {
+                size: 14,
+                weight: 'bold',
+              },
+              maxRotation: 0,
+              autoSkip: false
             }
           }
         },
@@ -58,5 +77,11 @@
 </script>
 
 <div class="container">
-  <canvas id="myChart" width="400" height="400"></canvas>
+  <canvas id="myChart" width="400" height="400" class={changeToCursor ? 'change-to-cursor' : ''}></canvas>
 </div>
+
+<style type='scss'>
+  canvas.change-to-cursor {
+    cursor: pointer;
+  }
+</style>

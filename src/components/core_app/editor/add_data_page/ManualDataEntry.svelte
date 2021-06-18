@@ -1,5 +1,5 @@
 <script lang='typescript'>
-import { onMount } from "svelte";
+  import { onMount } from "svelte"
 
   import api from "../../../../api";
   import { today, now } from '../../../../util/date'

@@ -4,6 +4,9 @@
   "include": ["src/**/*"],
   "exclude": ["node_modules/*", "__sapper__/*", "public/*"],
   "compilerOptions": {
-    "types": ["jest", "svelte", "node"]
+    "types": ["jest", "svelte", "node"],
+    "lib": [
+      "es2019"
+    ]
   }
 }

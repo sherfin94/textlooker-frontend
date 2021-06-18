@@ -1,6 +1,6 @@
 export default (data: any[]) => {
   return {
-    labels: data.map(item => item.value),
+    labels: data.map(item => trimAndChunkString(item.value)),
     datasets: [{
       label: 'Number of occurences',
       data: data.map(item => item.count),
@@ -15,7 +15,23 @@ export default (data: any[]) => {
         "#fab1a0","#ff7675","#fd79a8","#fdcb6e","#e17055",
         "#d63031","#feca57","#5f27cd","#54a0ff","#01a3a4"
     ],
-      borderWidth: 0
+      borderWidth: 0,
+      maxBarThickness: 60,
     }]
   }
+}
+
+let eachSlice = function (string, size):string[] {
+  let result:string[] = []
+  for (var i = 0, l = string.length; i < l; i += size){
+    result.push(string.slice(i, i + size))
+  }
+
+  return result
+}
+
+let trimAndChunkString = (string: string) => {
+  const trimmedString = string.slice(0, 30)
+  const words = trimmedString.split(' ')
+  return words.map(word => eachSlice(word, 10)).flat()
 }
