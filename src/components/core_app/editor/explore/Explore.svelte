@@ -64,6 +64,7 @@
     <div class="columns">
       <div class="column is-one-fifth">
         <SideBar bind:selected={selectedMenuItem} />
+        <DateRange />
       </div>
       <div class="column is-four-fifths">
         <div class="box">
