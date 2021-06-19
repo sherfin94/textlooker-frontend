@@ -3,6 +3,7 @@
   import api from '../../../../api'
   import AggregationChart from './AggregationChart.svelte'
   import Filter from './Filter.svelte'
+  import DateRange from './DateRange.svelte'
 
   import SideBar from './SideBar.svelte'
   export let sourceID: number
@@ -69,7 +70,7 @@
           {#if dataReady}
             {#if filterCount > 0}
               <Filter filter={filter} deselect={deselect} />
-            {/if}
+            {/if}                
             <AggregationChart data={aggregation[selectedMenuItem]} label={selectedMenuItem} selectedHandler={selectHandler} />
           {/if}
         </div>

@@ -7,16 +7,44 @@
     'gpe': {icon: 'corporate_fare', color: 'info'},
     'tokens': {icon: 'segment', color: 'warning'}
   }
+
+  let filterBody: HTMLElement
+  let displayScrollers: boolean = false
+
+  const scrollSpeed = 20
+  let scrollIntervalHandle: number
+  let scrollRight = (width:number) => {
+    filterBody.scrollBy(width, 0)
+  }
+
+  let mouseEnterScrollButtonHandler = (direction: string) => {
+    const sign = direction === 'right' ? 1 : -1
+    scrollIntervalHandle = window.setInterval(() => scrollRight(scrollSpeed * sign), 50)
+  }
+
+  let mouseLeaveScrollButtonHandler = (direction: string) => {
+    window.clearInterval(scrollIntervalHandle)
+  }
+  
+  $: {
+    filter
+    if(filterBody) {
+      displayScrollers = (filterBody.scrollWidth - filterBody.offsetWidth) > 0
+    }
+  }
 </script>
 
-<article class="message is-success">
+<article class="message is-primary">
   <div class="message-header is-size-6">
     <p>Filters</p>
     <button class="delete" aria-label="delete"></button>
   </div>
-  <div class="message-body">              
+  <div class="message-body">
     <div class="level">
-      <div class="level-left">
+      <span class="material-icons scrollIcon {displayScrollers ? '': 'hide'}" on:mouseenter={() => mouseEnterScrollButtonHandler('left')} on:mouseleave={() => mouseLeaveScrollButtonHandler('left')}>
+        chevron_left
+      </span>
+      <div class="level-left" bind:this={filterBody}>
         {#each Object.keys(filter) as tokenType}
           {#each [...filter[tokenType]] as item}
             <div class="level-item">
@@ -32,37 +60,58 @@
                 </span>
               </span>
             </div>
+            {/each}
           {/each}
-        {/each}
+          <div class="level-item">
+            <span class="tags has-addons">
+              <span class="tag is-hidden icon">
+                <span class="tag is-light is-size-7">
+                  placeholder
+                </span>
+            </span>
+          </div>
       </div>
+      <span class="material-icons scrollIcon {displayScrollers ? '': 'hide'}" on:mouseenter={() => mouseEnterScrollButtonHandler('right')} on:mouseleave={() => mouseLeaveScrollButtonHandler('right')}>
+        chevron_right
+      </span>
     </div>
   </div>
 </article>
 
 <style type='scss'>
   .tag {
-    height: 25px;
+    height: 20px;
+    margin:0 !important;
   }
 
   .tags:hover {
+    height: 20px;
     button.delete {
       visibility: visible;
     }
   }
 
+  .tags:not(:last-child), .tags:last-child {
+    margin: 0;
+  }
+
   button.delete {
     display:hidden;
     visibility: hidden;
-    margin-bottom: 1.2rem;
-    margin-right: -0.9rem;
+    // margin-bottom: 1.2rem;
   }
 
-  div.message-header {
-    padding: 0px 0px 0px 10px;
-  }
+
 
   div.message-body {
     padding: 10px;
+    height: 50px;
+  }
+
+  div.level-left {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    max-width: 85%;
   }
 
   span.tag.icon {
@@ -72,5 +121,19 @@
   span.material-icons {
     font-size: 15px;
     padding: 0;
+  }
+
+  span.scrollIcon {
+    font-size: 20px;
+  }
+
+  span.scrollIcon.hide {
+    display:none;
+  }
+
+  span.scrollIcon:hover {
+    background-color: aliceblue;
+    border-radius: 5px;
+    cursor: pointer;
   }
 </style>
