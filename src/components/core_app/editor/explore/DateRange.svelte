@@ -9,25 +9,24 @@
   dayjs.extend(utc)
   dayjs.extend(timezone)
 
-  let startDate: string
-  let startTime: string
-  let endDate: string
-  let endTime: string
+  export let dateRangeAvailable: boolean
+  export let startDate: string
+  export let startTime: string
+  export let endDate: string
+  export let endTime: string
+  export let dateRangeSelectCallback: any
 
   // const userTimezone = dayjs.tz.guess()
 
   let resetDateRange = () => {
-    startDate = '0001-01-01'
-    startTime = '00:00'
+    startDate = dayjs('1900-01-01 00:00').format('YYYY-MM-DD')
+    startTime = dayjs('1900-01-01 00:00').format('HH:mm')
     endDate = dayjs().format('YYYY-MM-DD')
     endTime = dayjs().format('HH:mm')
+    dateRangeSelectCallback()
   }
-
-
-  let dateRangeAvailable = false
   
   onMount(resetDateRange)
-
 
 </script>
 
@@ -42,8 +41,8 @@
         Between
       </p>
       <div class="container">
-        <input type="date" bind:value={startDate} />
-        <input type="time" bind:value={startTime} />
+        <input type="date" bind:value={startDate} on:change={dateRangeSelectCallback}/>
+        <input type="time" bind:value={startTime} on:change={dateRangeSelectCallback}/>
         <!-- <div class="notification is-info is-light">
           {dayjs(startDate, 'YYYY-MM-DD').tz(userTimezone).toString()}
         </div> -->
@@ -52,8 +51,8 @@
         And
       </p>
       <div class="container">
-        <input type="date" bind:value={endDate} />
-        <input type="time" bind:value={endTime} />
+        <input type="date" bind:value={endDate} on:change={dateRangeSelectCallback}/>
+        <input type="time" bind:value={endTime} on:change={dateRangeSelectCallback}/>
         <!-- <div class="notification is-info is-light">
           {dayjs(endDate, 'YYYY-MM-DD').tz(userTimezone).toString()}
         </div> -->

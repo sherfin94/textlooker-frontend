@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 import type {text, analyzedText, aggregation, countItem, source} from '../interface'
-import { toServerDateFormat } from '../util/date'
+import { toUnixTimestamp, toServerDateFormat } from '../util/date'
 
 let server = axios.create({
   baseURL: process.env.TEXTLOOKER_BACKEND_URL,
@@ -59,7 +59,7 @@ let api = {
       batch: textSet.map(text => ({
         content: text.content,
         ...(text.author ? {author: text.author} : {}),
-        ...(text.date ? {date: toServerDateFormat(text.date, text.time)} : {}),
+        ...(text.date ? {date: toUnixTimestamp(text.date, text.time)} : {}),
       })),
       sourceID: sourceID
     }
@@ -87,13 +87,16 @@ let api = {
     .catch(_ => [false, "could not fetch texts"])
   ,
 
-  getAggregation: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string, people:string[], gpe:string[]):Promise<[boolean, aggregation]|any[]> =>
-  server.get('auth/general_aggregation', { params: { sourceID, content, author, startDate, endDate, people, gpe }})
-    .then(response => [
-      response.status === 200, 
-      response.data.aggregation
-    ])
-    .catch(_ => [false, "could not fetch aggregation"])
+  getAggregation: async (sourceID:number, content:string, author: string[], people:string[], gpe:string[], tokens:string[], startDate:string, startTime:string, endDate:string, endTime:string):Promise<[boolean, aggregation]|any[]> => {
+    startDate = toServerDateFormat(startDate, startTime)
+    endDate = toServerDateFormat(endDate, endTime)
+    return server.get('auth/general_aggregation', { params: { sourceID, content, author, people, gpe, tokens, startDate, endDate }})
+      .then(response => [
+        response.status === 200, 
+        response.data.aggregation
+      ])
+      .catch(_ => [false, "could not fetch aggregation"])
+  }
   ,
 
   getPerDateAggregation: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string, people:string[], gpe:string[], field:string):Promise<[boolean, countItem[]]|any[]> =>

@@ -1,4 +1,15 @@
 
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(customParseFormat)
+dayjs.extend(utc)
+dayjs.extend(timezone)
+
+const userTimezone = dayjs.tz.guess()
+
 let toTwoDigits = (n:number) => {
   let numString = n.toString()
   if(numString.length === 1) numString = `0${numString}`
@@ -20,11 +31,17 @@ export let now = ():string => {
   return `${hours}:${minutes}`
 }
 
-export let toServerDateFormat = (date:string, time:string):string => {
+export let toUnixTimestamp = (date:string, time:string):string => {
   let givenDate = new Date(date)
   const [hours, minutes] = time.split(':')
   givenDate.setHours(parseInt(hours))
   givenDate.setMinutes(parseInt(minutes))
   const timestamp = Math.floor(givenDate.getTime())
   return `${timestamp}`
+}
+
+export let toServerDateFormat = (date:string, time:string):string => {
+  let fullDate = `${date} ${time}`
+  fullDate = dayjs(fullDate, 'YYYY-MM-DD HH:mm').tz(userTimezone).format('YYYY-MM-DDThh:mm:ssZ')
+  return fullDate
 }
