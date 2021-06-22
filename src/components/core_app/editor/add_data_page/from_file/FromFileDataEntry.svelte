@@ -7,7 +7,7 @@
   import api from '../../../../../api';
   import type dayjs from 'dayjs'
   import type { text } from '../../../../../interface'
-  import { pluck } from '../../../../../util/array_operations'
+  import { pluck, eachSlice } from '../../../../../util/array_operations'
 
   export let sourceID:number
 
@@ -83,17 +83,19 @@
   }
   
   let uploaded = 0
+  let progress = 0
   let uploadData = async () => {
     displayModal = false
     stage = 'uploading'
     generateSubmissionData()
-    let [status, savedTextCount] = await api.createText(submissionData, sourceID)
-    if(status) {
-      stage = 'success'
-      uploaded = savedTextCount
-    } else {
-      stage = 'failure'
-    }
+    await eachSlice(submissionData, 1000, async slice => {
+      let [status, savedTextCount] = await api.createText(slice, sourceID)
+      if(status) {
+        uploaded += savedTextCount
+        progress += slice.length*100/submissionData.length
+      }
+    })
+    stage = uploaded > 0 ? 'success' : 'failure'
   }
 </script>
 
@@ -108,14 +110,11 @@
     <ColumnsSelectStage bind:indices={indices} data={data} columnSelectionCompleteCallback={columnSelectHandler} sourceID={sourceID} titleAvailable={titleRowPresent}/>
   {/if}
   {#if stage === 'dateformat'}
-    <DateFormatInput data={column('date')} bind:parsedDates={parsedDates} />
-    <div class="container is-flex is-justify-content-center">
-      <button class="button is-primary mt-5" on:click={dateFormatSelectHandler}>Add data to source</button>
-    </div>
+    <DateFormatInput data={column('date')} bind:parsedDates={parsedDates} dateFormatSelectHandler={dateFormatSelectHandler} />
   {/if}
   {#if stage === 'uploading'}
     <h3 class="title is-size-4">Upload in progress</h3>
-    <progress class="progress is-primary" max="100"></progress>
+    <progress class="progress is-primary" value={progress} max="100"></progress>
   {/if}
   {#if stage === 'success'}
     <div class="notification is-light is-success m-0">

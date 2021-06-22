@@ -18,8 +18,18 @@
     return result.format('ddd, D MMM, YYYY hh:mm A')
   }
 
-  $: {
+  export let dateFormatSelectHandler: any
+
+  let loading = false
+  let submitHandler = () => {
+    loading = true
     parsedDates = data.map(date => dayjs(date, format).tz(userTimezone))
+    loading = false
+    dateFormatSelectHandler()
+  }
+
+  $: {
+    parsedDates = data.slice(0, 10).map(date => dayjs(date, format).tz(userTimezone))
   }
 </script>
 
@@ -61,6 +71,9 @@
         </tbody>
       </table>
     </div>
+  </div>
+  <div class="container is-flex is-justify-content-center">
+    <button class="button is-primary mt-5 {loading ? 'is-loading' : ''}" on:click={submitHandler}>Add data to source</button>
   </div>
 </div>
 
