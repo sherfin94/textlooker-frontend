@@ -4,8 +4,8 @@
 
   export let indices: any[]
   export let columnSelectionCompleteCallback: any
-  export let data:any
-  export let sourceID:number
+  export let data: any
+  export let sourceID: number
   export let titleAvailable: boolean
 
   let source = getSource(sourceID)
