@@ -22,11 +22,11 @@
   let dataReady = false
   let aggregation: any
 
-  let filter = new Set<filterItem>()
+  let filter:filterItem[] = []
 
   let filterCount = 0
   let countFilters = () => {
-    return filter.size
+    return filter.length
   }
 
   let loadAggregation = async () => {
@@ -36,7 +36,7 @@
       [status, aggregation] = await api.getAggregation(
         sourceID,
         '*',
-        Array.from(filter),
+        filter,
         startDate, startTime, endDate, endTime
       )
       dataReady = status
@@ -44,7 +44,7 @@
       [status, aggregation] = await api.getDatelessAggregation(
         sourceID,
         '*',
-        Array.from(filter),
+        filter,
       )
       dataReady = status
     }
@@ -53,16 +53,15 @@
   
   
   let selectHandler = async (selectedItem: string) => {
-    console.log(filter)
-    filter.add({label: selectedMenuItem, text: selectedItem})
-    filter = new Set(filter)
+    if (filter.filter(item => item.text === selectedItem && item.label === selectedMenuItem).length === 0) {
+      filter = [...filter, {label: selectedMenuItem, text: selectedItem}]
+    }
     filterCount = countFilters()
     await loadAggregation()
   }
   
-  let deselect = async (item: string, filterKey: string) => {
-    filter[filterKey].delete({label: filterKey, text: item})
-    filter = {...filter}
+  let deselect = async (index: number) => {
+    filter = [...filter.slice(0, index), ...filter.slice(index+1)]
     filterCount = countFilters()
     await loadAggregation()
   }

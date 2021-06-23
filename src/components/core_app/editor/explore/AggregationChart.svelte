@@ -33,7 +33,7 @@
       options: {
         onClick: _ => {
             const index = chart.getActiveElements()[0].index
-            const item = data[index].value
+            const item = data[index].key
             selectedHandler(item)
         },
         onHover: function(e, el) {

@@ -1,11 +1,27 @@
 <script lang='typescript'>
   export let filter: any
-  export let deselect:(item:string, key:string) => void
+  export let deselect:(index:number) => void
 
   const tokenTypeToDisplayConfigMapping = {
-    'people': {icon: 'person', color: 'primary'},
-    'gpe': {icon: 'corporate_fare', color: 'info'},
-    'tokens': {icon: 'segment', color: 'warning'}
+    'tokens': {icon: 'segment', color: 'warning'},
+    'PERSON': {icon: 'person', color: 'primary'},
+    'NORP': {icon: 'segment', color: 'link'},
+    'FAC': {icon: 'segment', color: 'link'},
+    'ORG': {icon: 'corporate_fare', color: 'info'},
+    'GPE': {icon: 'segment', color: 'link'},
+    'LOC': {icon: 'segment', color: 'link'},
+    'PRODUCT': {icon: 'segment', color: 'link'},
+    'EVENT': {icon: 'segment', color: 'link'},
+    'WORK_OF_ART': {icon: 'segment', color: 'link'},
+    'LAW': {icon: 'segment', color: 'link'},
+    'LANGUAGE': {icon: 'segment', color: 'link'},
+    'DATE': {icon: 'segment', color: 'link'},
+    'TIME': {icon: 'segment', color: 'link'},
+    'PERCENT': {icon: 'segment', color: 'link'},
+    'MONEY': {icon: 'segment', color: 'link'},
+    'QUANTITY': {icon: 'segment', color: 'link'},
+    'ORDINAL': {icon: 'segment', color: 'link'},
+    'CARDINAL': {icon: 'segment', color: 'link'}
   }
 
   let filterBody: HTMLElement
@@ -45,23 +61,21 @@
         chevron_left
       </span>
       <div class="level-left" bind:this={filterBody}>
-        {#each Object.keys(filter) as tokenType}
-          {#each [...filter[tokenType]] as item}
+          {#each [...filter] as item, index}
             <div class="level-item">
               <span class="tags has-addons">
-                <span class="tag is-{tokenTypeToDisplayConfigMapping[tokenType].color} icon">
+                <span class="tag is-{tokenTypeToDisplayConfigMapping[item.label].color} icon">
                   <span class="material-icons has-text-white">
-                    {tokenTypeToDisplayConfigMapping[tokenType].icon}
+                    {tokenTypeToDisplayConfigMapping[item.label].icon}
                   </span>
                 </span>
-                <span class="tag is-{tokenTypeToDisplayConfigMapping[tokenType].color} is-light is-size-7">
-                  {item}
-                  <button class="delete is-small" on:click={() => deselect(item, tokenType)}></button>
+                <span class="tag is-{tokenTypeToDisplayConfigMapping[item.label].color} is-light is-size-7">
+                  {item.text}
+                  <button class="delete is-small" on:click={() => deselect(index)}></button>
                 </span>
               </span>
             </div>
             {/each}
-          {/each}
           <div class="level-item">
             <span class="tags has-addons">
               <span class="tag is-hidden icon">
