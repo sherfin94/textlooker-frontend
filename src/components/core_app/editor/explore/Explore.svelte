@@ -53,8 +53,9 @@
   
   
   let selectHandler = async (selectedItem: string) => {
+    console.log(filter)
     filter.add({label: selectedMenuItem, text: selectedItem})
-    filter = {...filter}
+    filter = new Set(filter)
     filterCount = countFilters()
     await loadAggregation()
   }
