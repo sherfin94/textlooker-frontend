@@ -37,3 +37,8 @@ export interface source {
   dateAvailable: boolean
   token: string
 }
+
+export interface filterItem {
+  label: string
+  text: string
+}

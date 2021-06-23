@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
-import type {text, analyzedText, aggregation, countItem, source} from '../interface'
+import type {text, analyzedText, aggregation, countItem, source, filterItem} from '../interface'
 import { toUnixTimestamp, toServerDateFormat } from '../util/date'
 
 let server = axios.create({
@@ -87,10 +87,10 @@ let api = {
     .catch(_ => [false, "could not fetch texts"])
   ,
 
-  getAggregation: async (sourceID:number, content:string, author: string[], people:string[], gpe:string[], tokens:string[], startDate:string, startTime:string, endDate:string, endTime:string):Promise<[boolean, aggregation]|any[]> => {
+  getAggregation: async (sourceID:number, content:string, filter: filterItem[], startDate:string, startTime:string, endDate:string, endTime:string):Promise<[boolean, aggregation]|any[]> => {
     startDate = toServerDateFormat(startDate, startTime)
     endDate = toServerDateFormat(endDate, endTime)
-    return server.get('auth/general_aggregation', { params: { sourceID, content, author, people, gpe, tokens, startDate, endDate }})
+    return server.get('auth/general_aggregation', { params: { sourceID, content, filter, startDate, endDate }})
       .then(response => [
         response.status === 200, 
         response.data.aggregation
@@ -108,8 +108,8 @@ let api = {
     .catch(_ => [false, "could not fetch per date aggregation"])
   ,
 
-  getDatelessAggregation: async (sourceID:number, content:string, author: string[], people:string[], gpe:string[], tokens:string[]):Promise<[boolean, aggregation]|any[]> =>
-  server.get('auth/dateless_aggregation', { params: { sourceID, content, author, people, gpe, tokens }})
+  getDatelessAggregation: async (sourceID:number, content:string, filter: filterItem[]):Promise<[boolean, aggregation]|any[]> =>
+  server.get('auth/dateless_aggregation', { params: { sourceID, content, filter }})
     .then(response => [
       response.status === 200, 
       response.data.aggregation

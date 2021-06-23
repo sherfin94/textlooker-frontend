@@ -12,24 +12,21 @@
   import AggregationChart from './AggregationChart.svelte'
   import Filter from './Filter.svelte'
   import DateRange from './DateRange.svelte'
-
   import SideBar from './SideBar.svelte'
+
+  import type { filterItem } from '../../../../interface'
+
   export let sourceID: number
   let selectedMenuItem:string
   let loading = false
   let dataReady = false
   let aggregation: any
 
-  let filter = {
-    people: new Set<string>(),
-    gpe: new Set<string>(),
-    authors: new Set<string>(),
-    tokens: new Set<string>()
-  }
+  let filter = new Set<filterItem>()
 
   let filterCount = 0
   let countFilters = () => {
-    return Object.keys(filter).map(key => [...filter[key]]).flat().length
+    return filter.size
   }
 
   let loadAggregation = async () => {
@@ -39,10 +36,7 @@
       [status, aggregation] = await api.getAggregation(
         sourceID,
         '*',
-        Array.from(filter.authors),
-        Array.from(filter.people),
-        Array.from(filter.gpe),
-        Array.from(filter.tokens),
+        Array.from(filter),
         startDate, startTime, endDate, endTime
       )
       dataReady = status
@@ -50,10 +44,7 @@
       [status, aggregation] = await api.getDatelessAggregation(
         sourceID,
         '*',
-        Array.from(filter.authors),
-        Array.from(filter.people),
-        Array.from(filter.gpe),
-        Array.from(filter.tokens)
+        Array.from(filter),
       )
       dataReady = status
     }
@@ -62,14 +53,14 @@
   
   
   let selectHandler = async (selectedItem: string) => {
-    filter[selectedMenuItem].add(selectedItem)
+    filter.add({label: selectedMenuItem, text: selectedItem})
     filter = {...filter}
     filterCount = countFilters()
     await loadAggregation()
   }
   
   let deselect = async (item: string, filterKey: string) => {
-    filter[filterKey].delete(item)
+    filter[filterKey].delete({label: filterKey, text: item})
     filter = {...filter}
     filterCount = countFilters()
     await loadAggregation()

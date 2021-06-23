@@ -1,6 +1,6 @@
 export default (data: any[]) => {
   return {
-    labels: data.map(item => trimAndChunkString(item.value)),
+    labels: data.map(item => trimAndChunkString(item.key)),
     datasets: [{
       label: 'Number of occurences',
       data: data.map(item => item.count),
