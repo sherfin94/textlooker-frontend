@@ -23,6 +23,7 @@
     {label: 'Cardinal', handle:'CARDINAL'}
   ]
   export let selected = menu[0].handle
+  export let availableLabels: string[]
 
   let menuColumn:HTMLElement, scrollerColumn: HTMLElement
 
@@ -45,12 +46,14 @@
       <div class="column is-four-fifths menu-column" bind:this={menuColumn}>
         <ul class="menu-list">
           {#each menu as entry}
-            <li>
-              <!-- svelte-ignore a11y-missing-attribute -->
-              <a on:click={() => selected = entry.handle} class={selected === entry.handle ? 'is-active' : ''} >
-                {entry.label}
-              </a>
-            </li>
+            {#if availableLabels.includes(entry.handle)}
+              <li>
+                <!-- svelte-ignore a11y-missing-attribute -->
+                <a on:click={() => selected = entry.handle} class={selected === entry.handle ? 'is-active' : ''} >
+                  {entry.label}
+                </a>
+              </li>
+            {/if}
           {/each}
         </ul>
       </div>

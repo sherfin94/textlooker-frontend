@@ -20,7 +20,7 @@
   let selectedMenuItem:string
   let loading = false
   let dataReady = false
-  let aggregation: any
+  let aggregation: any = {}
 
   let filter:filterItem[] = []
 
@@ -85,7 +85,7 @@
   <div class="container">
     <div class="columns">
       <div class="column is-one-fifth">
-        <SideBar bind:selected={selectedMenuItem} />
+        <SideBar bind:selected={selectedMenuItem} availableLabels={Object.keys(aggregation).filter(key => aggregation[key].length > 0)} />
         <DateRange
           bind:dateRangeAvailable={dateRangeAvailable}
           bind:startDate={startDate}
