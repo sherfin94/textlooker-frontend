@@ -1,1 +1,0 @@
-Use singular fontawesome icons instead of downloading all the icons
