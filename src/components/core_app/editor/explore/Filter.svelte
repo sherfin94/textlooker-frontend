@@ -29,7 +29,7 @@
 
   const scrollSpeed = 20
   let scrollIntervalHandle: number
-  let scrollRight = (width:number) => {
+  export let scrollRight = (width:number) => {
     filterBody.scrollBy(width, 0)
   }
 

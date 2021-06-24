@@ -1,7 +1,5 @@
 <script lang='typescript'>
   import { onMount } from "svelte"
-  import { clamp } from '../../../../util/math'
-
   const menu = [
     {label: 'People', handle:'PERSON'},
     {label: 'Identities', handle:'NORP'},

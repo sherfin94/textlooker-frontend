@@ -51,12 +51,14 @@
     loading = false
   }
   
+  let scrollFilterRight: (value: number) => void
   
   let selectHandler = async (selectedItem: string) => {
     if (filter.filter(item => item.text === selectedItem && item.label === selectedMenuItem).length === 0) {
       filter = [...filter, {label: selectedMenuItem, text: selectedItem}]
     }
     filterCount = countFilters()
+    scrollFilterRight(1000)
     await loadAggregation()
   }
   
@@ -99,7 +101,7 @@
         <div class="box">
           {#if dataReady}
             {#if filterCount > 0}
-              <Filter filter={filter} deselect={deselect} />
+              <Filter filter={filter} deselect={deselect} bind:scrollRight={scrollFilterRight}/>
             {/if}                
             <AggregationChart data={aggregation[selectedMenuItem]} label={selectedMenuItem} selectedHandler={selectHandler} />
           {/if}
