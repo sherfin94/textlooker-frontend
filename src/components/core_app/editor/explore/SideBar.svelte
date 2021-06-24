@@ -2,6 +2,7 @@
   import { onMount } from "svelte"
   const menu = [
     {label: 'People', handle:'PERSON'},
+    {label: 'Words', handle:'tokens'},
     {label: 'Identities', handle:'NORP'},
     {label: 'Buildings', handle:'FAC'},
     {label: 'Organizations', handle:'ORG'},
