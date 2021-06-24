@@ -4,6 +4,7 @@
   import api from "../../../../api";
   import { today, now } from '../../../../util/date'
   import { getSource } from '../../../../models/source'
+  import type { source } from "../../../../interface"
 
 
   export let sourceID: number
@@ -14,7 +15,7 @@
   let notificationText: string
   let loading = false
 
-  let source = getSource(sourceID)
+  let source: source
   
   let focusTextArea = () => {
     textarea.focus()
@@ -49,7 +50,10 @@
     loading = false
   }
 
-  onMount(focusTextArea)
+  onMount(() => {
+    focusTextArea()
+    source = getSource(sourceID)
+  })
 </script>
 
 <div class="container">
@@ -65,7 +69,7 @@
         <textarea class="textarea" placeholder="Content" bind:value={content} rows={6} bind:this={textarea}></textarea>
       </div>
     </div>
-    {#if source.authorAvailable || source.dateAvailable}
+    {#if source && (source.authorAvailable || source.dateAvailable)}
       <div class="columns">
         {#if source.authorAvailable}
           <div class="column">
