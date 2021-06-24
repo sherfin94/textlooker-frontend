@@ -25,6 +25,7 @@
   export let availableLabels: string[]
 
   let menuColumn:HTMLElement, scrollerColumn: HTMLElement
+  let displayScroller = false
 
   onMount(() => {
     menuColumn.onwheel = (event: WheelEvent) => {
@@ -34,6 +35,13 @@
       scrollerColumn.style.paddingTop = `${ratio * 100}px`
     }
   })
+
+  $: {
+    availableLabels
+    if (menuColumn && (menuColumn.clientHeight < menuColumn.scrollHeight)) {
+      displayScroller = true
+    } else displayScroller = false
+  }
 </script>
 
 <div class="box">
@@ -56,7 +64,7 @@
           {/each}
         </ul>
       </div>
-      <div class="column is-one-fifth scroller-column" bind:this={scrollerColumn}>
+      <div class="column is-one-fifth scroller-column {displayScroller ? '':'is-invisible'}" bind:this={scrollerColumn}>
         <div class="scroller"></div>
       </div>
     </div>
