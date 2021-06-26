@@ -30,7 +30,7 @@
   const scrollSpeed = 20
   let scrollIntervalHandle: number
   export let scrollRight = (width:number) => {
-    filterBody.scrollBy(width, 0)
+    filterBody && filterBody.scrollBy(width, 0)
   }
 
   let mouseEnterScrollButtonHandler = (direction: string) => {
@@ -50,14 +50,14 @@
   }
 </script>
 
-<article class="message is-primary">
+<article class="message is-primary mb-1">
   <div class="message-header is-size-6">
     <p>Filters</p>
     <button class="delete" aria-label="delete"></button>
   </div>
   <div class="message-body">
     <div class="level">
-      <span class="material-icons scrollIcon {displayScrollers ? '': 'hide'}" on:mouseenter={() => mouseEnterScrollButtonHandler('left')} on:mouseleave={() => mouseLeaveScrollButtonHandler('left')}>
+      <span class="material-icons-outlined scrollIcon {displayScrollers ? '': 'hide'}" on:mouseenter={() => mouseEnterScrollButtonHandler('left')} on:mouseleave={() => mouseLeaveScrollButtonHandler('left')}>
         chevron_left
       </span>
       <div class="level-left" bind:this={filterBody}>
@@ -65,7 +65,7 @@
             <div class="level-item">
               <span class="tags has-addons">
                 <span class="tag is-{tokenTypeToDisplayConfigMapping[item.label].color} icon">
-                  <span class="material-icons has-text-white">
+                  <span class="material-icons-outlined has-text-white">
                     {tokenTypeToDisplayConfigMapping[item.label].icon}
                   </span>
                 </span>
@@ -85,7 +85,7 @@
             </span>
           </div>
       </div>
-      <span class="material-icons scrollIcon {displayScrollers ? '': 'hide'}" on:mouseenter={() => mouseEnterScrollButtonHandler('right')} on:mouseleave={() => mouseLeaveScrollButtonHandler('right')}>
+      <span class="material-icons-outlined scrollIcon {displayScrollers ? '': 'hide'}" on:mouseenter={() => mouseEnterScrollButtonHandler('right')} on:mouseleave={() => mouseLeaveScrollButtonHandler('right')}>
         chevron_right
       </span>
     </div>
@@ -132,7 +132,7 @@
     padding: 3px;
   }
 
-  span.material-icons {
+  span.material-icons-outlined {
     font-size: 15px;
     padding: 0;
   }

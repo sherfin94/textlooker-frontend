@@ -13,7 +13,7 @@
 <div>
     <div class="block p-3" on:click={handleClick}>
       <span class="icon has-text-success">
-        <span class="material-icons">
+        <span class="material-icons-outlined">
           add_box
         </span>
       </span>

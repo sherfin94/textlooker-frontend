@@ -9,7 +9,7 @@
   dayjs.extend(utc)
   dayjs.extend(timezone)
 
-  import AggregationChart from './AggregationChart.svelte'
+  import DataDisplay from './DataDisplay.svelte'
   import Filter from './Filter.svelte'
   import DateRange from './DateRange.svelte'
   import SideBar from './SideBar.svelte'
@@ -50,7 +50,7 @@
     }
     loading = false
   }
-  
+
   let scrollFilterRight: (value: number) => void
   
   let selectHandler = async (selectedItem: string) => {
@@ -58,7 +58,7 @@
       filter = [...filter, {label: selectedMenuItem, text: selectedItem}]
     }
     filterCount = countFilters()
-    scrollFilterRight(1000)
+    scrollFilterRight && scrollFilterRight(1000)
     await loadAggregation()
   }
   
@@ -102,8 +102,8 @@
           {#if dataReady}
             {#if filterCount > 0}
               <Filter filter={filter} deselect={deselect} bind:scrollRight={scrollFilterRight}/>
-            {/if}                
-            <AggregationChart data={aggregation[selectedMenuItem]} label={selectedMenuItem} selectedHandler={selectHandler} />
+            {/if}          
+            <DataDisplay data={aggregation[selectedMenuItem]} label={selectedMenuItem} selectedHandler={selectHandler} sourceID={sourceID} filter={filter}/>
           {/if}
         </div>
       </div>

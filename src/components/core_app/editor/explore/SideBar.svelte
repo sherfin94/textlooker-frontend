@@ -37,7 +37,13 @@
   })
 
   $: {
-    availableLabels
+    if (!availableLabels.includes(selected))
+      for(let menuIndex in menu) {
+        const handle = menu[menuIndex].handle
+        if(availableLabels.includes(handle)) {
+          selected = handle
+        }
+      }
     if (menuColumn && (menuColumn.clientHeight < menuColumn.scrollHeight)) {
       displayScroller = true
     } else displayScroller = false

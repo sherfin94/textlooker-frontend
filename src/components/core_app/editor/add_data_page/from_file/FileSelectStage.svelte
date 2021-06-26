@@ -20,7 +20,7 @@
       <input class="file-input" type="file" name='resume' bind:files={files} accept=".csv" on:change={handleFileChange}>
       <span class="file-cta">
         <span class="file-icon">
-          <span class="material-icons">
+          <span class="material-icons-outlined">
             file_upload
           </span>
         </span>

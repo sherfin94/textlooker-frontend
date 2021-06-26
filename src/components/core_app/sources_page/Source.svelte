@@ -9,7 +9,7 @@
     <Link to={`source/${source.id}/explore`}>
       <div class="block p-3 has-text-black">
         <span class="icon has-text-info">
-          <span class="material-icons">
+          <span class="material-icons-outlined">
             storage
             </span>
         </span>

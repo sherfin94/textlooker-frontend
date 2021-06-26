@@ -7,7 +7,7 @@
   <p class="control has-icons-left has-icons-right">
     <input type="text" class="input" placeholder="E-mail ID" bind:value={email} on:input ={handleChange} />
     <span class="icon is-small is-left">
-      <span class="material-icons">
+      <span class="material-icons-outlined">
         person
       </span>
     </span>
