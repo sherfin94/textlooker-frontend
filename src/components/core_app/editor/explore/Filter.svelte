@@ -15,7 +15,7 @@
     'WORK_OF_ART': {icon: 'segment', color: 'link'},
     'LAW': {icon: 'segment', color: 'link'},
     'LANGUAGE': {icon: 'segment', color: 'link'},
-    'DATE': {icon: 'segment', color: 'link'},
+    'DATE_TOKENS': {icon: 'segment', color: 'link'},
     'TIME': {icon: 'segment', color: 'link'},
     'PERCENT': {icon: 'segment', color: 'link'},
     'MONEY': {icon: 'segment', color: 'link'},
@@ -50,12 +50,12 @@
   }
 </script>
 
-<article class="message is-primary mb-1">
+<article class="message is-primary mb-1 is-flex">
   <div class="message-header is-size-6">
     <p>Filters</p>
     <button class="delete" aria-label="delete"></button>
   </div>
-  <div class="message-body">
+  <div class="message-body is-white is-light">
     <div class="level">
       <span class="material-icons-outlined scrollIcon {displayScrollers ? '': 'hide'}" on:mouseenter={() => mouseEnterScrollButtonHandler('left')} on:mouseleave={() => mouseLeaveScrollButtonHandler('left')}>
         chevron_left
@@ -115,16 +115,25 @@
     // margin-bottom: 1.2rem;
   }
 
-
+  div.message-header {
+    width: 80px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
 
   div.message-body {
-    padding: 10px;
+    padding: 15px;
     height: 50px;
+    width: 100%;
+    overflow-x: hidden;
   }
 
   div.level-left {
     overflow-x: hidden;
     overflow-y: hidden;
+    width: inherit;
     max-width: 85%;
   }
 

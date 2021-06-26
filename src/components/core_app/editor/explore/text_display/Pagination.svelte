@@ -22,7 +22,7 @@
         <li><a class="pagination-link" aria-label="Goto page 45" on:click={() => paginationHandler(currentPage-1)}>{currentPage-1}</a></li>
       {/if}
       <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page" on:click={() => paginationHandler(currentPage)}>{currentPage}</a></li>
-      {#if availablePages > 2 && currentPage != availablePages}
+      {#if availablePages > 1 && currentPage != availablePages}
         <li><a class="pagination-link" aria-label="Goto page 47" on:click={() => paginationHandler(currentPage+1)}>{currentPage+1}</a></li>
       {/if}
       {#if availablePages > 4 && currentPage < (availablePages-1)}

@@ -10,7 +10,6 @@
   dayjs.extend(timezone)
 
   import DataDisplay from './DataDisplay.svelte'
-  import Filter from './Filter.svelte'
   import DateRange from './DateRange.svelte'
   import SideBar from './SideBar.svelte'
 
@@ -23,11 +22,6 @@
   let aggregation: any = {}
 
   let filter:filterItem[] = []
-
-  let filterCount = 0
-  let countFilters = () => {
-    return filter.length
-  }
 
   let loadAggregation = async () => {
     loading = true
@@ -50,23 +44,6 @@
     }
     loading = false
   }
-
-  let scrollFilterRight: (value: number) => void
-  
-  let selectHandler = async (selectedItem: string) => {
-    if (filter.filter(item => item.text === selectedItem && item.label === selectedMenuItem).length === 0) {
-      filter = [...filter, {label: selectedMenuItem, text: selectedItem}]
-    }
-    filterCount = countFilters()
-    scrollFilterRight && scrollFilterRight(1000)
-    await loadAggregation()
-  }
-  
-  let deselect = async (index: number) => {
-    filter = [...filter.slice(0, index), ...filter.slice(index+1)]
-    filterCount = countFilters()
-    await loadAggregation()
-  }
   
   let dateRangeAvailable = false
   let startDate = dayjs('1900-01-01 00:00').format('YYYY-MM-DD')
@@ -77,6 +54,8 @@
   let dateRangeSelectHandler = () => {
     loadAggregation()
   }
+
+  let selectHandler: any
   
   onMount(async () => {
     await loadAggregation()    
@@ -99,11 +78,8 @@
       </div>
       <div class="column is-four-fifths">
         <div class="box">
-          {#if dataReady}
-            {#if filterCount > 0}
-              <Filter filter={filter} deselect={deselect} bind:scrollRight={scrollFilterRight}/>
-            {/if}          
-            <DataDisplay data={aggregation[selectedMenuItem]} label={selectedMenuItem} selectedHandler={selectHandler} sourceID={sourceID} filter={filter}/>
+          {#if dataReady} 
+            <DataDisplay data={aggregation[selectedMenuItem]} label={selectedMenuItem} sourceID={sourceID} bind:filter={filter} loadAggregation={loadAggregation}/>
           {/if}
         </div>
       </div>

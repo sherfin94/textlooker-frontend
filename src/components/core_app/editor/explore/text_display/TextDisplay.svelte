@@ -35,8 +35,13 @@
 
   onMount(loadAnalyzedText)
 
-  const paginationHandler = (page: number) => {
+  const paginationHandler = async (page: number) => {
     currentPage = page
+    await loadAnalyzedText()
+  }
+
+  $: {
+    filter
     loadAnalyzedText()
   }
 
@@ -46,7 +51,9 @@
   {#if loading}
     loading
   {:else}
-    <Pagination currentPage={currentPage} availablePages={availablePages} paginationHandler={paginationHandler} />
+    {#if availablePages > 1}
+      <Pagination currentPage={currentPage} availablePages={availablePages} paginationHandler={paginationHandler} />
+    {/if}
     <div class="container text-display">
       <table class="table">
         <tbody>
