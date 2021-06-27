@@ -78,14 +78,25 @@ let api = {
       .catch(_ => [false, "could not fetch texts"])
   ,
 
-  getAnalyzedText: async (sourceID:number, content:string, from:number, startDate:string, endDate:string, filter: filterItem[]):Promise<[boolean, analyzedText[]]|any[]> =>
-  server.get('auth/analyzed_text', { params: { sourceID, content, filter, from }})
-    .then(response => [
-      response.status === 200,
-      response.data.total,
-      response.data.texts
-    ])
-    .catch(_ => [false, 0, "could not fetch texts"])
+  getAnalyzedText: async (sourceID:number, content:string, from:number, dateRangeAvailable: boolean, startDate:string, startTime:string, endDate:string, endTime:string, filter: filterItem[]):Promise<[boolean, analyzedText[]]|any[]> => {
+    let params: any
+  
+    if (dateRangeAvailable) {
+      startDate = toServerDateFormat(startDate, startTime)
+      endDate = toServerDateFormat(endDate, endTime)
+      params = { sourceID, content, filter, from, startDate, endDate }
+    } else {
+      params = { sourceID, content, filter, from }
+    }
+
+    return server.get('auth/analyzed_text', { params })
+      .then(response => [
+        response.status === 200,
+        response.data.total,
+        response.data.texts
+      ])
+      .catch(_ => [false, 0, "could not fetch texts"])
+    }
   ,
 
   getAggregation: async (sourceID:number, content:string, filter: filterItem[], startDate:string, startTime:string, endDate:string, endTime:string):Promise<[boolean, aggregation]|any[]> => {

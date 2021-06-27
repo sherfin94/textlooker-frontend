@@ -2,6 +2,7 @@
   import type { countItem, filterItem } from '../../../../interface'
 
   import AggregationChart from './AggregationChart.svelte'
+  import PieChart from './PieChart.svelte'
   import TextDisplay from './text_display/TextDisplay.svelte'
   import Filter from './Filter.svelte'
 
@@ -11,8 +12,15 @@
   export let filter: filterItem[]
   export let loadAggregation: () => void
 
+  export let dateRangeAvailable: boolean
+  export let startDate: string
+  export let startTime: string
+  export let endDate: string
+  export let endTime: string
+
   let tabs = [
     { handle: 'barchart', icon: 'bar_chart' },
+    { handle: 'piechart', icon: 'pie_chart' },
     { handle: 'text', icon: 'text_snippet' },
   ]
   let activeTabIndex = 0
@@ -71,9 +79,21 @@
     </div>
   </div>
   {#if tabs[activeTabIndex].handle === 'barchart' }
-    <AggregationChart data={data} label={label} selectedHandler={selectHandler} />
+    <AggregationChart data={data} selectedHandler={selectHandler} />
+  {:else if tabs[activeTabIndex].handle === 'piechart'}
+    <PieChart data={data} selectedHandler={selectHandler} />
   {:else if tabs[activeTabIndex].handle === 'text'}
-    <TextDisplay label={label} selectedHandler={selectHandler} sourceID={sourceID} filter={filter}/>
+    <TextDisplay
+      label={label}
+      selectedHandler={selectHandler}
+      sourceID={sourceID}
+      filter={filter}
+      dateRangeAvailable={dateRangeAvailable}
+      startDate={startDate}
+      startTime={startTime}
+      endDate={endDate}
+      endTime={endTime}
+    />
   {/if}
 </div>
 

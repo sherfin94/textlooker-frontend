@@ -79,7 +79,18 @@
       <div class="column is-four-fifths">
         <div class="box">
           {#if dataReady} 
-            <DataDisplay data={aggregation[selectedMenuItem]} label={selectedMenuItem} sourceID={sourceID} bind:filter={filter} loadAggregation={loadAggregation}/>
+            <DataDisplay
+              data={aggregation[selectedMenuItem]}
+              label={selectedMenuItem}
+              sourceID={sourceID}
+              bind:filter={filter}
+              loadAggregation={loadAggregation}
+              dateRangeAvailable={dateRangeAvailable}
+              startDate={startDate}
+              startTime={startTime}
+              endDate={endDate}
+              endTime={endTime}
+            />
           {/if}
         </div>
       </div>

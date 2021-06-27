@@ -42,6 +42,6 @@ export let toUnixTimestamp = (date:string, time:string):string => {
 
 export let toServerDateFormat = (date:string, time:string):string => {
   let fullDate = `${date} ${time}`
-  fullDate = dayjs(fullDate, 'YYYY-MM-DD HH:mm').tz(userTimezone).format('YYYY-MM-DDThh:mm:ssZ')
+  fullDate = dayjs(fullDate, 'YYYY-MM-DD HH:mm').tz(userTimezone).format('YYYY-MM-DDTHH:mm:ssZ')
   return fullDate
 }

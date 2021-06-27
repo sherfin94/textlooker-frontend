@@ -1,8 +1,8 @@
 <script lang='typescript'>
   import { onMount } from 'svelte'
-  import * as ChartJs from 'chart.js'
   import type { countItem } from '../../../../interface'
   import generateChartData from './generate_chart_data'
+  import * as ChartJs from 'chart.js'
   
   ChartJs.Chart.register.apply(
     null,
@@ -24,10 +24,10 @@
   
   let changeToCursor = false
   onMount(async () => {
-    canvasContext = document.getElementById('myChart').getContext('2d');
+    canvasContext = document.getElementById('piChart').getContext('2d');
     canvasContext.height = 200;
     chart = new ChartJs.Chart(canvasContext, {
-      type: 'bar',
+      type: 'doughnut',
       data: generateChartData(data),
       options: {
         onClick: _ => {
@@ -41,7 +41,14 @@
         maintainAspectRatio: false,
         plugins:{
           legend: {
-            display: false,
+            display: true,
+            position: 'right',
+            fullSize: true,
+            labels: {
+              boxHeight: 25,
+              boxWidth: 10,
+              padding: 13,
+            }
           },
         },
         scales: {
@@ -56,6 +63,7 @@
             }
           },
           x: {
+            display: false,
             beginAtZero: true,
             grid: {
               display: false,
@@ -76,7 +84,7 @@
 </script>
 
 <div class="container">
-  <canvas id="myChart" width="400" height="400" class={changeToCursor ? 'change-to-cursor' : ''}></canvas>
+  <canvas id="piChart" width="400" height="400" class={changeToCursor ? 'change-to-cursor' : ''}></canvas>
 </div>
 
 <style type='scss'>
