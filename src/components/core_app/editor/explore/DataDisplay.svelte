@@ -4,13 +4,14 @@
   import AggregationChart from './AggregationChart.svelte'
   import PieChart from './PieChart.svelte'
   import TextDisplay from './text_display/TextDisplay.svelte'
+  import FlowChart from './FlowChart.svelte'
   import Filter from './Filter.svelte'
 
   export let data: countItem[]
   export let label: string
+  export let loadAggregation: () => void
   export let sourceID: number
   export let filter: filterItem[]
-  export let loadAggregation: () => void
 
   export let dateRangeAvailable: boolean
   export let startDate: string
@@ -21,6 +22,7 @@
   let tabs = [
     { handle: 'barchart', icon: 'bar_chart' },
     { handle: 'piechart', icon: 'pie_chart' },
+    { handle: 'flowchart', icon: 'area_chart' },
     { handle: 'text', icon: 'text_snippet' },
   ]
   let activeTabIndex = 0
@@ -82,6 +84,19 @@
     <AggregationChart data={data} selectedHandler={selectHandler} />
   {:else if tabs[activeTabIndex].handle === 'piechart'}
     <PieChart data={data} selectedHandler={selectHandler} />
+  {:else if tabs[activeTabIndex].handle === 'flowchart'}
+    <FlowChart
+      data={data}
+      selectedHandler={selectHandler}
+      sourceID={sourceID}
+      filter={filter}
+      dateRangeAvailable={dateRangeAvailable}
+      startDate={startDate}
+      startTime={startTime}
+      endDate={endDate}
+      endTime={endTime}
+      label={label}
+    />
   {:else if tabs[activeTabIndex].handle === 'text'}
     <TextDisplay
       label={label}

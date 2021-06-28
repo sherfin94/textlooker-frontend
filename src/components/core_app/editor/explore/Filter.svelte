@@ -126,7 +126,7 @@
   div.message-body {
     padding: 15px;
     height: 50px;
-    width: 100%;
+    width: 95%;
     overflow-x: hidden;
   }
 

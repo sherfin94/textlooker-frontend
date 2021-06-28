@@ -111,13 +111,17 @@ let api = {
   }
   ,
 
-  getPerDateAggregation: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string, people:string[], gpe:string[], field:string):Promise<[boolean, countItem[]]|any[]> =>
-  server.get('auth/per_date_aggregation', { params: { sourceID, content, author, startDate, endDate, people, gpe, field }})
-    .then(response => [
-      response.status === 200, 
-      response.data.aggregation
-    ])
-    .catch(_ => [false, "could not fetch per date aggregation"])
+  getPerDateAggregation: async (sourceID:number, content:string, filter: filterItem[], startDate:string, startTime:string, endDate:string, endTime:string, field:string):Promise<[boolean, countItem[]]|any[]> => {
+
+    startDate = toServerDateFormat(startDate, startTime)
+    endDate = toServerDateFormat(endDate, endTime)
+    return  server.get('auth/per_date_aggregation', { params: { sourceID, content, filter, startDate, endDate, field }})
+      .then(response => [
+        response.status === 200, 
+        response.data.aggregation
+      ])
+      .catch(_ => [false, "could not fetch per date aggregation"])
+  }
   ,
 
   getDatelessAggregation: async (sourceID:number, content:string, filter: filterItem[]):Promise<[boolean, aggregation]|any[]> =>
