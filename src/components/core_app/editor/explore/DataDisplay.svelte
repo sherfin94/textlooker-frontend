@@ -1,5 +1,5 @@
 <script lang='typescript'>
-  import type { countItem, filterItem } from '../../../../interface'
+  import type { countItem, filterItem, source, text} from '../../../../interface'
 
   import AggregationChart from './AggregationChart.svelte'
   import PieChart from './PieChart.svelte'
@@ -54,6 +54,10 @@
     filterCount = countFilters()
     await loadAggregation()
   }
+
+  export let loadAnalyzedText: any
+  export let currentTextPage: any
+  export let texts: text[]
 </script>
 
 <div class="container">
@@ -99,15 +103,9 @@
     />
   {:else if tabs[activeTabIndex].handle === 'text'}
     <TextDisplay
-      label={label}
-      selectedHandler={selectHandler}
-      sourceID={sourceID}
-      filter={filter}
-      dateRangeAvailable={dateRangeAvailable}
-      startDate={startDate}
-      startTime={startTime}
-      endDate={endDate}
-      endTime={endTime}
+      loadAnalyzedText={loadAnalyzedText}
+      bind:currentPage={currentTextPage}
+      texts={texts}
     />
   {/if}
 </div>

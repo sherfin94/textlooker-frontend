@@ -13,7 +13,8 @@
   import DateRange from './DateRange.svelte'
   import SideBar from './SideBar.svelte'
 
-  import type { filterItem } from '../../../../interface'
+  import type { filterItem, source } from '../../../../interface'
+  import { fetchSources, getSource } from '../../../../models/source'
 
   export let sourceID: number
   let loading = false
@@ -55,10 +56,7 @@
   export let endDate: any
   export let endTime: any
   
-  let dateRangeSelectHandler = () => {
-    loadAggregation()
-  }
-
+  
   let selectHandler: any
   
   onMount(async () => {
@@ -66,13 +64,46 @@
     let status, texts
     [status, totalAnalyzedTexts, texts] = await api.getAnalyzedText(sourceID, '*', 0, false, '', '', '', '', [])
   })
+  
+  let texts:any[] = []
+  let currentTextPage = 1
+  let source: source
+  
+  let dateRangeSelectHandler = () => {
+    loadAggregation()
+    texts = []
+    currentTextPage = 1
+    loadAnalyzedText()
+  }
+
+  const loadAnalyzedText = async () => {
+    source = getSource(sourceID)
+    if (!source) {
+      await fetchSources()
+      source = getSource(sourceID)
+    }
+
+    let status: boolean
+    let newTexts = []
+    let _total: any
+    if (dateRangeAvailable) {
+      [status, _total , newTexts] = await api.getAnalyzedText(sourceID, '*', (currentTextPage - 1)*20, true,  startDate, startTime, endDate, endTime, filter)
+    } else {
+      [status, _total, newTexts] = await api.getAnalyzedText(sourceID, '*', (currentTextPage - 1)*20, false, '', '', '', '', filter)
+    }
+    texts = [...texts, ...newTexts]
+  }
+
+  let displayBarChart = () => {
+    activeVisualizationTabIndex = 0
+  }
 </script>
 
 <section class="section px-0 pt-0">
   <div class="container">
     <div class="columns">
       <div class="column is-one-fifth">
-        <SideBar bind:selected={selectedMenuItem} bind:availableLabels={availableLabels} />
+        <SideBar bind:selected={selectedMenuItem} bind:availableLabels={availableLabels} displayBarChart={displayBarChart}/>
         <DateRange
           bind:dateRangeAvailable={dateRangeAvailable}
           bind:startDate={startDate}
@@ -97,6 +128,9 @@
               startTime={startTime}
               endDate={endDate}
               endTime={endTime}
+              loadAnalyzedText={loadAnalyzedText}
+              texts={texts}
+              bind:currentTextPage={currentTextPage}
             />
           {/if}
         </div>

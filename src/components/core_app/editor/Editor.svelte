@@ -8,9 +8,9 @@
 
   export let sourceID:number
 
-  let selectedMenuItem:string
+  let selectedMenuItem:string='words'
   let filter:filterItem[] = []
-  let activeVisualizationTabIndex: number
+  let activeVisualizationTabIndex: number = 0
   let dateRangeAvailable = false
   let startDate = dayjs('1900-01-01 00:00').format('YYYY-MM-DD')
   let startTime = dayjs('1900-01-01 00:00').format('HH:mm')

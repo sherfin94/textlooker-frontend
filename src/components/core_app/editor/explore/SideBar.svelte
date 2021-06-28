@@ -41,6 +41,8 @@
       displayScroller = true
     } else displayScroller = false
   })
+
+  export let displayBarChart: any
   
   $: {
     if (!availableLabels.includes(selected))
@@ -67,7 +69,7 @@
             {#if availableLabels.includes(entry.handle)}
               <li>
                 <!-- svelte-ignore a11y-missing-attribute -->
-                <a on:click={() => selected = entry.handle} class={selected === entry.handle ? 'is-active' : ''} >
+                <a on:click={() => {selected = entry.handle;displayBarChart()}} class={selected === entry.handle ? 'is-active' : ''} >
                   {entry.label}
                 </a>
               </li>
