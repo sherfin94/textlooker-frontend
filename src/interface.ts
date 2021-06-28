@@ -17,11 +17,25 @@ export interface analyzedText {
 }
 
 export interface aggregation {
-  authors:countItem[]
-  people:countItem[]
-  gpe:countItem[]
-  tokens:countItem[]
-  dates:countItem[]
+  CARDINAL: countItem[]
+  DATE_TOKENS: countItem[]
+  EVENT: countItem[]
+  FAC: countItem[]
+  GPE: countItem[]
+  LANGUAGE: countItem[]
+  LAW: countItem[]
+  LOC: countItem[]
+  MONEY: countItem[]
+  NORP: countItem[]
+  ORDINAL: countItem[]
+  ORG: countItem[]
+  PERCENT: countItem[]
+  PERSON: countItem[]
+  PRODUCT: countItem[]
+  QUANTITY: countItem[]
+  TIME: countItem[]
+  WORK_OF_ART: countItem[]
+  tokens: countItem[]
 }
 
 export interface countItem {
@@ -41,4 +55,17 @@ export interface source {
 export interface filterItem {
   label: string
   text: string
+}
+
+export interface dateRange {
+  available: boolean
+  startDate: string
+  startTime: string
+  endDate: string
+  endTime: string
+}
+
+export interface textSet {
+  texts: text[]
+  total: number
 }
