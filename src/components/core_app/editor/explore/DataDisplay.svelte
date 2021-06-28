@@ -25,7 +25,7 @@
     { handle: 'flowchart', icon: 'area_chart' },
     { handle: 'text', icon: 'text_snippet' },
   ]
-  let activeTabIndex = 0
+  export let activeTabIndex = 0
 
   let tabSelect = (index:number) => {
     activeTabIndex = index

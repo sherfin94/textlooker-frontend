@@ -26,7 +26,7 @@
     dateRangeSelectCallback()
   }
   
-  onMount(resetDateRange)
+  // onMount(resetDateRange)
 
 </script>
 

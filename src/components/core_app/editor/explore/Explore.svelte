@@ -16,12 +16,13 @@
   import type { filterItem } from '../../../../interface'
 
   export let sourceID: number
-  let selectedMenuItem:string
   let loading = false
   let dataReady = false
   let aggregation: any = {}
-
-  let filter:filterItem[] = []
+  
+  export let selectedMenuItem:string
+  export let filter:filterItem[] = []
+  export let activeVisualizationTabIndex: number
 
   let loadAggregation = async () => {
     loading = true
@@ -45,11 +46,11 @@
     loading = false
   }
   
-  let dateRangeAvailable = false
-  let startDate = dayjs('1900-01-01 00:00').format('YYYY-MM-DD')
-  let startTime = dayjs('1900-01-01 00:00').format('HH:mm')
-  let endDate = dayjs().format('YYYY-MM-DD')
-  let endTime = dayjs().format('HH:mm')
+  export let dateRangeAvailable: boolean
+  export let startDate: any
+  export let startTime: any
+  export let endDate: any
+  export let endTime: any
   
   let dateRangeSelectHandler = () => {
     loadAggregation()
@@ -84,6 +85,7 @@
               label={selectedMenuItem}
               sourceID={sourceID}
               bind:filter={filter}
+              bind:activeTabIndex={activeVisualizationTabIndex}
               loadAggregation={loadAggregation}
               dateRangeAvailable={dateRangeAvailable}
               startDate={startDate}
