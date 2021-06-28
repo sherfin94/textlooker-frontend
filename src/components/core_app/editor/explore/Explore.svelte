@@ -19,6 +19,8 @@
   let loading = false
   let dataReady = false
   let aggregation: any = {}
+  let totalAnalyzedTexts = 0
+  let availableLabels = []
   
   export let selectedMenuItem:string
   export let filter:filterItem[] = []
@@ -43,6 +45,7 @@
       )
       dataReady = status
     }
+    availableLabels = Object.keys(aggregation).filter(key => aggregation[key].length > 0)
     loading = false
   }
   
@@ -60,6 +63,8 @@
   
   onMount(async () => {
     await loadAggregation()    
+    let status, texts
+    [status, totalAnalyzedTexts, texts] = await api.getAnalyzedText(sourceID, '*', 0, false, '', '', '', '', [])
   })
 </script>
 
@@ -67,7 +72,7 @@
   <div class="container">
     <div class="columns">
       <div class="column is-one-fifth">
-        <SideBar bind:selected={selectedMenuItem} availableLabels={Object.keys(aggregation).filter(key => aggregation[key].length > 0)} />
+        <SideBar bind:selected={selectedMenuItem} bind:availableLabels={availableLabels} />
         <DateRange
           bind:dateRangeAvailable={dateRangeAvailable}
           bind:startDate={startDate}

@@ -29,24 +29,29 @@
 
   onMount(() => {
     menuColumn.onwheel = (event: WheelEvent) => {
+      event.stopPropagation()
+      event.preventDefault()
       menuColumn.scrollBy(0, event.deltaY/5)
       const maxScrollTop = menuColumn.scrollHeight - menuColumn.clientHeight
       const ratio = menuColumn.scrollTop/maxScrollTop
       scrollerColumn.style.paddingTop = `${ratio * 100}px`
     }
-  })
 
-  $: {
-    if (!availableLabels.includes(selected))
-      for(let menuIndex in menu) {
-        const handle = menu[menuIndex].handle
-        if(availableLabels.includes(handle)) {
-          selected = handle
-        }
-      }
     if (menuColumn && (menuColumn.clientHeight < menuColumn.scrollHeight)) {
       displayScroller = true
     } else displayScroller = false
+  })
+  
+  $: {
+    if (!availableLabels.includes(selected))
+    for(let menuIndex in menu) {
+      const handle = menu[menuIndex].handle
+      if(availableLabels.includes(handle)) {
+        selected = handle
+      }
+    }
+
+    displayScroller = availableLabels.length >= 4
   }
 </script>
 
