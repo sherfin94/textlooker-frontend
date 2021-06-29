@@ -46,14 +46,18 @@
 
     let status: boolean
     [status, data] = await api.getPerDateAggregation(sourceID, '', filter, startDate, startTime, endDate, endTime, label)
+    
+    let [labels, datasets] = generatePerDateData(data)
 
+    console.log(labels, datasets)
     loading = false
 
     canvasContext = document.getElementById('piChart').getContext('2d');
     canvasContext.height = 200;
     chart = new ChartJs.Chart(canvasContext, {
       type: 'line',
-      data: generatePerDateData(data),
+      labels: labels,
+      datasets: datasets,
       options: {
         onClick: _ => {
             const index = chart.getActiveElements()[0].index

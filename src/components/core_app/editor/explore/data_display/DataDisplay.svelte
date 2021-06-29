@@ -23,7 +23,7 @@
   let tabs = [
     { handle: 'barchart', icon: 'bar_chart' },
     { handle: 'piechart', icon: 'pie_chart' },
-    { handle: 'flowchart', icon: 'area_chart' },
+    // { handle: 'flowchart', icon: 'area_chart' },
     { handle: 'text', icon: 'text_snippet' },
   ]
   export let activeTabIndex = 0

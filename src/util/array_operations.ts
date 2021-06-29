@@ -7,3 +7,7 @@ export let eachSlice = async function (list: string | any[], size: number, callb
     await callback(list.slice(i, i + size))
   }
 }
+
+export let dedupe = (list: string[]) => {
+  return [...new Set(list)]
+}

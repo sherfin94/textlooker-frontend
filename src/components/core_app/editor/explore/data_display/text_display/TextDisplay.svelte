@@ -105,6 +105,10 @@
   div.text-display {
     height: 400px;
     overflow-y: hidden;
+
+    div.columns {
+      width: 100%;
+    }
   }
 
   div.table-column {
