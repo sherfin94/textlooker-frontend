@@ -45,7 +45,7 @@
 
 
     let status: boolean
-    [status, data] = await api.getPerDateAggregation(sourceID, '*', filter, startDate, startTime, endDate, endTime, label)
+    [status, data] = await api.getPerDateAggregation(sourceID, '', filter, startDate, startTime, endDate, endTime, label)
 
     loading = false
 

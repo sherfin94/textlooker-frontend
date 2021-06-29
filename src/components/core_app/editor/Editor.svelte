@@ -3,7 +3,7 @@
   import NavBar from './nav_bar/NavBar.svelte'
   import AddDataPage from './add_data_page/AddDataPage.svelte'
   import Explore from './explore/Explore.svelte'
-  import type { filterItem } from '../../../interface'
+  import type { filterItem, text } from '../../../interface'
   import dayjs from 'dayjs'
 
   export let sourceID:number
@@ -16,6 +16,8 @@
   let startTime = dayjs('1900-01-01 00:00').format('HH:mm')
   let endDate = dayjs().format('YYYY-MM-DD')
   let endTime = dayjs().format('HH:mm')
+  let searchText = ''
+  let texts: text[] = []
 </script>
 
 <div>
@@ -32,6 +34,8 @@
         bind:startTime={startTime}
         bind:endDate={endDate}
         bind:endTime={endTime}
+        bind:searchText={searchText}
+        bind:texts={texts}
       />
     </section>
   </Route>

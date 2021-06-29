@@ -13,7 +13,7 @@
   import DateRange from './DateRange.svelte'
   import SideBar from './SideBar.svelte'
 
-  import type { filterItem, source } from '../../../../interface'
+  import type { filterItem, source, text } from '../../../../interface'
   import { fetchSources, getSource } from '../../../../models/source'
 
   export let sourceID: number
@@ -33,7 +33,7 @@
     if (dateRangeAvailable) {
       [status, aggregation] = await api.getAggregation(
         sourceID,
-        '*',
+        '',
         filter,
         startDate, startTime, endDate, endTime
       )
@@ -41,7 +41,7 @@
     } else {
       [status, aggregation] = await api.getDatelessAggregation(
         sourceID,
-        '*',
+        '',
         filter,
       )
       dataReady = status
@@ -55,17 +55,15 @@
   export let startTime: any
   export let endDate: any
   export let endTime: any
-  
-  
-  let selectHandler: any
+  export let searchText: string
   
   onMount(async () => {
     await loadAggregation()    
-    let status, texts
-    [status, totalAnalyzedTexts, texts] = await api.getAnalyzedText(sourceID, '*', 0, false, '', '', '', '', [])
+    let status: boolean
+    [status, totalAnalyzedTexts, texts] = await api.getAnalyzedText(sourceID, '', 0, false, '', '', '', '', [])
   })
   
-  let texts:any[] = []
+  export let texts:text[] = []
   let currentTextPage = 1
   let source: source
   
@@ -87,9 +85,9 @@
     let newTexts = []
     let _total: any
     if (dateRangeAvailable) {
-      [status, _total , newTexts] = await api.getAnalyzedText(sourceID, '*', (currentTextPage - 1)*20, true,  startDate, startTime, endDate, endTime, filter)
+      [status, _total , newTexts] = await api.getAnalyzedText(sourceID, searchText, (currentTextPage - 1)*20, true,  startDate, startTime, endDate, endTime, filter)
     } else {
-      [status, _total, newTexts] = await api.getAnalyzedText(sourceID, '*', (currentTextPage - 1)*20, false, '', '', '', '', filter)
+      [status, _total, newTexts] = await api.getAnalyzedText(sourceID, searchText, (currentTextPage - 1)*20, false, '', '', '', '', filter)
     }
     texts = [...texts, ...newTexts]
   }
@@ -129,8 +127,9 @@
               endDate={endDate}
               endTime={endTime}
               loadAnalyzedText={loadAnalyzedText}
-              texts={texts}
+              bind:texts={texts}
               bind:currentTextPage={currentTextPage}
+              bind:searchText={searchText}
             />
           {/if}
         </div>

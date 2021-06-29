@@ -58,6 +58,7 @@
   export let loadAnalyzedText: any
   export let currentTextPage: any
   export let texts: text[]
+  export let searchText: string
 </script>
 
 <div class="container">
@@ -105,7 +106,8 @@
     <TextDisplay
       loadAnalyzedText={loadAnalyzedText}
       bind:currentPage={currentTextPage}
-      texts={texts}
+      bind:texts={texts}
+      bind:searchText={searchText}
     />
   {/if}
 </div>
