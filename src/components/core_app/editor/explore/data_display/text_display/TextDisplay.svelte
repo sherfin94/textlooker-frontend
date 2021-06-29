@@ -1,6 +1,6 @@
 <script type='typescript'>
   import { onMount } from "svelte"
-  import type { text } from "../../../../../interface"
+  import type { text } from "../../../../../../interface"
 
   export let loadAnalyzedText: any
   export let currentPage: any
@@ -12,8 +12,6 @@
   let scrollReloadlock = false
   
   onMount(async () => {
-    await loadAnalyzedText()
-    
     if (tableContainer) {
       tableContainer.onwheel = async (event: WheelEvent) => {
         event.stopPropagation()
@@ -26,7 +24,7 @@
         if (ratio >= 1 && !scrollReloadlock) {
           currentPage += 1
           let presentTextLength = texts.length
-          await loadAnalyzedText()
+          await loadAnalyzedText(true)
           if (presentTextLength === texts.length)
             scrollReloadlock = true
         }
@@ -36,8 +34,6 @@
 
   const keyPressHandler = async (event: KeyboardEvent) => {
     if (event.key === 'Enter') {
-      texts = []
-      currentPage = 1
       await loadAnalyzedText()
     }
   }

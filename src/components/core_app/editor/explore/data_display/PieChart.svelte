@@ -1,6 +1,6 @@
 <script lang='typescript'>
   import { onMount } from 'svelte'
-  import type { countItem } from '../../../../interface'
+  import type { countItem } from '../../../../../interface'
   import generateChartData from './generate_chart_data'
   import * as ChartJs from 'chart.js'
   

@@ -9,7 +9,7 @@
   dayjs.extend(utc)
   dayjs.extend(timezone)
 
-  import DataDisplay from './DataDisplay.svelte'
+  import DataDisplay from './data_display/DataDisplay.svelte'
   import DateRange from './DateRange.svelte'
   import SideBar from './SideBar.svelte'
 
@@ -21,6 +21,7 @@
   let dataReady = false
   let aggregation: any = {}
   let totalAnalyzedTexts = 0
+  let totalCountQualification: string
   let availableLabels = []
   
   export let selectedMenuItem:string
@@ -60,36 +61,38 @@
   onMount(async () => {
     await loadAggregation()    
     let status: boolean
-    [status, totalAnalyzedTexts, texts] = await api.getAnalyzedText(sourceID, '', 0, false, '', '', '', '', [])
+    [status, totalAnalyzedTexts, totalCountQualification, texts] = await api.getAnalyzedText(sourceID, '', 0, false, '', '', '', '', [])
   })
   
   export let texts:text[] = []
-  let currentTextPage = 1
+  let currentTextPage = 0
   let source: source
   
   let dateRangeSelectHandler = () => {
     loadAggregation()
-    texts = []
-    currentTextPage = 1
     loadAnalyzedText()
   }
 
-  const loadAnalyzedText = async () => {
+  const loadAnalyzedText = async (append=false) => {
     source = getSource(sourceID)
     if (!source) {
       await fetchSources()
       source = getSource(sourceID)
     }
 
+    if (!append) currentTextPage = 0
+    
     let status: boolean
     let newTexts = []
-    let _total: any
     if (dateRangeAvailable) {
-      [status, _total , newTexts] = await api.getAnalyzedText(sourceID, searchText, (currentTextPage - 1)*20, true,  startDate, startTime, endDate, endTime, filter)
+      [status, totalAnalyzedTexts, totalCountQualification, newTexts] = await api.getAnalyzedText(sourceID, searchText, (currentTextPage)*20, true,  startDate, startTime, endDate, endTime, filter)
     } else {
-      [status, _total, newTexts] = await api.getAnalyzedText(sourceID, searchText, (currentTextPage - 1)*20, false, '', '', '', '', filter)
+      [status, totalAnalyzedTexts, totalCountQualification, newTexts] = await api.getAnalyzedText(sourceID, searchText, (currentTextPage)*20, false, '', '', '', '', filter)
     }
-    texts = [...texts, ...newTexts]
+    if (append) {
+      texts = [...texts, ...newTexts]
+      currentTextPage += 1
+    } else  texts = newTexts
   }
 
   let displayBarChart = () => {
@@ -127,6 +130,8 @@
               endDate={endDate}
               endTime={endTime}
               loadAnalyzedText={loadAnalyzedText}
+              analyzedTextCount={totalAnalyzedTexts}
+              totalCountQualification={totalCountQualification}
               bind:texts={texts}
               bind:currentTextPage={currentTextPage}
               bind:searchText={searchText}

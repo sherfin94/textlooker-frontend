@@ -1,21 +1,35 @@
 <script lang='typescript'>
   import { onMount } from 'svelte'
+  import type { countItem, filterItem } from '../../../../../interface'
+  import generatePerDateData from './generate_per_date_data'
   import * as ChartJs from 'chart.js'
-  import type { countItem } from '../../../../interface'
-  import generateChartData from './generate_chart_data'
+  import api from '../../../../../api'
+  
   
   ChartJs.Chart.register.apply(
     null,
     Object.values(ChartJs).filter((chartClass => 'id' in chartClass)),
     )
 
+
+  export let sourceID: number
+  export let filter: filterItem[]
+
+  export let dateRangeAvailable: boolean
+  export let startDate: string
+  export let startTime: string
+  export let endDate: string
+  export let endTime: string
+  export let label: string
+
   export let data: countItem[]
   let chart: ChartJs.Chart
   let canvasContext: any
+  let loading = true
   
   $: {
     if (chart) {
-      chart.data = generateChartData(data)
+      chart.data = generatePerDateData(data)
       chart.update()
     }
   }
@@ -23,12 +37,23 @@
   export let selectedHandler: (item: string) => void
   
   let changeToCursor = false
+
+
+
   onMount(async () => {
-    canvasContext = document.getElementById('myChart').getContext('2d');
+    loading = true
+
+
+    let status: boolean
+    [status, data] = await api.getPerDateAggregation(sourceID, '', filter, startDate, startTime, endDate, endTime, label)
+
+    loading = false
+
+    canvasContext = document.getElementById('piChart').getContext('2d');
     canvasContext.height = 200;
     chart = new ChartJs.Chart(canvasContext, {
-      type: 'bar',
-      data: generateChartData(data),
+      type: 'line',
+      data: generatePerDateData(data),
       options: {
         onClick: _ => {
             const index = chart.getActiveElements()[0].index
@@ -41,7 +66,14 @@
         maintainAspectRatio: false,
         plugins:{
           legend: {
-            display: false,
+            display: true,
+            position: 'right',
+            fullSize: true,
+            labels: {
+              boxHeight: 25,
+              boxWidth: 10,
+              padding: 13,
+            }
           },
         },
         scales: {
@@ -56,6 +88,7 @@
             }
           },
           x: {
+            display: false,
             beginAtZero: true,
             grid: {
               display: false,
@@ -76,7 +109,7 @@
 </script>
 
 <div class="container">
-  <canvas id="myChart" width="400" height="400" class={changeToCursor ? 'change-to-cursor' : ''}></canvas>
+  <canvas id="piChart" width="400" height="400" class={changeToCursor ? 'change-to-cursor' : ''}></canvas>
 </div>
 
 <style type='scss'>

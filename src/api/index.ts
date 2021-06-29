@@ -93,9 +93,10 @@ let api = {
       .then(response => [
         response.status === 200,
         response.data.total,
-        response.data.texts
+        response.data.totalCountQualification,
+        response.data.texts,
       ])
-      .catch(_ => [false, 0, "could not fetch texts"])
+      .catch(_ => [false, 0, "could not fetch", "could not fetch texts"])
     }
   ,
 

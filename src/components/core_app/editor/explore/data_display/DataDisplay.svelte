@@ -1,11 +1,12 @@
 <script lang='typescript'>
-  import type { countItem, filterItem, source, text} from '../../../../interface'
+  import type { countItem, filterItem, source, text} from '../../../../../interface'
 
   import AggregationChart from './AggregationChart.svelte'
   import PieChart from './PieChart.svelte'
   import TextDisplay from './text_display/TextDisplay.svelte'
   import FlowChart from './FlowChart.svelte'
   import Filter from './Filter.svelte'
+  import SpecificationBox from './SpecificationBox.svelte'
 
   export let data: countItem[]
   export let label: string
@@ -42,23 +43,28 @@
     if (filter.filter(item => item.text === selectedItem && item.label === label).length === 0) {
       filter = [...filter, {label: label, text: selectedItem}]
     }
+    console.log("Filter: ", filter)
     filterCount = countFilters()
     setTimeout(() => {
       scrollFilterRight && scrollFilterRight(10000)
     }, 10)
     await loadAggregation()
+    await loadAnalyzedText()
   }
 
   let deselect = async (index: number) => {
     filter = [...filter.slice(0, index), ...filter.slice(index+1)]
     filterCount = countFilters()
     await loadAggregation()
+    await loadAnalyzedText()
   }
 
   export let loadAnalyzedText: any
   export let currentTextPage: any
   export let texts: text[]
   export let searchText: string
+  export let analyzedTextCount: number
+  export let totalCountQualification: string
 </script>
 
 <div class="container">
@@ -87,6 +93,7 @@
   </div>
   {#if tabs[activeTabIndex].handle === 'barchart' }
     <AggregationChart data={data} selectedHandler={selectHandler} />
+    <SpecificationBox analyzedTextCount={analyzedTextCount} totalCountQualification={totalCountQualification}/>
   {:else if tabs[activeTabIndex].handle === 'piechart'}
     <PieChart data={data} selectedHandler={selectHandler} />
   {:else if tabs[activeTabIndex].handle === 'flowchart'}
