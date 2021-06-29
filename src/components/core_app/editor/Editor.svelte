@@ -18,6 +18,7 @@
   let endTime = dayjs().format('HH:mm')
   let searchText = ''
   let texts: text[] = []
+  let aggregation: any = {}
 </script>
 
 <div>
@@ -36,6 +37,7 @@
         bind:endTime={endTime}
         bind:searchText={searchText}
         bind:texts={texts}
+        bind:aggregation={aggregation}
       />
     </section>
   </Route>

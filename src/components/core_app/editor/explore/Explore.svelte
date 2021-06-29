@@ -19,7 +19,7 @@
   export let sourceID: number
   let loading = false
   let dataReady = false
-  let aggregation: any = {}
+  export let aggregation: any
   let totalAnalyzedTexts = 0
   let totalCountQualification: string
   let availableLabels = []
@@ -48,6 +48,10 @@
       dataReady = status
     }
     availableLabels = Object.keys(aggregation).filter(key => aggregation[key].length > 0)
+    Object.keys(aggregation).forEach(label => {
+      for(let i =0; i < 10 && i < aggregation[label].length; i++)
+        aggregation[label][i]['show'] = true
+    })
     loading = false
   }
   
@@ -118,7 +122,7 @@
         <div class="box">
           {#if dataReady} 
             <DataDisplay
-              data={aggregation[selectedMenuItem]}
+              bind:data={aggregation[selectedMenuItem]}
               label={selectedMenuItem}
               sourceID={sourceID}
               bind:filter={filter}

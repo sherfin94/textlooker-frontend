@@ -28,6 +28,7 @@ export interface countItem {
   date?:string
   key:string
   count:number
+  show?:boolean
 }
 
 export interface source {

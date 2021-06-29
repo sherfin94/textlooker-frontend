@@ -87,15 +87,30 @@
     </div>
     <div class="column is-four-fifths">
       {#if filter.length > 0}
-        <Filter filter={filter} deselect={deselect} bind:scrollRight={scrollFilterRight}/>
+        <!-- <Filter filter={filter} deselect={deselect} bind:scrollRight={scrollFilterRight}/> -->
       {/if}
     </div>
   </div>
   {#if tabs[activeTabIndex].handle === 'barchart' }
-    <AggregationChart data={data} selectedHandler={selectHandler} />
-    <SpecificationBox analyzedTextCount={analyzedTextCount} totalCountQualification={totalCountQualification}/>
+    <AggregationChart data={data && data.filter(item => item.show)} selectedHandler={selectHandler} />
+    <SpecificationBox
+      analyzedTextCount={analyzedTextCount}
+      totalCountQualification={totalCountQualification}
+      bind:data={data}
+      bind:filter={filter}
+      deselect={deselect}
+      scrollFilterRight={scrollFilterRight}
+    />
   {:else if tabs[activeTabIndex].handle === 'piechart'}
-    <PieChart data={data} selectedHandler={selectHandler} />
+    <PieChart data={data && data.filter(item => item.show)} selectedHandler={selectHandler} />
+      <SpecificationBox
+      analyzedTextCount={analyzedTextCount}
+      totalCountQualification={totalCountQualification}
+      bind:data={data}
+      bind:filter={filter}
+      deselect={deselect}
+      scrollFilterRight={scrollFilterRight}
+    />
   {:else if tabs[activeTabIndex].handle === 'flowchart'}
     <FlowChart
       data={data}
