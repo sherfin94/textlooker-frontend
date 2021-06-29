@@ -1,26 +1,6 @@
 <script lang='typescript'>
   import { onMount } from "svelte"
-  const menu = [
-    {label: 'People', handle:'PERSON'},
-    {label: 'Words', handle:'tokens'},
-    {label: 'Identities', handle:'NORP'},
-    {label: 'Buildings', handle:'FAC'},
-    {label: 'Organizations', handle:'ORG'},
-    {label: 'Political Entities', handle:'GPE'},
-    {label: 'Locations', handle:'LOC'},
-    {label: 'Products', handle:'PRODUCT'},
-    {label: 'Events', handle:'EVENT'},
-    {label: 'Works of art', handle:'WORK_OF_ART'},
-    {label: 'Laws', handle:'LAW'},
-    {label: 'Languages', handle:'LANGUAGE'},
-    {label: 'Dates', handle:'DATE'},
-    {label: 'Time', handle:'TIME'},
-    {label: 'Percentage', handle:'PERCENT'},
-    {label: 'Money', handle:'MONEY'},
-    {label: 'Quantity', handle:'QUANTITY'},
-    {label: 'Ordinal', handle:'ORDINAL'},
-    {label: 'Cardinal', handle:'CARDINAL'}
-  ]
+  import menu from './menu'
   export let selected = menu[0].handle
   export let availableLabels: string[]
 

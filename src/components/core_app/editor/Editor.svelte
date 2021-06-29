@@ -8,7 +8,7 @@
 
   export let sourceID:number
 
-  let selectedMenuItem:string='words'
+  let selectedMenuItem:string
   let filter:filterItem[] = []
   let activeVisualizationTabIndex: number = 0
   let dateRangeAvailable = false

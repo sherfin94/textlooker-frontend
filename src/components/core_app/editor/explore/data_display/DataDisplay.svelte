@@ -87,7 +87,7 @@
     </div>
     <div class="column is-four-fifths">
       {#if filter.length > 0}
-        <!-- <Filter filter={filter} deselect={deselect} bind:scrollRight={scrollFilterRight}/> -->
+        <Filter filter={filter} deselect={deselect} bind:scrollRight={scrollFilterRight}/>
       {/if}
     </div>
   </div>
@@ -97,9 +97,7 @@
       analyzedTextCount={analyzedTextCount}
       totalCountQualification={totalCountQualification}
       bind:data={data}
-      bind:filter={filter}
-      deselect={deselect}
-      scrollFilterRight={scrollFilterRight}
+      label={label}
     />
   {:else if tabs[activeTabIndex].handle === 'piechart'}
     <PieChart data={data && data.filter(item => item.show)} selectedHandler={selectHandler} />
@@ -107,9 +105,7 @@
       analyzedTextCount={analyzedTextCount}
       totalCountQualification={totalCountQualification}
       bind:data={data}
-      bind:filter={filter}
-      deselect={deselect}
-      scrollFilterRight={scrollFilterRight}
+      label={label}
     />
   {:else if tabs[activeTabIndex].handle === 'flowchart'}
     <FlowChart

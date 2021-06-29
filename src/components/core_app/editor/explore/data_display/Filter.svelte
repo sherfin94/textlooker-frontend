@@ -50,7 +50,7 @@
   }
 </script>
 
-<article class="message is-primary mb-1 is-flex">
+<article class="message is-grey mb-1 is-flex">
   <div class="message-header is-size-6">
     <p>Filters</p>
     <button class="delete" aria-label="delete"></button>
@@ -64,7 +64,7 @@
           {#each [...filter] as item, index}
             <div class="level-item">
               <span class="tags has-addons">
-                <span class="tag is-{tokenTypeToDisplayConfigMapping[item.label].color} icon">
+                <span class="tag is-info icon">
                   <span class="material-icons-outlined has-text-white">
                     {tokenTypeToDisplayConfigMapping[item.label].icon}
                   </span>
@@ -115,6 +115,11 @@
     // margin-bottom: 1.2rem;
   }
 
+  article.message {
+    width: 96%;
+    margin-top: 4px;
+  }
+
   div.message-header {
     width: 80px;
     border-top-right-radius: 0;
@@ -124,7 +129,7 @@
   }
 
   div.message-body {
-    padding: 15px;
+    padding: 17px 0 0 10px;
     height: 50px;
     width: 95%;
     overflow-x: hidden;
