@@ -43,3 +43,15 @@ export interface filterItem {
   label: string
   text: string
 }
+
+export interface insight {
+  title: string
+  filter: filterItem[]
+  visualizeTexts: string[]
+  lookForHandle: string
+}
+
+export interface notification {
+  message: string
+  type: string
+}

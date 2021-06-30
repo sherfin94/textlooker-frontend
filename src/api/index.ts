@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
-import type {text, analyzedText, aggregation, countItem, source, filterItem} from '../interface'
+import type {text, analyzedText, aggregation, countItem, source, filterItem, insight} from '../interface'
 import { toUnixTimestamp, toServerDateFormat } from '../util/date'
 
 let server = axios.create({
@@ -133,6 +133,34 @@ let api = {
     ])
     .catch(_ => [false, "could not fetch aggregation"])
   ,
+
+  postInsight: async (sourceID: number, title: string, filterItems: filterItem[], visualizeTextSet: string[], lookForHandle: string): Promise<boolean|any> => {
+    const filter = JSON.stringify({filter: filterItems})
+    const visualizeTexts = JSON.stringify({visualizeTexts: visualizeTextSet})
+
+    return server.post('auth/insights', { sourceID, title, filter, visualizeTexts, lookForHandle })
+      .then(response => response.status === 200)
+      .catch(_ => false)
+  },
+
+  getInsights: async (sourceID: number): Promise<[boolean, insight[]]|any> => {
+    return server.get('auth/insights', { params: { sourceID } })
+      .then(response => [
+        true, response.data.map(item => ({
+          title: item.title,
+          filter: JSON.parse(item.filter)['filter'],
+          visualizeTexts: JSON.parse(item.visualizeTexts)['filter'],
+          lookForHandle: item.lookForHandle
+        }))]
+      )
+      .catch(_ => [false, []])
+  },
+
+  deleteInsight: async (sourceID: number, insightID: number): Promise<boolean|any> => {
+    return server.delete('auth/insights', { params: { sourceID, insightID }})
+      .then(response => response.status === 200)
+      .catch(_ => false)
+  }
 }
 
 

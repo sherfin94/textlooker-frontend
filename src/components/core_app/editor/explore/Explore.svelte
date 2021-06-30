@@ -15,6 +15,8 @@
 
   import type { filterItem, source, text } from '../../../../interface'
   import { fetchSources, getSource } from '../../../../models/source'
+import SaveInsightModal from './SaveInsightModal.svelte'
+import { notify } from '../../../../models/notifications';
 
   export let sourceID: number
   let loading = false
@@ -73,6 +75,17 @@
     reloading = true
     await loadData()
     reloading = false
+    notify("Data reloaded", "info is-light")
+  }
+
+  let saveInsightModalOn = false
+
+  const closeSaveInsightModal = () => {
+    saveInsightModalOn = false
+  }
+
+  const saveInsightHandler = () => {
+    notify("Insight saved", "success is-light")
   }
   
   onMount(loadData)
@@ -128,7 +141,8 @@
         />
         <div class="box is-link">
           <div class="buttons reloadButtonContainer">
-            <button class="button is-link {reloading ? 'is-loading' : ''}" on:click={reload}>Reload data</button>
+            <button class="button is-link m-0 mb-2 {reloading ? 'is-loading' : ''}" on:click={reload}>Reload data</button>
+            <button class="button is-success m-0" on:click={() => saveInsightModalOn = true}>Save insight</button>
           </div>
         </div>
       </div>
@@ -159,12 +173,25 @@
       </div>
     </div>
   </div>
+  <SaveInsightModal
+    on={saveInsightModalOn}
+    close={closeSaveInsightModal}
+    insightCreatedHandler={saveInsightHandler}
+    filter={filter}
+    sourceID={sourceID}
+    visualizeTexts={aggregation[selectedMenuItem] && aggregation[selectedMenuItem].filter(item => item.show).map(item => item.key)}
+    lookForHandle={selectedMenuItem}
+  />
 </section>
 
 
 <style type='scss'>
   div.reloadButtonContainer {
-    align-items: center;
+    align-content: center;
     flex-direction: column;
+
+    button {
+      border-radius: 3px;
+    }
   }
 </style>
