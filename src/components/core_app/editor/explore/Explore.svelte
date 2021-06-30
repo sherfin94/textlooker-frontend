@@ -18,6 +18,7 @@
 
   export let sourceID: number
   let loading = false
+  let reloading = false
   let dataReady = false
   export let aggregation: any
   let totalAnalyzedTexts = 0
@@ -61,12 +62,20 @@
   export let endDate: any
   export let endTime: any
   export let searchText: string
-  
-  onMount(async () => {
+
+  const loadData = async () => {
     await loadAggregation()    
     let status: boolean
     [status, totalAnalyzedTexts, totalCountQualification, texts] = await api.getAnalyzedText(sourceID, '', 0, false, '', '', '', '', [])
-  })
+  }
+
+  const reload = async () => {
+    reloading = true
+    await loadData()
+    reloading = false
+  }
+  
+  onMount(loadData)
   
   export let texts:text[] = []
   let currentTextPage = 0
@@ -110,13 +119,18 @@
       <div class="column is-one-fifth">
         <SideBar bind:selected={selectedMenuItem} bind:availableLabels={availableLabels} displayBarChart={displayBarChart}/>
         <DateRange
-          bind:dateRangeAvailable={dateRangeAvailable}
-          bind:startDate={startDate}
-          bind:startTime={startTime}
-          bind:endDate={endDate}
-          bind:endTime={endTime}
-          dateRangeSelectCallback={dateRangeSelectHandler}
-          />
+        bind:dateRangeAvailable={dateRangeAvailable}
+        bind:startDate={startDate}
+        bind:startTime={startTime}
+        bind:endDate={endDate}
+        bind:endTime={endTime}
+        dateRangeSelectCallback={dateRangeSelectHandler}
+        />
+        <div class="box is-link">
+          <div class="buttons reloadButtonContainer">
+            <button class="button is-link {reloading ? 'is-loading' : ''}" on:click={reload}>Reload data</button>
+          </div>
+        </div>
       </div>
       <div class="column is-four-fifths">
         <div class="box">
@@ -146,3 +160,11 @@
     </div>
   </div>
 </section>
+
+
+<style type='scss'>
+  div.reloadButtonContainer {
+    align-items: center;
+    flex-direction: column;
+  }
+</style>
