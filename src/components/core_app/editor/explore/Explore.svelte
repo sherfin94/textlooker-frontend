@@ -1,5 +1,6 @@
 <script lang='typescript'>
   import { onMount } from 'svelte'
+  import { Link } from 'svelte-navigator'
   import api from '../../../../api'
   import dayjs from 'dayjs'
   import customParseFormat from 'dayjs/plugin/customParseFormat'
@@ -13,16 +14,17 @@
   import DateRange from './DateRange.svelte'
   import SideBar from './SideBar.svelte'
 
-  import type { filterItem, insight, source, text } from '../../../../interface'
-  import { fetchSources, getSource } from '../../../../models/source'
+  import type { countItem, filterItem, insight, source, text } from '../../../../interface'
+  import { getSource } from '../../../../models/source'
   import SaveInsightModal from './SaveInsightModal.svelte'
   import { notify } from '../../../../models/notifications'
+import menu from './menu';
 
   export let sourceID: number
   let loading = false
   let reloading = false
-  export let dataReady: boolean
-  export let aggregation: any
+  let dataReady = false
+  export let aggregation: countItem[]
   let totalAnalyzedTexts = 0
   let totalCountQualification: string
   export let availableLabels: string[]
@@ -33,7 +35,7 @@
 
   let loadAggregation = async () => {
     loading = true
-    let status
+    let status: boolean
     if (dateRangeAvailable) {
       [status, aggregation] = await api.getAggregation(
         sourceID,
@@ -51,10 +53,15 @@
       dataReady = status
     }
     availableLabels = Object.keys(aggregation).filter(key => aggregation[key].length > 0)
+    if (selectedMenuItem == '') {
+      selectedMenuItem = availableLabels[0]
+    }
+
+
     Object.keys(aggregation).forEach(label => {
       for(let i =0; i < 10 && i < aggregation[label].length; i++)
-        if (insight.visualizeTexts.includes(aggregation[label][i].key) || insight.visualizeTexts.length === 0)
-          aggregation[label][i]['show'] = true
+      if (insight.visualizeTexts.includes(aggregation[label][i].key) || insight.visualizeTexts.length === 0)
+      aggregation[label][i]['show'] = true
     })
     loading = false
   }
@@ -90,7 +97,9 @@
     insight = Object.assign({}, insight, { title })
   }
   
-  onMount(loadData)
+  onMount(async() => {
+    await loadData()
+  })
   
   export let texts:text[] = []
   let currentTextPage = 0
@@ -102,11 +111,7 @@
   }
 
   const loadAnalyzedText = async (append=false) => {
-    source = getSource(sourceID)
-    if (!source) {
-      await fetchSources()
-      source = getSource(sourceID)
-    }
+    source = await getSource(sourceID)
 
     if (!append) currentTextPage = 0
     
@@ -131,69 +136,76 @@
 </script>
 
 <section class="section px-0 pt-0">
-  <div class="container">
-    <div class="columns">
-      <div class="column is-one-fifth">
-        <SideBar bind:selected={selectedMenuItem} bind:availableLabels={availableLabels} displayBarChart={displayBarChart}/>
-        <DateRange
-        bind:dateRangeAvailable={dateRangeAvailable}
-        bind:startDate={startDate}
-        bind:startTime={startTime}
-        bind:endDate={endDate}
-        bind:endTime={endTime}
-        dateRangeSelectCallback={dateRangeSelectHandler}
-        />
-        <div class="box is-link">
-          <div class="buttons reloadButtonContainer">
-            <button class="button is-link m-0 mb-2 {reloading ? 'is-loading' : ''}" on:click={reload}>Reload data</button>
-            <button class="button is-success m-0" on:click={() => saveInsightModalOn = true}>Save insight</button>
+  {#if aggregation[selectedMenuItem] && aggregation[selectedMenuItem].length !== 0}
+    <div class="container">
+      <div class="columns">
+        <div class="column is-one-fifth">
+          <SideBar bind:selected={selectedMenuItem} bind:availableLabels={availableLabels} displayBarChart={displayBarChart}/>
+          <DateRange
+          bind:dateRangeAvailable={dateRangeAvailable}
+          bind:startDate={startDate}
+          bind:startTime={startTime}
+          bind:endDate={endDate}
+          bind:endTime={endTime}
+          dateRangeSelectCallback={dateRangeSelectHandler}
+          />
+          <div class="box is-link">
+            <div class="buttons reloadButtonContainer">
+              <button class="button is-link m-0 mb-2 {reloading ? 'is-loading' : ''}" on:click={reload}>Reload data</button>
+              <button class="button is-success m-0" on:click={() => saveInsightModalOn = true}>Save insight</button>
+            </div>
+          </div>
+        </div>
+        <div class="column is-four-fifths">
+          <div class="box">
+            {#if dataReady} 
+              <DataDisplay
+                bind:data={aggregation[selectedMenuItem]}
+                label={selectedMenuItem}
+                sourceID={sourceID}
+                bind:filter={filter}
+                bind:activeTabIndex={activeVisualizationTabIndex}
+                loadAggregation={loadAggregation}
+                dateRangeAvailable={dateRangeAvailable}
+                startDate={startDate}
+                startTime={startTime}
+                endDate={endDate}
+                endTime={endTime}
+                loadAnalyzedText={loadAnalyzedText}
+                analyzedTextCount={totalAnalyzedTexts}
+                totalCountQualification={totalCountQualification}
+                bind:texts={texts}
+                bind:currentTextPage={currentTextPage}
+                bind:searchText={searchText}
+                bind:insight={insight}
+                bind:tabs={tabs}
+              />
+            {/if}
           </div>
         </div>
       </div>
-      <div class="column is-four-fifths">
-        <div class="box">
-          {#if dataReady} 
-            <DataDisplay
-              bind:data={aggregation[selectedMenuItem]}
-              label={selectedMenuItem}
-              sourceID={sourceID}
-              bind:filter={filter}
-              bind:activeTabIndex={activeVisualizationTabIndex}
-              loadAggregation={loadAggregation}
-              dateRangeAvailable={dateRangeAvailable}
-              startDate={startDate}
-              startTime={startTime}
-              endDate={endDate}
-              endTime={endTime}
-              loadAnalyzedText={loadAnalyzedText}
-              analyzedTextCount={totalAnalyzedTexts}
-              totalCountQualification={totalCountQualification}
-              bind:texts={texts}
-              bind:currentTextPage={currentTextPage}
-              bind:searchText={searchText}
-              bind:insight={insight}
-              bind:tabs={tabs}
-            />
-          {/if}
-        </div>
-      </div>
     </div>
-  </div>
-  <SaveInsightModal
-    on={saveInsightModalOn}
-    close={closeSaveInsightModal}
-    insightCreatedHandler={saveInsightHandler}
-    filter={filter}
-    sourceID={sourceID}
-    visualizeTexts={aggregation[selectedMenuItem] && aggregation[selectedMenuItem].filter(item => item.show).map(item => item.key)}
-    lookForHandle={selectedMenuItem}
-    dateRangeAvailable={dateRangeAvailable}
-    startDate={startDate}
-    startTime={startTime}
-    endDate={endDate}
-    endTime={endTime}
-    visualizationType={tabs && tabs[activeVisualizationTabIndex].handle}
-  />
+    <SaveInsightModal
+      on={saveInsightModalOn}
+      close={closeSaveInsightModal}
+      insightCreatedHandler={saveInsightHandler}
+      filter={filter}
+      sourceID={sourceID}
+      visualizeTexts={aggregation[selectedMenuItem] && aggregation[selectedMenuItem].filter(item => item.show).map(item => item.key)}
+      lookForHandle={selectedMenuItem}
+      dateRangeAvailable={dateRangeAvailable}
+      startDate={startDate}
+      startTime={startTime}
+      endDate={endDate}
+      endTime={endTime}
+      visualizationType={tabs && tabs[activeVisualizationTabIndex].handle}
+    />
+  {:else}
+    <p class="p-3">
+      This source does not contain any analyzed data. If you just uploaded data, please wait. Otherwise please go to <Link to='../add'>Add data</Link>
+      to add data. If you feel something is wrong, please contact support.
+    </p>
+  {/if}
 </section>
 
 

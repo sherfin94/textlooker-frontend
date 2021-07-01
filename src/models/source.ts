@@ -18,5 +18,13 @@ export let fetchSources = async () => {
   }
 }
 
-export let getSource = (sourceID:number): source => 
-  sources.find(source => source.id === sourceID)
+export let getSource = async (sourceID:number): Promise<source> => {
+  let source = sources.find(source => source.id === sourceID)
+
+  if(!source) {
+    await fetchSources()
+    source = sources.find(source => source.id === sourceID)
+  }
+
+  return source
+}

@@ -10,6 +10,7 @@
   let tableContainer: HTMLElement
   let scroller: HTMLElement
   let scrollReloadlock = false
+  let displayScroller: boolean = false
   
   onMount(async () => {
     if (tableContainer) {
@@ -41,6 +42,12 @@
   $: {
     texts
     scrollReloadlock = false
+
+    if (tableContainer && tableContainer.scrollHeight > tableContainer.clientHeight) {
+      displayScroller = true
+    } else {
+      displayScroller = false
+    }
   }
 
 </script>
@@ -74,9 +81,11 @@
           </table>
 
         </div>
-        <div class="column is-one-fifth scroller-column">
-          <div class="scroller" bind:this={scroller}></div>
-        </div>
+        {#if displayScroller}
+          <div class="column is-one-fifth scroller-column">
+            <div class="scroller" bind:this={scroller}></div>
+          </div>
+        {/if}
       </div>
     {/if}
   </div>

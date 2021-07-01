@@ -67,6 +67,7 @@
   export let searchText: string
   export let analyzedTextCount: number
   export let totalCountQualification: string
+
 </script>
 
 <div class="container">

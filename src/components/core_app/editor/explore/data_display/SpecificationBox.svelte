@@ -26,7 +26,7 @@
   })
 
   $: {
-    if (data.length >= 4) {
+    if (data && data.length >= 4) {
       displayScroller = true
     } else {
       false
@@ -36,7 +36,7 @@
 
 <div class="container mt-3 p-3">
   <div class="subtitle mb-2 has-text-weight-bold">
-    Visualized {menu.find(item => item.handle === label).label}
+    Visualized {label && menu.find(item => item.handle === label).label}
   </div>
   <p class='mb-5'>
     Analyzed text count: <span class="textCount">

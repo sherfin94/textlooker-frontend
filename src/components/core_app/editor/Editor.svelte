@@ -23,7 +23,7 @@
 
   export let sourceID:number
 
-  let selectedMenuItem:string
+  let selectedMenuItem:string = ''
   let filter:filterItem[] = []
   let activeVisualizationTabIndex: number = 0
   let tabs: {handle: string, icon: string}[]
@@ -35,7 +35,6 @@
   let searchText = ''
   let texts: text[] = []
   let aggregation: any = {}
-  let dataReady = false
   let availableLabels = []
   let loadData: any
   let insight: insight = {
@@ -87,7 +86,6 @@
         bind:searchText={searchText}
         bind:texts={texts}
         bind:aggregation={aggregation}
-        bind:dataReady={dataReady}
         bind:availableLabels={availableLabels}
         bind:loadData={loadData}
         bind:insight={insight}

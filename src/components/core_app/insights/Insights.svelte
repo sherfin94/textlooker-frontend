@@ -1,5 +1,6 @@
 <script lang="typescript">
   import { onMount } from "svelte"
+  import { Link } from 'svelte-navigator'
   import api from "../../../api";
   import type { insight } from "../../../interface"
   import dayjs from 'dayjs'
@@ -52,44 +53,50 @@
 </script>
 
 <div class="section px-0 pt-3">
-  <div class="box">
-    <table class="table is-striped">
-      <colgroup>
-        <col span="1" style="width: 60%;">
-        <col span="1" style="width: 30%;">
-        <col span="1" style="width: 10%;">
-     </colgroup>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Created</th>
-          <th>Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each insights as insight }
-          <tr on:click={() => loadInsight(insight)}>
-            <td>
-              {insight.title}
-            </td>
-            <td class="date">
-              <span class="relative">
-                {dayjs(insight.lastUpdated, dateParseFormat).fromNow()}
-              </span>
-              <span class="exact">
-                {dayjs(insight.lastUpdated, dateParseFormat).format()}
-              </span>
-            </td>
-            <td>
-              <div class="buttons">
-                <button class="button is-danger" on:click={(event) => deleteClickHandler(event, insight)}>Delete</button>
-              </div>
-            </td>
+  {#if insights.length !== 0}
+    <div class="box">
+      <table class="table is-striped">
+        <colgroup>
+          <col span="1" style="width: 60%;">
+          <col span="1" style="width: 30%;">
+          <col span="1" style="width: 10%;">
+      </colgroup>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Created</th>
+            <th>Delete</th>
           </tr>
-        {/each}
-      </tbody>
-    </table>
-  </div>
+        </thead>
+        <tbody>
+          {#each insights as insight }
+            <tr on:click={() => loadInsight(insight)}>
+              <td>
+                {insight.title}
+              </td>
+              <td class="date">
+                <span class="relative">
+                  {dayjs(insight.lastUpdated, dateParseFormat).fromNow()}
+                </span>
+                <span class="exact">
+                  {dayjs(insight.lastUpdated, dateParseFormat).format()}
+                </span>
+              </td>
+              <td>
+                <div class="buttons">
+                  <button class="button is-danger" on:click={(event) => deleteClickHandler(event, insight)}>Delete</button>
+                </div>
+              </td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  {:else}
+    <p class="p-3">
+      You haven't created any insights. Head on to <Link to='../explore'> Explore </Link> and create some insights.
+    </p>
+  {/if}
 </div>
 
 <style type="scss">

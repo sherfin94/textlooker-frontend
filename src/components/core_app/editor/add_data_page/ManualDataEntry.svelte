@@ -50,9 +50,9 @@
     loading = false
   }
 
-  onMount(() => {
+  onMount(async () => {
     focusTextArea()
-    source = getSource(sourceID)
+    source = await getSource(sourceID)
   })
 </script>
 
