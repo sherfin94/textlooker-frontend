@@ -10,6 +10,7 @@
 
   let specTableContainer: HTMLElement
   let specScroller: HTMLElement
+  let displayScroller: boolean = false
 
   onMount(async () => {
     if (specTableContainer) {
@@ -23,6 +24,14 @@
       }
     }
   })
+
+  $: {
+    if (data.length >= 4) {
+      displayScroller = true
+    } else {
+      false
+    }
+  }
 </script>
 
 <div class="container mt-3 p-3">
@@ -67,9 +76,11 @@
           </tbody>
         </table>
       </div>
-      <div class="column is-one-fifth specScrollerColumn">
-        <div class="specScroller" bind:this={specScroller}></div>
-      </div>
+      {#if displayScroller}
+        <div class="column is-one-fifth specScrollerColumn">
+          <div class="specScroller" bind:this={specScroller}></div>
+        </div>
+      {/if}
     </div>
   </div>
 </div>
