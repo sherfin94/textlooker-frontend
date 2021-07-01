@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios'
+import axios from 'axios'
 import type {text, analyzedText, aggregation, countItem, source, filterItem, insight} from '../interface'
 import { toUnixTimestamp, toServerDateFormat } from '../util/date'
 
@@ -134,25 +134,35 @@ let api = {
     .catch(_ => [false, "could not fetch aggregation"])
   ,
 
-  postInsight: async (sourceID: number, title: string, filterItems: filterItem[], visualizeTextSet: string[], lookForHandle: string): Promise<boolean|any> => {
+  postInsight: async (sourceID: number, title: string, filterItems: filterItem[], visualizeTextSet: string[], visualizationType: string, lookForHandle: string, dateRangeAvailable: boolean, startDate: string, startTime: string, endDate: string, endTime: string): Promise<boolean|any> => {
     const filter = JSON.stringify({filter: filterItems})
     const visualizeTexts = JSON.stringify({visualizeTexts: visualizeTextSet})
+    startDate = toServerDateFormat(startDate, startTime)
+    endDate = toServerDateFormat(endDate, endTime)
 
-    return server.post('auth/insights', { sourceID, title, filter, visualizeTexts, lookForHandle })
+    return server.post('auth/insights', { sourceID, title, filter, visualizeTexts, lookForHandle, dateRangeAvailable, startDate, endDate, visualizationType })
       .then(response => response.status === 200)
       .catch(_ => false)
   },
 
   getInsights: async (sourceID: number): Promise<[boolean, insight[]]|any> => {
     return server.get('auth/insights', { params: { sourceID } })
-      .then(response => [
-        true, response.data.map(item => ({
-          title: item.title,
-          filter: JSON.parse(item.filter)['filter'],
-          visualizeTexts: JSON.parse(item.visualizeTexts)['filter'],
-          lookForHandle: item.lookForHandle
-        }))]
-      )
+      .then(response => {
+        return [true, response.data.insights.map(item => { 
+          return {
+            title: item.title,
+            filter: JSON.parse(item.filter)['filter'],
+            visualizeTexts: JSON.parse(item.visualizeTexts)['visualizeTexts'],
+            lookForHandle: item.lookForHandle,
+            lastUpdated: item.last_updated,
+            id: item.id,
+            startDate: item.startDate,
+            endDate: item.endDate,
+            dateRangeAvailable: item.dateRangeAvailable,
+            visualizationType: item.visualizationType
+          }
+        })]
+      })
       .catch(_ => [false, []])
   },
 

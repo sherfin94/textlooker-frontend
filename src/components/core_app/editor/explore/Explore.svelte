@@ -13,19 +13,19 @@
   import DateRange from './DateRange.svelte'
   import SideBar from './SideBar.svelte'
 
-  import type { filterItem, source, text } from '../../../../interface'
+  import type { filterItem, insight, source, text } from '../../../../interface'
   import { fetchSources, getSource } from '../../../../models/source'
-import SaveInsightModal from './SaveInsightModal.svelte'
-import { notify } from '../../../../models/notifications';
+  import SaveInsightModal from './SaveInsightModal.svelte'
+  import { notify } from '../../../../models/notifications'
 
   export let sourceID: number
   let loading = false
   let reloading = false
-  let dataReady = false
+  export let dataReady: boolean
   export let aggregation: any
   let totalAnalyzedTexts = 0
   let totalCountQualification: string
-  let availableLabels = []
+  export let availableLabels: string[]
   
   export let selectedMenuItem:string
   export let filter:filterItem[] = []
@@ -53,7 +53,8 @@ import { notify } from '../../../../models/notifications';
     availableLabels = Object.keys(aggregation).filter(key => aggregation[key].length > 0)
     Object.keys(aggregation).forEach(label => {
       for(let i =0; i < 10 && i < aggregation[label].length; i++)
-        aggregation[label][i]['show'] = true
+        if (insight.visualizeTexts.includes(aggregation[label][i].key) || insight.visualizeTexts.length === 0)
+          aggregation[label][i]['show'] = true
     })
     loading = false
   }
@@ -64,11 +65,11 @@ import { notify } from '../../../../models/notifications';
   export let endDate: any
   export let endTime: any
   export let searchText: string
+  export let insight: insight
 
-  const loadData = async () => {
+  export const loadData = async () => {
     await loadAggregation()    
-    let status: boolean
-    [status, totalAnalyzedTexts, totalCountQualification, texts] = await api.getAnalyzedText(sourceID, '', 0, false, '', '', '', '', [])
+    await loadAnalyzedText()
   }
 
   const reload = async () => {
@@ -84,8 +85,9 @@ import { notify } from '../../../../models/notifications';
     saveInsightModalOn = false
   }
 
-  const saveInsightHandler = () => {
+  const saveInsightHandler = (title: string) => {
     notify("Insight saved", "success is-light")
+    insight = Object.assign({}, insight, { title })
   }
   
   onMount(loadData)
@@ -124,6 +126,8 @@ import { notify } from '../../../../models/notifications';
   let displayBarChart = () => {
     activeVisualizationTabIndex = 0
   }
+
+  export let tabs: any[]
 </script>
 
 <section class="section px-0 pt-0">
@@ -167,6 +171,8 @@ import { notify } from '../../../../models/notifications';
               bind:texts={texts}
               bind:currentTextPage={currentTextPage}
               bind:searchText={searchText}
+              bind:insight={insight}
+              bind:tabs={tabs}
             />
           {/if}
         </div>
@@ -181,6 +187,12 @@ import { notify } from '../../../../models/notifications';
     sourceID={sourceID}
     visualizeTexts={aggregation[selectedMenuItem] && aggregation[selectedMenuItem].filter(item => item.show).map(item => item.key)}
     lookForHandle={selectedMenuItem}
+    dateRangeAvailable={dateRangeAvailable}
+    startDate={startDate}
+    startTime={startTime}
+    endDate={endDate}
+    endTime={endTime}
+    visualizationType={tabs && tabs[activeVisualizationTabIndex].handle}
   />
 </section>
 

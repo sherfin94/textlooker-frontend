@@ -18,6 +18,7 @@
       chart.data = generateChartData(data)
       chart.update()
     }
+
   }
   
   export let selectedHandler: (item: string) => void

@@ -49,7 +49,6 @@
     
     let [labels, datasets] = generatePerDateData(data)
 
-    console.log(labels, datasets)
     loading = false
 
     canvasContext = document.getElementById('piChart').getContext('2d');

@@ -45,10 +45,16 @@ export interface filterItem {
 }
 
 export interface insight {
+  id: number
   title: string
   filter: filterItem[]
   visualizeTexts: string[]
   lookForHandle: string
+  lastUpdated: string
+  startDate: string
+  endDate: string
+  dateRangeAvailable: boolean
+  visualizationType: string
 }
 
 export interface notification {

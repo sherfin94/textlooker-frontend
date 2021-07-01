@@ -18,6 +18,11 @@
           Explore data
         </span>
       </Link>
+      <Link to='../insights' class="navbar-item {selectedMenuItem === 'insights' ? 'active-menu-item' : 'has-text-black'}">
+        <span>
+          Insights
+        </span>
+      </Link>
 
       <Link to='../add' class="navbar-item {selectedMenuItem === 'add' ? 'active-menu-item' : 'has-text-black'}">
         <span>
@@ -25,6 +30,7 @@
         </span>
       </Link>
     </div>
+
   </div>
 
     <!-- <div class="navbar-end">

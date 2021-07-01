@@ -12,16 +12,29 @@
   export let filter: filterItem[]
   export let visualizeTexts: string[]
   export let lookForHandle: string
+  export let dateRangeAvailable: boolean
+  export let visualizationType: string
+  export let startDate: string, startTime: string, endDate: string, endTime: string
   let insightTitle:string = ''
   let inputBox
   let showIssue = false
 
   let handleCreate = async () => {
     loading = true
-    const status = await api.postInsight(sourceID, insightTitle, filter, visualizeTexts, lookForHandle)
+    const status = await api.postInsight(
+      sourceID,
+      insightTitle,
+      filter,
+      visualizeTexts,
+      visualizationType,
+      lookForHandle,
+      dateRangeAvailable,
+      startDate, startTime,
+      endDate, endTime
+    )
     if(status) {
       close()
-      insightCreatedHandler()
+      insightCreatedHandler(insightTitle)
       showIssue = false
     } else {
       showIssue = true

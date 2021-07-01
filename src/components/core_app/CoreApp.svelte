@@ -7,12 +7,23 @@
   import type { notification } from '../../interface'
 
   let notifications: notification[] = []
+  let notificationsContainer: HTMLElement
+  let notificationTimeoutHandle: any
 
   onMount(() => {
     notificationStore.subscribe(storedNotifications => {
       if (storedNotifications.length > 0) {
         notifications = [(storedNotifications[storedNotifications.length - 1])]
-        setTimeout(() => {notifications = []}, 1000)
+        notificationsContainer.style.zIndex = '100'
+
+        if (notificationTimeoutHandle) {
+          clearTimeout(notificationTimeoutHandle)
+        }
+
+        notificationTimeoutHandle = setTimeout(() => {
+          notifications = []
+          notificationsContainer.style.zIndex = '-100'
+        }, 1000)
       }
     })
   })
@@ -25,7 +36,7 @@
     </Route>
     <Route path="source/:sourceID/*" let:params>
       <Editor sourceID={parseInt(params.sourceID)}/>
-      <div class="container notifications">
+      <div class="container notifications" bind:this={notificationsContainer}>
         {#each notifications as notification}
           <div class="notification is-{notification.type}">
             <p>{notification.message}</p>
@@ -43,6 +54,6 @@
     height: 100px;
     bottom: 0;
     left: 20px;
-    z-index: 100;
+    z-index: -100;
   }
 </style>

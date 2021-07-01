@@ -1,5 +1,5 @@
 <script lang='typescript'>
-  import type { countItem, filterItem, source, text} from '../../../../../interface'
+  import type { countItem, filterItem, insight, text} from '../../../../../interface'
 
   import AggregationChart from './AggregationChart.svelte'
   import PieChart from './PieChart.svelte'
@@ -13,6 +13,7 @@
   export let loadAggregation: () => void
   export let sourceID: number
   export let filter: filterItem[]
+  export let insight: insight
 
   export let dateRangeAvailable: boolean
   export let startDate: string
@@ -20,12 +21,13 @@
   export let endDate: string
   export let endTime: string
 
-  let tabs = [
+  export const tabs = [
     { handle: 'barchart', icon: 'bar_chart' },
     { handle: 'piechart', icon: 'pie_chart' },
     // { handle: 'flowchart', icon: 'area_chart' },
     { handle: 'text', icon: 'text_snippet' },
   ]
+
   export let activeTabIndex = 0
 
   let tabSelect = (index:number) => {
@@ -43,7 +45,7 @@
     if (filter.filter(item => item.text === selectedItem && item.label === label).length === 0) {
       filter = [...filter, {label: label, text: selectedItem}]
     }
-    console.log("Filter: ", filter)
+
     filterCount = countFilters()
     setTimeout(() => {
       scrollFilterRight && scrollFilterRight(10000)
@@ -68,6 +70,7 @@
 </script>
 
 <div class="container">
+  <p class="subtitle mb-1 pl-2 has-text-weight-bold">{insight.title.slice(0,100) + (insight.title.length > 100 ? '...' : '')}</p>
   <div class="columns">
     <div class="column tabs-column is-one-fifths">
       <div class="tabs">
