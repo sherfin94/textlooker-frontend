@@ -25,11 +25,12 @@
   export let displayBarChart: any
   
   $: {
-    if (!availableLabels.includes(selected))
-    for(let menuIndex in menu) {
-      const handle = menu[menuIndex].handle
-      if(availableLabels.includes(handle)) {
-        selected = handle
+    if (!availableLabels.includes(selected)) {
+      for(let menuIndex in menu) {
+        const handle = menu[menuIndex].handle
+        if(availableLabels.includes(handle)) {
+          selected = handle
+        }
       }
     }
 
@@ -45,12 +46,12 @@
     <div class="columns">
       <div class="column is-four-fifths menu-column" bind:this={menuColumn}>
         <ul class="menu-list">
-          {#each menu as entry}
-            {#if availableLabels.includes(entry.handle)}
+          {#each availableLabels as handle}
+            {#if menu.map(entry => entry.handle).includes(handle)}
               <li>
                 <!-- svelte-ignore a11y-missing-attribute -->
-                <a on:click={() => {selected = entry.handle;displayBarChart()}} class={selected === entry.handle ? 'is-active' : ''} >
-                  {entry.label}
+                <a on:click={() => {selected = handle}} class={selected === handle ? 'is-active' : ''} >
+                  {menu.find(entry => entry.handle === handle).label}
                 </a>
               </li>
             {/if}

@@ -22,11 +22,10 @@
   }
 
   let submitText = async () => {
-    displayMessage = true
     loading = true
     if(content === '') {
-        notificationText = 'Please provide content for your text'
-        notificationClass = 'is-warning'
+      notificationText = 'Please provide content for your text'
+      notificationClass = 'is-warning'
     } else {
       let textSet = [{
         content:content,
@@ -41,12 +40,13 @@
         content = ''
         author = ''
       } else {
-          notificationText = "This is an issue from our side, we'll inform you as soon as this is fixed. Meanwhile, please try to add data with different values"
-          notificationClass = 'is-warning'
+        notificationText = "This is an issue from our side, we'll inform you as soon as this is fixed. Meanwhile, please try to add data with different values"
+        notificationClass = 'is-warning'
       }
     }
-
+    
     focusTextArea()
+    displayMessage = true
     loading = false
   }
 

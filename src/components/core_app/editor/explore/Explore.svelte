@@ -136,75 +136,80 @@ import menu from './menu';
 </script>
 
 <section class="section px-0 pt-0">
-  {#if aggregation[selectedMenuItem] && aggregation[selectedMenuItem].length !== 0}
-    <div class="container">
-      <div class="columns">
-        <div class="column is-one-fifth">
-          <SideBar bind:selected={selectedMenuItem} bind:availableLabels={availableLabels} displayBarChart={displayBarChart}/>
-          <DateRange
-          bind:dateRangeAvailable={dateRangeAvailable}
-          bind:startDate={startDate}
-          bind:startTime={startTime}
-          bind:endDate={endDate}
-          bind:endTime={endTime}
-          dateRangeSelectCallback={dateRangeSelectHandler}
-          />
-          <div class="box is-link">
-            <div class="buttons reloadButtonContainer">
-              <button class="button is-link m-0 mb-2 {reloading ? 'is-loading' : ''}" on:click={reload}>Reload data</button>
-              <button class="button is-success m-0" on:click={() => saveInsightModalOn = true}>Save insight</button>
+  {#if (!loading || reloading)}
+    {#if aggregation[selectedMenuItem] && aggregation[selectedMenuItem].length !== 0}
+      <div class="container">
+        <div class="columns">
+          <div class="column is-one-fifth">
+            <SideBar bind:selected={selectedMenuItem} bind:availableLabels={availableLabels} displayBarChart={displayBarChart}/>
+            <DateRange
+            bind:dateRangeAvailable={dateRangeAvailable}
+            bind:startDate={startDate}
+            bind:startTime={startTime}
+            bind:endDate={endDate}
+            bind:endTime={endTime}
+            dateRangeSelectCallback={dateRangeSelectHandler}
+            />
+            <div class="box is-link">
+              <div class="buttons reloadButtonContainer">
+                <button class="button is-link m-0 mb-2 {reloading ? 'is-loading' : ''}" on:click={reload}>Reload data</button>
+                <button class="button is-success m-0" on:click={() => saveInsightModalOn = true}>Save insight</button>
+              </div>
+            </div>
+          </div>
+          <div class="column is-four-fifths">
+            <div class="box">
+              {#if dataReady} 
+                <DataDisplay
+                  bind:data={aggregation[selectedMenuItem]}
+                  label={selectedMenuItem}
+                  sourceID={sourceID}
+                  bind:filter={filter}
+                  bind:activeTabIndex={activeVisualizationTabIndex}
+                  loadAggregation={loadAggregation}
+                  dateRangeAvailable={dateRangeAvailable}
+                  startDate={startDate}
+                  startTime={startTime}
+                  endDate={endDate}
+                  endTime={endTime}
+                  loadAnalyzedText={loadAnalyzedText}
+                  analyzedTextCount={totalAnalyzedTexts}
+                  totalCountQualification={totalCountQualification}
+                  bind:texts={texts}
+                  bind:currentTextPage={currentTextPage}
+                  bind:searchText={searchText}
+                  bind:insight={insight}
+                  bind:tabs={tabs}
+                  reload={reload}
+                />
+              {/if}
             </div>
           </div>
         </div>
-        <div class="column is-four-fifths">
-          <div class="box">
-            {#if dataReady} 
-              <DataDisplay
-                bind:data={aggregation[selectedMenuItem]}
-                label={selectedMenuItem}
-                sourceID={sourceID}
-                bind:filter={filter}
-                bind:activeTabIndex={activeVisualizationTabIndex}
-                loadAggregation={loadAggregation}
-                dateRangeAvailable={dateRangeAvailable}
-                startDate={startDate}
-                startTime={startTime}
-                endDate={endDate}
-                endTime={endTime}
-                loadAnalyzedText={loadAnalyzedText}
-                analyzedTextCount={totalAnalyzedTexts}
-                totalCountQualification={totalCountQualification}
-                bind:texts={texts}
-                bind:currentTextPage={currentTextPage}
-                bind:searchText={searchText}
-                bind:insight={insight}
-                bind:tabs={tabs}
-              />
-            {/if}
-          </div>
-        </div>
       </div>
-    </div>
-    <SaveInsightModal
-      on={saveInsightModalOn}
-      close={closeSaveInsightModal}
-      insightCreatedHandler={saveInsightHandler}
-      filter={filter}
-      sourceID={sourceID}
-      visualizeTexts={aggregation[selectedMenuItem] && aggregation[selectedMenuItem].filter(item => item.show).map(item => item.key)}
-      lookForHandle={selectedMenuItem}
-      dateRangeAvailable={dateRangeAvailable}
-      startDate={startDate}
-      startTime={startTime}
-      endDate={endDate}
-      endTime={endTime}
-      visualizationType={tabs && tabs[activeVisualizationTabIndex].handle}
-    />
+      <SaveInsightModal
+        on={saveInsightModalOn}
+        close={closeSaveInsightModal}
+        insightCreatedHandler={saveInsightHandler}
+        filter={filter}
+        sourceID={sourceID}
+        visualizeTexts={aggregation[selectedMenuItem] && aggregation[selectedMenuItem].filter(item => item.show).map(item => item.key)}
+        lookForHandle={selectedMenuItem}
+        dateRangeAvailable={dateRangeAvailable}
+        startDate={startDate}
+        startTime={startTime}
+        endDate={endDate}
+        endTime={endTime}
+        visualizationType={tabs && tabs[activeVisualizationTabIndex].handle}
+      />
+    {:else}
+      <p class="p-3">
+        This source does not contain any analyzed data. If you just uploaded data, please wait. Otherwise please go to <Link to='../add'>Add data</Link>
+        to add data. If you feel something is wrong, please contact support.
+      </p>
+    {/if}
   {:else}
-    <p class="p-3">
-      This source does not contain any analyzed data. If you just uploaded data, please wait. Otherwise please go to <Link to='../add'>Add data</Link>
-      to add data. If you feel something is wrong, please contact support.
-    </p>
+      <progress class="progress is-primary"></progress>
   {/if}
 </section>
 

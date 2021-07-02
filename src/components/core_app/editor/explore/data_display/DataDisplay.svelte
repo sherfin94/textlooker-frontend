@@ -11,6 +11,7 @@
   export let data: countItem[]
   export let label: string
   export let loadAggregation: () => void
+  export let reload: () => void
   export let sourceID: number
   export let filter: filterItem[]
   export let insight: insight
