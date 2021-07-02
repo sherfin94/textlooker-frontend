@@ -51,6 +51,7 @@
     setTimeout(() => {
       scrollFilterRight && scrollFilterRight(10000)
     }, 10)
+    insight = Object.assign({}, insight, { visualizeTexts : []})
     await loadAggregation()
     await loadAnalyzedText()
   }
@@ -58,6 +59,7 @@
   let deselect = async (index: number) => {
     filter = [...filter.slice(0, index), ...filter.slice(index+1)]
     filterCount = countFilters()
+    insight = Object.assign({}, insight, { visualizeTexts : []})
     await loadAggregation()
     await loadAnalyzedText()
   }

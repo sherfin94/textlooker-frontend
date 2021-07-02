@@ -113,8 +113,9 @@
   let currentTextPage = 0
   let source: source
   
-  let dateRangeSelectHandler = () => {
-    loadAggregation()
+  let dateRangeSelectHandler = async () => {
+    insight = Object.assign({}, insight, { visualizeTexts : []})
+    await loadAggregation()
     loadAnalyzedText()
   }
 
