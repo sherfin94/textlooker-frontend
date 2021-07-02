@@ -29,7 +29,7 @@
     { handle: 'text', icon: 'text_snippet' },
   ]
 
-  export let activeTabIndex = 0
+  export let activeTabIndex: number
 
   let tabSelect = (index:number) => {
     activeTabIndex = index

@@ -62,7 +62,7 @@
     let tabIndex: any
     for(tabIndex in tabs) {
       if (tabs[tabIndex].handle === insightToBeLoaded.visualizationType) {
-        activeVisualizationTabIndex = tabIndex
+        activeVisualizationTabIndex = parseInt(tabIndex)
       }
     }
     navigate(`../${sourceID}/explore`)

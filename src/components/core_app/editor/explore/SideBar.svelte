@@ -1,7 +1,7 @@
 <script lang='typescript'>
   import { onMount } from "svelte"
   import menu from './menu'
-  export let selected = menu[0].handle
+  export let selected: string
   export let availableLabels: string[]
 
   let menuColumn:HTMLElement, scrollerColumn: HTMLElement
@@ -30,6 +30,7 @@
         const handle = menu[menuIndex].handle
         if(availableLabels.includes(handle)) {
           selected = handle
+          break
         }
       }
     }
@@ -46,12 +47,12 @@
     <div class="columns">
       <div class="column is-four-fifths menu-column" bind:this={menuColumn}>
         <ul class="menu-list">
-          {#each availableLabels as handle}
-            {#if menu.map(entry => entry.handle).includes(handle)}
+          {#each menu as entry}
+            {#if availableLabels.includes(entry.handle)}
               <li>
                 <!-- svelte-ignore a11y-missing-attribute -->
-                <a on:click={() => {selected = handle}} class={selected === handle ? 'is-active' : ''} >
-                  {menu.find(entry => entry.handle === handle).label}
+                <a on:click={() => {selected = entry.handle}} class={selected === entry.handle ? 'is-active' : ''} >
+                  {entry.label}
                 </a>
               </li>
             {/if}

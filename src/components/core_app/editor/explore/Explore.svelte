@@ -18,7 +18,7 @@
   import { getSource } from '../../../../models/source'
   import SaveInsightModal from './SaveInsightModal.svelte'
   import { notify } from '../../../../models/notifications'
-import menu from './menu';
+  import menu from './menu'
 
   export let sourceID: number
   let loading = false
@@ -54,7 +54,15 @@ import menu from './menu';
     }
     availableLabels = Object.keys(aggregation).filter(key => aggregation[key].length > 0)
     if (selectedMenuItem == '') {
-      selectedMenuItem = availableLabels[0]
+      if (!availableLabels.includes(selectedMenuItem)) {
+      for(let menuIndex in menu) {
+        const handle = menu[menuIndex].handle
+        if(availableLabels.includes(handle)) {
+          selectedMenuItem = handle
+          break
+        }
+      }
+    }
     }
 
 
