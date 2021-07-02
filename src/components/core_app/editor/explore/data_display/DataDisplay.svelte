@@ -99,7 +99,7 @@
     </div>
   </div>
   {#if tabs[activeTabIndex].handle === 'barchart' }
-    <AggregationChart data={data && data.filter(item => item.show)} selectedHandler={selectHandler} />
+    <AggregationChart data={data && data.filter(item => item.show)} selectedHandler={selectHandler}/>
     <SpecificationBox
       analyzedTextCount={analyzedTextCount}
       totalCountQualification={totalCountQualification}

@@ -3,6 +3,7 @@
   import menu from './menu'
   export let selected: string
   export let availableLabels: string[]
+  export let changeHandler: any
 
   let menuColumn:HTMLElement, scrollerColumn: HTMLElement
   let displayScroller = false
@@ -51,7 +52,7 @@
             {#if availableLabels.includes(entry.handle)}
               <li>
                 <!-- svelte-ignore a11y-missing-attribute -->
-                <a on:click={() => {selected = entry.handle}} class={selected === entry.handle ? 'is-active' : ''} >
+                <a on:click={() => {selected = entry.handle; changeHandler()}} class={selected === entry.handle ? 'is-active' : ''} >
                   {entry.label}
                 </a>
               </li>

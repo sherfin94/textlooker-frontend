@@ -55,23 +55,27 @@
     availableLabels = Object.keys(aggregation).filter(key => aggregation[key].length > 0)
     if (selectedMenuItem == '') {
       if (!availableLabels.includes(selectedMenuItem)) {
-      for(let menuIndex in menu) {
-        const handle = menu[menuIndex].handle
-        if(availableLabels.includes(handle)) {
-          selectedMenuItem = handle
-          break
+        for(let menuIndex in menu) {
+          const handle = menu[menuIndex].handle
+          if(availableLabels.includes(handle)) {
+            selectedMenuItem = handle
+            break
+          }
         }
       }
     }
-    }
 
+    reloadVisualizationStatus()
 
+    loading = false
+  }
+
+  const reloadVisualizationStatus = () => {
     Object.keys(aggregation).forEach(label => {
       for(let i =0; i < 10 && i < aggregation[label].length; i++)
-      if (insight.visualizeTexts.includes(aggregation[label][i].key) || insight.visualizeTexts.length === 0)
-      aggregation[label][i]['show'] = true
-    })
-    loading = false
+        if (insight.visualizeTexts.includes(aggregation[label][i].key) || insight.visualizeTexts.length === 0)
+          aggregation[label][i]['show'] = true
+      })
   }
   
   export let dateRangeAvailable: boolean
@@ -142,6 +146,11 @@
   }
 
   export let tabs: any[]
+
+  const changeLookForHandler = () => {
+    insight = Object.assign({}, insight, { visualizeTexts : []})
+    reloadVisualizationStatus()
+  }
 </script>
 
 <section class="section px-0 pt-0">
@@ -150,7 +159,7 @@
       <div class="container">
         <div class="columns">
           <div class="column is-one-fifth">
-            <SideBar bind:selected={selectedMenuItem} bind:availableLabels={availableLabels} displayBarChart={displayBarChart}/>
+            <SideBar bind:selected={selectedMenuItem} bind:availableLabels={availableLabels} displayBarChart={displayBarChart} changeHandler={changeLookForHandler} />
             <DateRange
             bind:dateRangeAvailable={dateRangeAvailable}
             bind:startDate={startDate}
