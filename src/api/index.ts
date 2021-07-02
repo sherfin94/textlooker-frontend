@@ -9,6 +9,8 @@ let server = axios.create({
   withCredentials: true,
 })
 
+const serverDateFormat = 'YYYY-MM-DDTHH:mm:ssZ'
+
 let api = {
   signup: async (email:string, password:string):Promise<boolean> => 
     server.post('/user_registrations', { email, password })
@@ -134,15 +136,19 @@ let api = {
     .catch(_ => [false, "could not fetch aggregation"])
   ,
 
-  postInsight: async (sourceID: number, title: string, filterItems: filterItem[], visualizeTextSet: string[], visualizationType: string, lookForHandle: string, dateRangeAvailable: boolean, startDate: string, startTime: string, endDate: string, endTime: string): Promise<boolean|any> => {
-    const filter = JSON.stringify({filter: filterItems})
-    const visualizeTexts = JSON.stringify({visualizeTexts: visualizeTextSet})
-    startDate = toServerDateFormat(startDate, startTime)
-    endDate = toServerDateFormat(endDate, endTime)
+  postInsight: async ({ 
+    id, sourceID, title, filter, visualizationType,
+    visualizeTextSet, lookForHandle, startDate,
+    endDate, dateRangeAvailable 
+    }): Promise<boolean|any> => {
+      filter = JSON.stringify({filter})
+      visualizeTextSet = JSON.stringify({visualizeTextSet})
+      startDate = startDate.format(serverDateFormat)
+      endDate = endDate.format(serverDateFormat)
 
-    return server.post('auth/insights', { sourceID, title, filter, visualizeTexts, lookForHandle, dateRangeAvailable, startDate, endDate, visualizationType })
-      .then(response => response.status === 200)
-      .catch(_ => false)
+      return server.post('auth/insights', { id, sourceID, title, filter, visualizeTextSet, lookForHandle, dateRangeAvailable, startDate, endDate, visualizationType })
+        .then(response => [response.status === 200, response.data.insightID])
+        .catch(_ => false)
   },
 
   getInsights: async (sourceID: number): Promise<[boolean, insight[]]|any> => {
@@ -152,14 +158,15 @@ let api = {
           return {
             title: item.title,
             filter: JSON.parse(item.filter)['filter'],
-            visualizeTexts: JSON.parse(item.visualizeTexts)['visualizeTexts'],
+            visualizeTextSet: JSON.parse(item.visualizeTextSet)['visualizeTextSet'],
             lookForHandle: item.lookForHandle,
             lastUpdated: item.last_updated,
             id: item.id,
             startDate: item.startDate,
             endDate: item.endDate,
             dateRangeAvailable: item.dateRangeAvailable,
-            visualizationType: item.visualizationType
+            visualizationType: item.visualizationType,
+            sourceID: item.sourceID
           }
         })]
       })

@@ -1,3 +1,5 @@
+import type dayjs from "dayjs";
+
 export interface text {
   content:string
   author?:string[]|any
@@ -46,15 +48,17 @@ export interface filterItem {
 
 export interface insight {
   id: number
+  sourceID: number
   title: string
   filter: filterItem[]
-  visualizeTexts: string[]
+  visualizeTextSet: string[]
   lookForHandle: string
   lastUpdated: string
-  startDate: string
-  endDate: string
+  startDate: dayjs.Dayjs
+  endDate: dayjs.Dayjs
   dateRangeAvailable: boolean
   visualizationType: string
+  saved?: boolean
 }
 
 export interface notification {
