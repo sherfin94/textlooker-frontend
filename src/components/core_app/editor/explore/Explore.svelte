@@ -168,7 +168,7 @@
             bind:endTime={endTime}
             dateRangeSelectCallback={dateRangeSelectHandler}
             />
-            <div class="box is-link">
+            <div class="box is-link saveButtonBox">
               <div class="buttons reloadButtonContainer">
                 <button class="button is-link m-0 mb-2 {reloading ? 'is-loading' : ''}" on:click={reload}>Reload data</button>
                 <button class="button is-success m-0" on:click={() => saveInsightModalOn = true}>Save insight</button>
@@ -176,7 +176,7 @@
             </div>
           </div>
           <div class="column is-four-fifths">
-            <div class="box">
+            <div class="box p-0">
               {#if dataReady} 
                 <DataDisplay
                   bind:data={aggregation[selectedMenuItem]}
@@ -240,5 +240,9 @@
     button {
       border-radius: 3px;
     }
+  }
+
+  div.box.saveButtonBox {
+    height: 129px;
   }
 </style>

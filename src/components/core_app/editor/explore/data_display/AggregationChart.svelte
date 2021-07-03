@@ -81,7 +81,7 @@
   })
 </script>
 
-<div class="container">
+<div class="container px-3">
   <canvas id="myChart" width="400" height="400" class={changeToCursor ? 'change-to-cursor' : ''}></canvas>
 </div>
 

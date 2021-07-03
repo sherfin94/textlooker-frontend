@@ -39,7 +39,7 @@
   }
 </script>
 
-<div class="container mt-3 p-3">
+<div class="container mt-3 mx-0 mb-0 pt-3 pl-4 rootContainer">
   <div class="subtitle mb-2 has-text-weight-bold">
     Visualized {label && menu.find(item => item.handle === label).label}
   </div>
@@ -60,7 +60,7 @@
   <div class="container">
     <div class="columns">
       <div class="column is-four-fifths specColumn" bind:this={specTableContainer}>
-        <table class="table is-striped specTable">
+        <table class="table specTable">
           <thead>
             <tr>
               <th>Text</th>
@@ -97,7 +97,7 @@
   }
 
   span.specKey {
-    color: green;
+    color: #046586;
   }
 
   span.specValue {
@@ -114,9 +114,20 @@
 
   table.table {
     width: 100%;
+    background-color: inherit;
+
+    tr:nth-child(2n) {
+      background-color:#f9f9f9;
+    }
+
+    th {
+      background-color:#f9f9f9;
+    }
 
     td, th {
       text-align: center;
+      border: none;
+      font-weight: 600;
 
       input {
         width: 20px;
@@ -137,7 +148,11 @@
     height: 10px;
     margin:0;
     padding:0;
-    background-color: purple;
+    background-color: #e9e6e6;
     position: relative;
+  }
+
+  div.rootContainer {
+    background-color: #fdfdfd;
   }
 </style>

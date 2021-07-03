@@ -81,8 +81,8 @@
 </script>
 
 <div class="container">
-  <p class="subtitle mb-1 pl-2 has-text-weight-bold">{titleToBeDisplayed}</p>
-  <div class="columns">
+  <p class="subtitle mb-1 px-5 pt-4 has-text-weight-bold">{titleToBeDisplayed}</p>
+  <div class="columns px-3">
     <div class="column tabs-column is-one-fifths">
       <div class="tabs">
         <ul>
