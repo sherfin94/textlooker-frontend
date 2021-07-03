@@ -47,13 +47,14 @@
     dateRangeAvailable: false,
     startDate: '',
     endDate: '',
-    visualizationType: 'barchart'
+    visualizationType: 'barchart',
+    saved: false
   }
 
   const loadInsight = async (insightToBeLoaded: insight) => {
     filter = insightToBeLoaded.filter
     selectedMenuItem = insightToBeLoaded.lookForHandle
-    insight = {...insightToBeLoaded}
+    insight = {...insightToBeLoaded, ...{ saved: true }}
     dateRangeAvailable = insightToBeLoaded.dateRangeAvailable
     startDate = dayjs(insightToBeLoaded.startDate, dateParseFormat).format('YYYY-MM-DD')
     startTime = dayjs(insightToBeLoaded.startDate, dateParseFormat).format('HH:mm')

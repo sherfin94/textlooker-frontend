@@ -1,12 +1,13 @@
 <script lang='typescript'>
   import { onMount } from "svelte"
-  import type { countItem } from "../../../../../interface"
+  import type { countItem, insight } from "../../../../../interface"
   import menu from '../menu'
 
   export let analyzedTextCount: number
   export let totalCountQualification: string
   export let data: countItem[]
   export let label: string
+  export let insight: insight
 
   let specTableContainer: HTMLElement
   let specScroller: HTMLElement
@@ -24,6 +25,10 @@
       }
     }
   })
+
+  const itemCheckHandler = () => {
+    insight = {...insight, ...{ saved: false }}
+  }
 
   $: {
     if (data && data.length >= 4) {
@@ -69,7 +74,7 @@
             <tr>
               <td><span class='specKey'>{item.key}</span></td>
               <td><span class="specValue">{item.count}</span></td>
-              <td><input type="checkbox" bind:checked={item['show']}/></td>
+              <td><input type="checkbox" bind:checked={item['show']} on:change={itemCheckHandler} /></td>
             </tr>
             {/each}
           {/if}

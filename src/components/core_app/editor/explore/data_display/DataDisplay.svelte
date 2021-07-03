@@ -32,6 +32,7 @@
   export let activeTabIndex: number
 
   let tabSelect = (index:number) => {
+    insight = Object.assign({}, insight, { visualizeTexts : [], saved: false })
     activeTabIndex = index
   }
 
@@ -51,7 +52,7 @@
     setTimeout(() => {
       scrollFilterRight && scrollFilterRight(10000)
     }, 10)
-    insight = Object.assign({}, insight, { visualizeTexts : []})
+    insight = Object.assign({}, insight, { visualizeTexts : [], saved: false })
     await loadAggregation()
     await loadAnalyzedText()
   }
@@ -59,7 +60,7 @@
   let deselect = async (index: number) => {
     filter = [...filter.slice(0, index), ...filter.slice(index+1)]
     filterCount = countFilters()
-    insight = Object.assign({}, insight, { visualizeTexts : []})
+    insight = Object.assign({}, insight, { visualizeTexts : [], saved: false })
     await loadAggregation()
     await loadAnalyzedText()
   }
@@ -71,10 +72,16 @@
   export let analyzedTextCount: number
   export let totalCountQualification: string
 
+  let titleToBeDisplayed = 'Unsaved insight'
+
+  $: {
+    titleToBeDisplayed = insight.saved ? insight.title.slice(0,100) + (insight.title.length > 100 ? '...' : '') : 'Unsaved insight'
+  }
+
 </script>
 
 <div class="container">
-  <p class="subtitle mb-1 pl-2 has-text-weight-bold">{insight.title.slice(0,100) + (insight.title.length > 100 ? '...' : '')}</p>
+  <p class="subtitle mb-1 pl-2 has-text-weight-bold">{titleToBeDisplayed}</p>
   <div class="columns">
     <div class="column tabs-column is-one-fifths">
       <div class="tabs">
@@ -104,6 +111,7 @@
       analyzedTextCount={analyzedTextCount}
       totalCountQualification={totalCountQualification}
       bind:data={data}
+      bind:insight={insight}
       label={label}
     />
   {:else if tabs[activeTabIndex].handle === 'piechart'}
@@ -112,6 +120,7 @@
       analyzedTextCount={analyzedTextCount}
       totalCountQualification={totalCountQualification}
       bind:data={data}
+      bind:insight={insight}
       label={label}
     />
   {:else if tabs[activeTabIndex].handle === 'flowchart'}

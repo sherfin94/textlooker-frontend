@@ -106,7 +106,7 @@
 
   const saveInsightHandler = (title: string) => {
     notify("Insight saved", "success is-light")
-    insight = Object.assign({}, insight, { title })
+    insight = Object.assign({}, insight, { title, saved: true })
   }
   
   onMount(async() => {
@@ -118,7 +118,7 @@
   let source: source
   
   let dateRangeSelectHandler = async () => {
-    insight = Object.assign({}, insight, { visualizeTexts : []})
+    insight = Object.assign({}, insight, { visualizeTexts : [], saved: false })
     await loadAggregation()
     loadAnalyzedText()
   }
@@ -148,7 +148,7 @@
   export let tabs: any[]
 
   const changeLookForHandler = () => {
-    insight = Object.assign({}, insight, { visualizeTexts : []})
+    insight = Object.assign({}, insight, { visualizeTexts : [], saved: false })
     reloadVisualizationStatus()
   }
 </script>

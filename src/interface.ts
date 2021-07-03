@@ -55,6 +55,7 @@ export interface insight {
   endDate: string
   dateRangeAvailable: boolean
   visualizationType: string
+  saved: boolean
 }
 
 export interface notification {
