@@ -2,7 +2,7 @@ export default (data: any[]) => {
   return {
     labels: data && data.map(item => trimAndChunkString(item.key)),
     datasets: [{
-      label: 'Number of occurences',
+      label: 'Number of occurrences',
       data: data && data.map(item => item.count),
       backgroundColor: [
         "#25CCF7","#FD7272","#54a0ff","#00d2d3",

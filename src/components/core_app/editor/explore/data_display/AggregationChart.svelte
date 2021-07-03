@@ -44,6 +44,11 @@
           legend: {
             display: false,
           },
+          tooltip: {
+            callbacks: {
+              title: items => items.map(item => item.label.split(',').join(' '))
+            }
+          }
         },
         scales: {
           y: {

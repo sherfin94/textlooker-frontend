@@ -50,6 +50,12 @@
               padding: 13,
             }
           },
+          tooltip: {
+            callbacks: {
+              title: items => items.map(item => item.label.join(' ')),
+              label: item => 'Number of occurences: ' + item.formattedValue,
+            }
+          }
         },
         scales: {
           y: {
