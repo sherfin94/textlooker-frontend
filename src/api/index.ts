@@ -198,6 +198,12 @@ let api = {
       .then(response => response.status === 200)
       .catch(_ => false)
   },
+
+  addinsightToDashboard: async (sourceID: number, dashboardID: number, insightID): Promise<boolean|any> => {
+    return server.post('auth/dashboard_insights', { sourceID, dashboardID, insightID })
+      .then(response => response.status === 200)
+      .catch(_ => false)
+  },
 }
 
 

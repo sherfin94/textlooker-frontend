@@ -1,4 +1,5 @@
 <script lang="typescript">
+  import AddInsightToDashboardModal from './AddInsightToDashboardModal.svelte'
   import { onMount } from "svelte"
   import { Link } from 'svelte-navigator'
   import api from "../../../api";
@@ -22,6 +23,8 @@
 
   let insights: insight[] = []
   let loading = false
+  let showModal = false
+  let selectedInsightID: number = 0
 
   onMount(async () => {
     loading = true
@@ -50,6 +53,17 @@
     event.stopPropagation()
     deleteInsight(insight)
   }
+
+  const addClickHandler = (event: MouseEvent, insight: insight) => {
+    event.preventDefault()
+    event.stopPropagation()
+    selectedInsightID = insight.id
+    showModal = true
+  }
+
+  const insightAddedHandler = () => {
+    notify("Insight added to dashboard.", 'success is-light')
+  }
 </script>
 
 <div class="section px-0 pt-3">
@@ -65,6 +79,7 @@
           <tr>
             <th>Title</th>
             <th>Created</th>
+            <th>Add to dashboard</th>
             <th>Delete</th>
           </tr>
         </thead>
@@ -84,6 +99,11 @@
               </td>
               <td>
                 <div class="buttons">
+                  <button class="button is-primary" on:click={(event) => addClickHandler(event, insight)}>Add</button>
+                </div>
+              </td>
+              <td>
+                <div class="buttons">
                   <button class="button is-danger" on:click={(event) => deleteClickHandler(event, insight)}>Delete</button>
                 </div>
               </td>
@@ -97,6 +117,7 @@
       You haven't created any insights. Head on to <Link to='../explore'> Explore </Link> and create some insights.
     </p>
   {/if}
+  <AddInsightToDashboardModal insightAddedHandler={insightAddedHandler} sourceID={sourceID} insightID={selectedInsightID} bind:show={showModal} />
 </div>
 
 <style type="scss">
