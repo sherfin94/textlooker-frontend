@@ -58,6 +58,13 @@ export interface insight {
   saved: boolean
 }
 
+export interface dashboard {
+  id: number
+  title: string
+  lastUpdated: string
+  token: string
+}
+
 export interface notification {
   message: string
   type: string

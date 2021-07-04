@@ -170,7 +170,34 @@ let api = {
     return server.delete('auth/insights', { params: { sourceID, insightID }})
       .then(response => response.status === 200)
       .catch(_ => false)
-  }
+  },
+
+  postDashboard: async (sourceID: number, title: string): Promise<boolean|any> => {
+    return server.post('auth/dashboards', { sourceID, title })
+      .then(response => response.status === 200)
+      .catch(_ => false)
+  },
+
+  getDashboards: async (sourceID: number): Promise<[boolean, insight[]]|any> => {
+    return server.get('auth/dashboards', { params: { sourceID } })
+      .then(response => {
+        return [true, response.data.dashboards.map(item => { 
+          return {
+            title: item.title,
+            id: item.id,
+            token: item.token,
+            lastUpdated: item.last_updated
+          }
+        })]
+      })
+      .catch(_ => [false, []])
+  },
+
+  deleteDashboard: async (sourceID: number, dashboardID: number): Promise<boolean|any> => {
+    return server.delete('auth/dashboards', { params: { sourceID, dashboardID }})
+      .then(response => response.status === 200)
+      .catch(_ => false)
+  },
 }
 
 

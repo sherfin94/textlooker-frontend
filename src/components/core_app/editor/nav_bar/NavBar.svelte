@@ -23,6 +23,11 @@
           Insights
         </span>
       </Link>
+      <Link to='../dashboards' class="navbar-item {selectedMenuItem === 'dashboards' ? 'active-menu-item' : 'has-text-black'}">
+        <span>
+          Dashboards
+        </span>
+      </Link>
 
       <Link to='../add' class="navbar-item {selectedMenuItem === 'add' ? 'active-menu-item' : 'has-text-black'}">
         <span>

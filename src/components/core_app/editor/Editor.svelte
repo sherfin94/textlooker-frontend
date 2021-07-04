@@ -17,6 +17,7 @@
   const dateParseFormat = 'YYYY-MM-DDTHH:mmZ'
 
   import Insights from '../insights/Insights.svelte'
+  import Dashboards from '../dashboards/Dashboards.svelte'
 
   import { useNavigate } from 'svelte-navigator'
   const navigate = useNavigate()
@@ -101,5 +102,9 @@
   <Route path='/insights'>
     <NavBar selectedMenuItem='insights' />
     <Insights sourceID={sourceID} loadInsight={loadInsight} />
+  </Route>
+  <Route path='/dashboards'>
+    <NavBar selectedMenuItem='dashboards' />
+    <Dashboards sourceID={sourceID} />
   </Route>
 </div>
