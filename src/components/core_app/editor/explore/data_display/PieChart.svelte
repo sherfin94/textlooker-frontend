@@ -21,10 +21,11 @@
   }
   
   export let selectedHandler: (item: string) => void
+  export let canvasIndex: number
   
   let changeToCursor = false
   onMount(async () => {
-    canvasContext = document.getElementById('piChart').getContext('2d');
+    canvasContext = document.getElementById('piChart' + canvasIndex).getContext('2d');
     canvasContext.height = 200;
     chart = new ChartJs.Chart(canvasContext, {
       type: 'doughnut',
@@ -90,7 +91,7 @@
 </script>
 
 <div class="container px-3">
-  <canvas id="piChart" width="400" height="400" class={changeToCursor ? 'change-to-cursor' : ''}></canvas>
+  <canvas id={"piChart" + canvasIndex} width="400" height="400" class={changeToCursor ? 'change-to-cursor' : ''}></canvas>
 </div>
 
 <style type='scss'>

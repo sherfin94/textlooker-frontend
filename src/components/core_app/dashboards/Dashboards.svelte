@@ -57,6 +57,11 @@
     await loadDashboards()
     notify("Dashboard '" + title + "' created.", 'success is-light')
   }
+
+  const open = (dashboard: dashboard) => {
+    const url = '/app/dashboard/' + dashboard.id + '/' + dashboard.token
+    window.open(url, '_blank').focus()
+  }
 </script>
 
 <div class="section px-0 pt-3">
@@ -82,7 +87,7 @@
         </thead>
         <tbody>
           {#each dashboards as dashboard }
-            <tr on:click={() => {}}>
+            <tr on:click={() => open(dashboard)}>
               <td>
                 {dashboard.title}
               </td>

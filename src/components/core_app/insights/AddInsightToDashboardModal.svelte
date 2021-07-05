@@ -34,7 +34,6 @@
       issueMessage = 'Something went wrong. Please try again on contact support'
       showIssue = true
     }
-    dashboardID = 0
     loading = false
   }
 

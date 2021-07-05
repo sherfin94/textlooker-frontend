@@ -22,10 +22,11 @@
   }
   
   export let selectedHandler: (item: string) => void
+  export let canvasIndex: number
   
   let changeToCursor = false
   onMount(async () => {
-    canvasContext = document.getElementById('myChart').getContext('2d');
+    canvasContext = document.getElementById('myChart' + canvasIndex).getContext('2d');
     canvasContext.height = 200;
     chart = new ChartJs.Chart(canvasContext, {
       type: 'bar',
@@ -82,7 +83,7 @@
 </script>
 
 <div class="container px-3">
-  <canvas id="myChart" width="400" height="400" class={changeToCursor ? 'change-to-cursor' : ''}></canvas>
+  <canvas id={"myChart" + canvasIndex} width="400" height="400" class={changeToCursor ? 'change-to-cursor' : ''}></canvas>
 </div>
 
 <style type='scss'>

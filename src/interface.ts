@@ -63,6 +63,7 @@ export interface dashboard {
   title: string
   lastUpdated: string
   token: string
+  insightIDs?: number[]
 }
 
 export interface notification {

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type {text, analyzedText, aggregation, countItem, source, filterItem, insight} from '../interface'
+import type {text, analyzedText, aggregation, countItem, source, filterItem, insight, dashboard} from '../interface'
 import { toUnixTimestamp, toServerDateFormat } from '../util/date'
 
 let server = axios.create({
@@ -24,6 +24,13 @@ let api = {
  
   login: async (email:string, password:string):Promise<boolean> => 
     server.post('/login', { email, password })
+      .then(response => {
+        return response.status === 200
+      }).catch(_ => false)
+  ,
+
+  logout: async ():Promise<boolean> => 
+    server.get('/logout')
       .then(response => {
         return response.status === 200
       }).catch(_ => false)
@@ -203,6 +210,26 @@ let api = {
     return server.post('auth/dashboard_insights', { sourceID, dashboardID, insightID })
       .then(response => response.status === 200)
       .catch(_ => false)
+  },
+
+  getDashboardViaToken: async (dashboardID: number, token: string): Promise<[boolean, dashboard]|any> => {
+    return server.get('dashboards', { params: { dashboardID, token } })
+      .then(response => {
+        const dashboard = response.data.dashboard
+        return [true, {
+          id: dashboard.id,
+          title: dashboard.title,
+          insightIDs:[...new Set(dashboard.insightIDs)],
+        }]})
+      .catch(_ => [false, []])
+  },
+
+  getInsightsAggregationViaToken : async (dashboardID: number, insightID: number, token: string): Promise<[boolean, any]|any> => {
+    return server.get('dashboard_insights', { params: { dashboardID, insightID, token } })
+      .then(response => {
+        return [true, response.data.aggregation]
+      })
+      .catch(_ => [false, []])
   },
 }
 
