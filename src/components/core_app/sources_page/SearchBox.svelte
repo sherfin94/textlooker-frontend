@@ -13,7 +13,9 @@
 <p class="control has-icons-left">
   <input bind:this={inputBox} class="input" type="text" placeholder="Search" bind:value={searchText} on:input={handleChange} />
   <span class="icon is-left">
-    <i class="fas fa-search" aria-hidden="true"></i>
+    <span class="material-icons-outlined">
+      search
+    </span>
   </span>
 </p>
 
