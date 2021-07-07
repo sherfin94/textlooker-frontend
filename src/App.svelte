@@ -4,6 +4,7 @@
   import CoreApp from './components/core_app/CoreApp.svelte'
   import api from './api/index'
   import { startPeriodicRefresh } from './models/user'
+  import Home from './components/home/Home.svelte'
 
   
   let autoLogin = () => {
@@ -24,6 +25,9 @@
     {
     autoLogin()
     }
+    <Route path="/">
+      <Home />
+    </Route>
     <Route path="/login/*">
       <LoginView />
     </Route>
