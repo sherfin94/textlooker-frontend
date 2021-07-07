@@ -53,28 +53,28 @@
       {#if showIssue === true}
         <article class="message is-warning">
           <div class="message-header">
-            <p>Unable to create source</p>
+            <p>Unable to create collection</p>
           </div>
           <div class="message-body">
-            Source could not be created. Possibly because there is another source by the same name. Please contact support if this is not the reason.          
+            Collection could not be created. Possibly because there is another collection by the same name. Please contact support if this is not the reason.          
           </div>
         </article>
       {/if}
       <div class="card">
         <div class="card-content">
           <div class="content">
-            <div class="title">Create a new source</div>
+            <div class="title">Create a new collection</div>
             <input
               bind:this={inputBox}
               class="input"
               type="text"
-              placeholder="Source name"
+              placeholder="Collection name"
               bind:value={sourceName}
               on:keypress={handleKeypress}
             />
           </div>
           <div class="container m-2">
-            <div class="subtitle is-6">Text added to this source will also contain</div>
+            <div class="subtitle is-6">Text added to this collection will also contain</div>
             <div class="field mt-2">
               <input id="authorAvailable" type="checkbox" name="authorAvailable" class="switch is-rounded" bind:checked={authorAvailable}>
               <label for="authorAvailable">Author(s)</label>

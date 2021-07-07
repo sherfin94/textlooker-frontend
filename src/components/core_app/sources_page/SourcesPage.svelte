@@ -16,7 +16,7 @@
   let newSourceModalOn:boolean = false
 
   export let processAction = (actionName:string) => {
-    if (actionName === 'Create new source') {
+    if (actionName === 'Create new collection') {
       newSourceModalOn = !newSourceModalOn
 
     }
@@ -28,7 +28,7 @@
     )
     const listItems:sourceListItem[] = filteredSources.map(source => ({...source,  type:'source'}))
 
-    return [...listItems, { type: 'action', name: 'Create new source', id:null }]
+    return [...listItems, { type: 'action', name: 'Create new collection', id:null }]
   }
 
   sourceStore.subscribe(sourceData => {
@@ -59,7 +59,7 @@
     </div>
 
     <Items items={itemsToBeDisplayed} processAction={processAction} />
-    <NewSource on={newSourceModalOn} close={() => processAction('Create new source')} />
+    <NewSource on={newSourceModalOn} close={() => processAction('Create new collection')} />
   </section>
 </div>
 

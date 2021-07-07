@@ -4,10 +4,14 @@
   import EmailVerificationBox from './email_verification_box/EmailVerificationBox.svelte'
   import Notifications from './Notifications.svelte'
   import { Route } from "svelte-navigator"
+  import { navigate } from 'svelte-navigator'
 </script>
 
 <div>
-  <Logo />
+  <!-- svelte-ignore a11y-missing-attribute -->
+  <a on:click={() => navigate('/')}>
+    <Logo />
+  </a>
   <div class="columns is-flex is-justify-content-center">
     <div class="column is-one-quarter">
       <Notifications />

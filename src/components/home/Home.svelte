@@ -1,4 +1,5 @@
 <script lang="typescript">
+  import { navigate } from 'svelte-navigator'
   import NavBar from './nav_bar/NavBar.svelte'
   import Pricing from './Pricing.svelte'
 </script>
@@ -11,7 +12,7 @@
       Create actionable insights from <span class="text">text data</span>
     </p><br />
     <div class="buttons">
-      <button class="button is-danger">Try Free</button>
+      <button class="button is-danger" on:click={() => navigate('/login')}>Try Free</button>
     </div>
   </div>
 </div>
