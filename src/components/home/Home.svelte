@@ -1,5 +1,6 @@
 <script lang="typescript">
   import NavBar from './nav_bar/NavBar.svelte'
+  import Pricing from './Pricing.svelte'
 </script>
 
 <div class="top-section">
@@ -37,8 +38,26 @@
 </div>
 
 <div class="pricing-container">
-
+  <Pricing />
 </div>
+
+<footer>
+  <div class="container">
+    <div class="columns">
+      <div class="column is-one-fifth">
+        <p class="subtitle is-size-6 is-text-justified">
+          <b>Legal disclaimer</b>
+        </p>
+        </div>
+      <div class="column is-four-fifths">
+        <p class="subtitle is-size-6 is-text-justified">
+          This is a beta version of TextLooker. The owner and developers of the application or this website is not responsible for any malfunction or illegal usage of the application, or the works derived from it.
+          We're not responsible for the data that users upload to TextLooker, we only operate on and transform the data that users provide at their discretion.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <style type="scss">
   div.top-section {
@@ -105,7 +124,25 @@
 
   div.pricing-container {
     padding-top: 60px;
-    padding-bottom: 60px;
+    padding-bottom: 105px;
     background-color: #fbfcfd;
+  }
+
+  footer {
+    margin:0;
+    background-color: #202020;
+    padding-top: 40px;
+
+    .column.is-one-fifth {
+      width: auto;
+    }
+
+    p {
+      padding-top: 20px;
+      color: white;
+      text-align: justify;
+      padding-bottom: 40px;
+    }
+
   }
 </style>
