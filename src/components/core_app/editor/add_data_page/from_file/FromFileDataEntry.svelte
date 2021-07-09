@@ -27,6 +27,8 @@
   let columnSelectHandler = async () => {
     let fields = pluck(indices, 'field')
 
+    console.log(fields)
+
     if(fields.includes('date'))
       dateAvailable = true
     if(fields.includes('author'))
