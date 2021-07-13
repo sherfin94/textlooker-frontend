@@ -3,6 +3,7 @@
   export let deselect:(index:number) => void
 
   const tokenTypeToDisplayConfigMapping = {
+    'author': {icon: 'person', color: 'success'},
     'tokens': {icon: 'segment', color: 'warning'},
     'PERSON': {icon: 'person', color: 'primary'},
     'NORP': {icon: 'corporate_fare', color: 'link'},

@@ -1,6 +1,7 @@
 export default [
   {label: 'People', handle:'PERSON'},
   {label: 'Words', handle:'tokens'},
+  {label: 'Authors', handle:'author'},
   {label: 'Identities', handle:'NORP'},
   {label: 'Buildings', handle:'FAC'},
   {label: 'Organizations', handle:'ORG'},
