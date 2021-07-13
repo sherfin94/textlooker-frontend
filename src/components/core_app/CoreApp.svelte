@@ -24,7 +24,7 @@
         notificationTimeoutHandle = setTimeout(() => {
           notifications = []
           notificationsContainer.style.zIndex = '-100'
-        }, 1000)
+        }, 2000)
       }
     })
   })

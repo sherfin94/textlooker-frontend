@@ -2,13 +2,6 @@
   import { onMount } from 'svelte'
   import { Link } from 'svelte-navigator'
   import api from '../../../../api'
-  import dayjs from 'dayjs'
-  import customParseFormat from 'dayjs/plugin/customParseFormat'
-  import utc from 'dayjs/plugin/utc'
-  import timezone from 'dayjs/plugin/timezone'
-  dayjs.extend(customParseFormat)
-  dayjs.extend(utc)
-  dayjs.extend(timezone)
 
   import DataDisplay from './data_display/DataDisplay.svelte'
   import DateRange from './DateRange.svelte'
@@ -119,8 +112,7 @@
   
   let dateRangeSelectHandler = async () => {
     insight = Object.assign({}, insight, { visualizeTexts : [], saved: false })
-    await loadAggregation()
-    loadAnalyzedText()
+    await reload()
   }
 
   const loadAnalyzedText = async (append=false) => {

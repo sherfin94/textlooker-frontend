@@ -3,7 +3,7 @@
   import customParseFormat from 'dayjs/plugin/customParseFormat'
   import utc from 'dayjs/plugin/utc'
   import timezone from 'dayjs/plugin/timezone'
-  import { onMount } from 'svelte'
+  import { notify } from '../../../../models/notifications'
 
   dayjs.extend(customParseFormat)
   dayjs.extend(utc)
@@ -26,7 +26,14 @@
     dateRangeSelectCallback()
   }
   
-  // onMount(resetDateRange)
+  const dateChangeHandler = () => {
+    let date1 = dayjs(startDate + ' ' + startTime, 'YYYY-MM-DD', 'HH:mm')
+    let date2 = dayjs(endDate + ' ' + endTime, 'YYYY-MM-DD', 'HH:mm')
+    if (date1.isValid() && date2.isValid())
+      notify('Please press "Reload data" button to apply the date filter', 'warning')
+    else
+      notify('Please enter a valid date/time', 'danger')
+  }
 
 </script>
 
@@ -41,8 +48,8 @@
         Between
       </p>
       <div class="container">
-        <input type="date" bind:value={startDate} on:change={dateRangeSelectCallback}/>
-        <input type="time" bind:value={startTime} on:change={dateRangeSelectCallback}/>
+        <input type="date" bind:value={startDate} on:change={dateChangeHandler}/>
+        <input type="time" bind:value={startTime} on:change={dateChangeHandler}/>
         <!-- <div class="notification is-info is-light">
           {dayjs(startDate, 'YYYY-MM-DD').tz(userTimezone).toString()}
         </div> -->
@@ -51,8 +58,8 @@
         And
       </p>
       <div class="container">
-        <input type="date" bind:value={endDate} on:change={dateRangeSelectCallback}/>
-        <input type="time" bind:value={endTime} on:change={dateRangeSelectCallback}/>
+        <input type="date" bind:value={endDate} on:change={dateChangeHandler}/>
+        <input type="time" bind:value={endTime} on:change={dateChangeHandler}/>
         <!-- <div class="notification is-info is-light">
           {dayjs(endDate, 'YYYY-MM-DD').tz(userTimezone).toString()}
         </div> -->
