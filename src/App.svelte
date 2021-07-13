@@ -13,6 +13,8 @@
     api.refreshToken().then(loggedIn => {
       if(loggedIn) {
         startPeriodicRefresh()
+      } else {
+        navigate('/login')
       }
     })
     return ''
@@ -22,9 +24,6 @@
 
 <div>
   <Router primary={false}>
-    {
-    autoLogin()
-    }
     <Route path="/">
       <Home />
     </Route>
@@ -32,6 +31,9 @@
       <LoginView />
     </Route>
     <Route path="/app/*">
+      {
+      autoLogin()
+      }
       <CoreApp />
     </Route>
   </Router>
