@@ -1,3 +1,4 @@
+import { navigate } from 'svelte-navigator'
 import api from '../api'
 import { user as userStore } from '../store'
 
@@ -28,7 +29,8 @@ let refresherHandle:number
 
 export let startPeriodicRefresh = () => {
   refresherHandle = window.setInterval(async () => {
-    await api.refreshToken()
+    const loggedIn = await api.refreshToken()
+    if (!loggedIn) navigate('/login')
   }, 15 * 60 * 1000)
 }
 
