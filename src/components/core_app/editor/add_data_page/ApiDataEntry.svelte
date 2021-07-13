@@ -28,11 +28,11 @@
   })
 
   onMount(async () => {
-    source = getSource(sourceID)
+    source = await getSource(sourceID)
     if (source === undefined) {
       loading = true
       let status = await fetchSources()
-      source = getSource(sourceID)
+      source = await getSource(sourceID)
     }
     let requestObject = generateRequestObject()
     requestJsonHtml = syntaxHighlight(requestObject)
