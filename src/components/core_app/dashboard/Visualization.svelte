@@ -18,6 +18,7 @@
       data={data.filter(item => visualizeTexts.includes(item.key))}
       selectedHandler={() => {}}
       canvasIndex={canvasIndex}
+      allowRotation={true}
     />
   {:else if type === 'piechart'}
     <PieChart

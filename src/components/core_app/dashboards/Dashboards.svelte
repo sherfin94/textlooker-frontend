@@ -59,7 +59,7 @@
   }
 
   const open = (dashboard: dashboard) => {
-    const url = '/app/dashboard/' + dashboard.id + '/' + dashboard.token
+    const url = '/dashboard/' + dashboard.id + '/' + dashboard.token
     window.open(url, '_blank').focus()
   }
 </script>

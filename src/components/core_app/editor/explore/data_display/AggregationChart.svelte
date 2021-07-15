@@ -23,6 +23,7 @@
   
   export let selectedHandler: (item: string) => void
   export let canvasIndex: number
+  export let allowRotation: boolean
   
   let changeToCursor = false
   onMount(async () => {
@@ -72,7 +73,7 @@
                 size: 14,
                 weight: 'bold',
               },
-              // maxRotation: 0,
+              maxRotation: allowRotation ? 60 : 0,
               autoSkip: false
             }
           }

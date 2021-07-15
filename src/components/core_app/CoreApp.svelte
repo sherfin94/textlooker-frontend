@@ -1,7 +1,6 @@
 <script lang='typescript'>
   import SourcesPage from './sources_page/SourcesPage.svelte'
   import Editor from './editor/Editor.svelte'
-  import Dashboard from './dashboard/Dashboard.svelte'
   import { Route } from 'svelte-navigator'
   import { notifications as notificationStore } from '../../store'
   import { onMount } from 'svelte'
@@ -44,9 +43,6 @@
           </div>
         {/each}
       </div>
-    </Route>
-    <Route path="/dashboard/:dashboardID/:token" let:params>
-      <Dashboard id={parseInt(params.dashboardID)} token={params.token} />
     </Route>
   </div>
 </div>

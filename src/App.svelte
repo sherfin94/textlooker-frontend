@@ -5,6 +5,7 @@
   import api from './api/index'
   import { startPeriodicRefresh } from './models/user'
   import Home from './components/home/Home.svelte'
+  import Dashboard from './components/core_app/dashboard/Dashboard.svelte'
 
   
   let autoLogin = () => {
@@ -35,6 +36,9 @@
       autoLogin()
       }
       <CoreApp />
+    </Route>
+    <Route path="/dashboard/:dashboardID/:token" let:params>
+      <Dashboard id={parseInt(params.dashboardID)} token={params.token} />
     </Route>
   </Router>
 </div>

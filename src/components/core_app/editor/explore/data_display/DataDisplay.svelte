@@ -106,7 +106,7 @@
     </div>
   </div>
   {#if tabs[activeTabIndex].handle === 'barchart' }
-    <AggregationChart data={data && data.filter(item => item.show)} selectedHandler={selectHandler}/>
+    <AggregationChart data={data && data.filter(item => item.show)} selectedHandler={selectHandler} allowRotation={false} canvasIndex={1}/>
     <SpecificationBox
       analyzedTextCount={analyzedTextCount}
       totalCountQualification={totalCountQualification}
@@ -115,7 +115,7 @@
       label={label}
     />
   {:else if tabs[activeTabIndex].handle === 'piechart'}
-    <PieChart data={data && data.filter(item => item.show)} selectedHandler={selectHandler} />
+    <PieChart data={data && data.filter(item => item.show)} selectedHandler={selectHandler} canvasIndex={2}/>
       <SpecificationBox
       analyzedTextCount={analyzedTextCount}
       totalCountQualification={totalCountQualification}

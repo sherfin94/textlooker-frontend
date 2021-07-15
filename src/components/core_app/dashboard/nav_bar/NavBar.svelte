@@ -5,7 +5,9 @@
 
 <nav class="navbar pb-0" role="navigation" aria-label="main navigation">
   <div class="navbar-brand navbar-item pl-0">
-    <Logo />
+    <a href="https://textlooker.com">
+      <Logo />
+    </a>
   </div>
 </nav>
 
