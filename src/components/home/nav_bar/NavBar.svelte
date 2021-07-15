@@ -9,11 +9,11 @@
 </script>
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand navbar-item pl-0">
+  <div class="navbar-brand navbar-item">
     <Logo />
   </div>
 
-  <div class="navbar-end">
+  <div class="navbar-end is-hidden-mobile">
     <div class="navbar-item">
       <div class="buttons">
         <!-- svelte-ignore a11y-missing-attribute -->
@@ -27,6 +27,6 @@
 
 <style type="scss">
   nav {
-    background: inherit;
+    background: inherit; 
   }
 </style>

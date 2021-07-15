@@ -68,7 +68,7 @@
   }
 
   div.title-container {
-    height: 360px;
+    height: 43vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -78,9 +78,14 @@
       color: #3273dc;
       text-transform: capitalize;
       font-size: 70px;
-      width: 800px;
       text-align: center;
       margin-top: 50px;
+    }
+
+    @media screen and (max-width: 600px) {
+      p.title {
+        font-size: 30px;
+      }
     }
 
     span.text {

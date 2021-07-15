@@ -3,3 +3,9 @@
     TEXTLOOKER
   </h2>
 </div>
+
+<style type="scss">
+  h2.title {
+    text-align: center;
+  }
+</style>
