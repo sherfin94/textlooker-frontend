@@ -1,4 +1,4 @@
-<div class="container px-3 is-flex is-flex-direction-columns is-align-items-center">
+<div class="container px-3 is-flex is-flex-direction-column is-align-items-center">
   <p class="title is-title-4 m-0">TEXTLOOKER</p>
 </div>
 

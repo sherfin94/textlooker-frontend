@@ -72,7 +72,7 @@
                 size: 14,
                 weight: 'bold',
               },
-              maxRotation: 0,
+              // maxRotation: 0,
               autoSkip: false
             }
           }

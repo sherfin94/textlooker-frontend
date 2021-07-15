@@ -82,4 +82,8 @@
   hr {
     margin: 0 0 30px 0;
   }
+
+  div.container {
+    margin: 0 15px;
+  }
 </style>

@@ -29,6 +29,11 @@
 </div>
 
 <style type="scss">
+
+  div.container {
+    margin-bottom: 60px;
+  }
+
   p.subtitle {
     font-weight: 600;
     font-size: 6;
