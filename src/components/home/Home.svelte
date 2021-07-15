@@ -4,7 +4,7 @@
   import Pricing from './Pricing.svelte'
 </script>
 
-<div class="container">
+<div class="homepage">
 
   <div class="top-section">
     <NavBar />
@@ -65,7 +65,7 @@
 
 
 <style type="scss">
-  div.container {
+  div.homepage {
     div.columns {
       margin: 0;
     }
