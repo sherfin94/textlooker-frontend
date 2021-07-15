@@ -13,7 +13,7 @@
     <Logo />
   </div>
 
-  <div class="navbar-end is-hidden-mobile">
+  <div class="navbar-end is-hidden-mobile is-hidden-tablet-only">
     <div class="navbar-item">
       <div class="buttons">
         <!-- svelte-ignore a11y-missing-attribute -->

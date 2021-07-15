@@ -20,7 +20,7 @@
   </div>
   
   <div class="container mt-3 illustrations-container">
-    <div class="columns">
+    <div class="columns is-tablet">
       <div class="column">
         <img src="/illustrations/text.png" alt="text" />
         <p class="subtitle">Add text</p>
@@ -77,7 +77,6 @@
   }
 
   div.title-container {
-    height: 43vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -91,7 +90,7 @@
       margin-top: 50px;
     }
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 768px) {
       p.title {
         font-size: 30px;
       }
@@ -103,6 +102,7 @@
 
     div.buttons {
       margin-top: 20px;
+      margin-bottom: 50px;
 
       button.button {
         width: 180px;
@@ -116,6 +116,11 @@
   div.illustrations-container {
     padding-top: 120px;
     padding-bottom: 120px;
+
+    @media screen and (max-width: 768px) {
+      padding-top: 30px;
+    padding-bottom: 30px;
+    }
 
     div.column {
 
