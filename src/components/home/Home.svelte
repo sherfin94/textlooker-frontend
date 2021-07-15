@@ -4,63 +4,72 @@
   import Pricing from './Pricing.svelte'
 </script>
 
-<div class="top-section">
-  <NavBar />
+<div class="container">
 
-  <div class="container title-container">
-    <p class="title">
-      Create actionable insights from <span class="text">text data</span>
-    </p><br />
-    <div class="buttons">
-      <button class="button is-danger" on:click={() => navigate('/login')}>Try Free</button>
-    </div>
-  </div>
-</div>
-
-<div class="container mt-3 illustrations-container">
-  <div class="columns">
-    <div class="column">
-      <img src="/illustrations/text.png" alt="text" />
-      <p class="subtitle">Add text</p>
-    </div>
-    <div class="column">
-      <img src="/illustrations/analysis.png" alt="analysis" />
-      <p class="subtitle">Drill down and analyze</p>
-    </div>
-    <div class="column">
-      <img src="/illustrations/insight.png" alt="insight" />
-      <p class="subtitle">Arrive at valuable insights</p>
-    </div>
-    <div class="column">
-      <img src="/illustrations/publish.png" alt="publish" />
-      <p class="subtitle">Share with your clients!</p>
-    </div>
-  </div>
-</div>
-
-<div class="pricing-container">
-  <Pricing />
-</div>
-
-<footer>
-  <div class="container">
-    <div class="columns">
-      <div class="column is-one-fifth">
-        <p class="subtitle is-size-6 is-text-justified">
-          <b>Legal disclaimer</b>
-        </p>
-        </div>
-      <div class="column is-four-fifths">
-        <p class="subtitle is-size-6 is-text-justified">
-          This is a beta version of TextLooker. The owner and developers of the application or this website is not responsible for any malfunction or illegal usage of the application, or the works derived from it.
-          We're not responsible for the data that users upload to TextLooker, we only operate on and transform the data that users provide at their discretion.
-        </p>
+  <div class="top-section">
+    <NavBar />
+  
+    <div class="container title-container">
+      <p class="title">
+        Create actionable insights from <span class="text">text data</span>
+      </p><br />
+      <div class="buttons">
+        <button class="button is-danger" on:click={() => navigate('/login')}>Try Free</button>
       </div>
     </div>
   </div>
-</footer>
+  
+  <div class="container mt-3 illustrations-container">
+    <div class="columns">
+      <div class="column">
+        <img src="/illustrations/text.png" alt="text" />
+        <p class="subtitle">Add text</p>
+      </div>
+      <div class="column">
+        <img src="/illustrations/analysis.png" alt="analysis" />
+        <p class="subtitle">Drill down and analyze</p>
+      </div>
+      <div class="column">
+        <img src="/illustrations/insight.png" alt="insight" />
+        <p class="subtitle">Arrive at valuable insights</p>
+      </div>
+      <div class="column">
+        <img src="/illustrations/publish.png" alt="publish" />
+        <p class="subtitle">Share with your clients!</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="pricing-container">
+    <Pricing />
+  </div>
+  
+  <footer>
+    <div class="container">
+      <div class="columns">
+        <div class="column is-one-fifth">
+          <p class="subtitle is-size-6 is-text-justified">
+            <b>Legal disclaimer</b>
+          </p>
+          </div>
+        <div class="column is-four-fifths">
+          <p class="subtitle is-size-6 is-text-justified">
+            This is a beta version of TextLooker. The owner and developers of the application or this website is not responsible for any malfunction or illegal usage of the application, or the works derived from it.
+            We're not responsible for the data that users upload to TextLooker, we only operate on and transform the data that users provide at their discretion.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
 
 <style type="scss">
+  div.container {
+    div.columns {
+      margin: 0;
+    }
+  }
   div.top-section {
     background-color: #fbfcfd;
     padding-left: 12%;

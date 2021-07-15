@@ -74,6 +74,12 @@
 </div>
 
 <style type="scss">
+  div.container {
+    div.columns {
+      margin: 0;
+    }
+  }
+
   span.plan-price {
     color: lightseagreen;
     font-weight: bold;
