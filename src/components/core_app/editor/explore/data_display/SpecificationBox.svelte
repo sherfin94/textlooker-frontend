@@ -42,6 +42,7 @@
 <div class="container mt-3 mx-0 mb-0 pt-3 pl-4 rootContainer">
   <div class="subtitle mb-2 has-text-weight-bold">
     Visualized {label && menu.find(item => item.handle === label).label}
+    <span class="material-icons-outlined help-icon has-tooltip-top has-tooltip-multiline" data-tooltip="The table displays all the {label && menu.find(item => item.handle === label).label} that can be visualized. The detection system may make errors, so you can remove or add any of the items according to your intuition.">help</span>
   </div>
   <p class='mb-5'>
     Analyzed text count: <span class="textCount">
@@ -154,5 +155,10 @@
 
   div.rootContainer {
     background-color: #fdfdfd;
+  }
+
+  span.help-icon {
+    font-size: 15px;
+    margin-left: 15px;
   }
 </style>

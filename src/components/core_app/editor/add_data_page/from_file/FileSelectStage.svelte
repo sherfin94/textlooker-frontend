@@ -15,6 +15,9 @@
 
 <div>
   <h4 class="is-size-4">Select a CSV file</h4>
+  <div class="notification mt-3 is-info is-light">
+    Currently you can upload data from a csv file. Each text record is expected to contain upto 5000 letters. Currently large text as a single record is not supported.
+  </div>
   <div class="file mt-3">
     <label class="file-label">
       <input class="file-input" type="file" name='resume' bind:files={files} accept=".csv" on:change={handleFileChange}>

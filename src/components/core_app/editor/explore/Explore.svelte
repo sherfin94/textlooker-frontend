@@ -162,8 +162,8 @@
             />
             <div class="box is-link saveButtonBox">
               <div class="buttons reloadButtonContainer">
-                <button class="button is-link m-0 mb-2 {reloading ? 'is-loading' : ''}" on:click={reload}>Reload data</button>
-                <button class="button is-success m-0" on:click={() => saveInsightModalOn = true}>Save insight</button>
+                <button class="button is-link m-0 mb-2 has-text-weight-bold {reloading ? 'is-loading' : ''}" on:click={reload}>Reload data</button>
+                <button class="button is-primary m-0 has-text-weight-bold" on:click={() => saveInsightModalOn = true}>Save insight</button>
               </div>
             </div>
           </div>

@@ -11,7 +11,7 @@
 </script>
 
 <p class="control has-icons-left">
-  <input bind:this={inputBox} class="input" type="text" placeholder="Search" bind:value={searchText} on:input={handleChange} />
+  <input bind:this={inputBox} class="input" type="text" placeholder="Collection name" bind:value={searchText} on:input={handleChange} />
   <span class="icon is-left">
     <span class="material-icons-outlined">
       search

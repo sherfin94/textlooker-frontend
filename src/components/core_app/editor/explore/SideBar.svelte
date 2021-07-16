@@ -43,7 +43,7 @@
 <div class="box">
   <aside class="menu">
     <p class="menu-label">
-      Look for
+      Look for <span class="material-icons-outlined help-icon has-tooltip-bottom has-tooltip-multiline" data-tooltip="You can select the category of data to be visualized. Categories include detected entities like people, organizations etc as well as authors of the articles if you have submitted author information. You can also simply select 'Words' to aggregate and visualize over every token.">help</span>
     </p>
     <div class="columns">
       <div class="column is-four-fifths menu-column" bind:this={menuColumn}>
@@ -93,5 +93,10 @@
     padding-top: 0;
     height: 110px;
     margin-top: 20px;
+  }
+
+  span.help-icon {
+    font-size: 15px;
+    float: right;
   }
 </style>

@@ -63,6 +63,10 @@
         <button class="delete" on:click={() => displayMessage = false}></button>
         {notificationText}
       </div>
+    {:else}
+      <div class="notification mt-3 is-info is-light">
+        Currently you can upload data from a csv file. Each text record is expected to contain upto 5000 letters. Currently large text as a single record is not supported.
+      </div>
     {/if}
     <div class="field">
       <div class="control">

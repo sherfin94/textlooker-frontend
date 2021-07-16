@@ -55,7 +55,7 @@
 <div class="container">
   <div class="field search">
     <p class="control has-icons-left has-icons-right">
-      <input class="input" type="text" placeholder="Search" bind:value={searchText} on:keypress={keyPressHandler}>
+      <input class="input" type="text" placeholder="Words to look for" bind:value={searchText} on:keypress={keyPressHandler}>
       <span class="icon is-small is-left">
         <span class="material-icons-outlined">
           search

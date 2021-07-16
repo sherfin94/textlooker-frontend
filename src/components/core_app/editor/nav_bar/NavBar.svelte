@@ -28,7 +28,7 @@
     <div class="navbar-start">
       <Link to='../explore' class="navbar-item {selectedMenuItem === 'explore' ? 'active-menu-item' : 'has-text-black'}">
         <span>
-          Explore data
+          Editor
         </span>
       </Link>
       <Link to='../insights' class="navbar-item {selectedMenuItem === 'insights' ? 'active-menu-item' : 'has-text-black'}">

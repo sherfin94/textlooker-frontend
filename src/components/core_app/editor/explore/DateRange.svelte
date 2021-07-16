@@ -40,7 +40,7 @@
 <div class="box">
     <div class="field">
       <input id="dateRangeAvailable" type="checkbox" name="dateRangeAvailable" class="switch is-small is-info" bind:checked={dateRangeAvailable} on:change={resetDateRange}>
-      <label for="dateRangeAvailable">Date range</label>
+      <label for="dateRangeAvailable">Filter by date</label>
     </div>
   {#if dateRangeAvailable}
     <aside class="menu">

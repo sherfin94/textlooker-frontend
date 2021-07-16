@@ -3,26 +3,26 @@
   export let deselect:(index:number) => void
 
   const tokenTypeToDisplayConfigMapping = {
-    'author': {icon: 'person', color: 'success'},
-    'tokens': {icon: 'segment', color: 'warning'},
-    'PERSON': {icon: 'person', color: 'primary'},
-    'NORP': {icon: 'corporate_fare', color: 'link'},
-    'FAC': {icon: 'corporate_fare', color: 'link'},
-    'ORG': {icon: 'corporate_fare', color: 'info'},
-    'GPE': {icon: 'outlined_flag', color: 'link'},
-    'LOC': {icon: 'place', color: 'primary'},
-    'PRODUCT': {icon: 'inventory_2', color: 'grey'},
-    'EVENT': {icon: 'event', color: 'info'},
-    'WORK_OF_ART': {icon: 'image', color: 'warning'},
-    'LAW': {icon: 'policy', color: 'link'},
-    'LANGUAGE': {icon: 'language', color: 'primary'},
-    'DATE_TOKENS': {icon: 'date_range', color: 'info'},
-    'TIME': {icon: 'query_builder', color: 'warning'},
-    'PERCENT': {icon: 'money', color: 'link'},
-    'MONEY': {icon: 'attach_money', color: 'grey'},
-    'QUANTITY': {icon: 'pin', color: 'primary'},
-    'ORDINAL': {icon: 'looks_one', color: 'info'},
-    'CARDINAL': {icon: 'looks_one', color: 'link'}
+    'author': {icon: 'person', color: 'success', description: ''},
+    'tokens': {icon: 'segment', color: 'warning', description: ''},
+    'PERSON': {icon: 'person', color: 'primary', description: ''},
+    'NORP': {icon: 'corporate_fare', color: 'link', description: ''},
+    'FAC': {icon: 'corporate_fare', color: 'link', description: ''},
+    'ORG': {icon: 'corporate_fare', color: 'info', description: ''},
+    'GPE': {icon: 'outlined_flag', color: 'link', description: ''},
+    'LOC': {icon: 'place', color: 'primary', description: ''},
+    'PRODUCT': {icon: 'inventory_2', color: 'grey', description: ''},
+    'EVENT': {icon: 'event', color: 'info', description: ''},
+    'WORK_OF_ART': {icon: 'image', color: 'warning', description: ''},
+    'LAW': {icon: 'policy', color: 'link', description: ''},
+    'LANGUAGE': {icon: 'language', color: 'primary', description: ''},
+    'DATE_TOKENS': {icon: 'date_range', color: 'info', description: ''},
+    'TIME': {icon: 'query_builder', color: 'warning', description: ''},
+    'PERCENT': {icon: 'money', color: 'link', description: ''},
+    'MONEY': {icon: 'attach_money', color: 'grey', description: ''},
+    'QUANTITY': {icon: 'pin', color: 'primary', description: ''},
+    'ORDINAL': {icon: 'looks_one', color: 'info', description: ''},
+    'CARDINAL': {icon: 'looks_one', color: 'link', description: ''}
   }
 
   let filterBody: HTMLElement
