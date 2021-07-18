@@ -3,26 +3,26 @@
   export let deselect:(index:number) => void
 
   const tokenTypeToDisplayConfigMapping = {
-    'author': {icon: 'person', color: 'success', description: ''},
-    'tokens': {icon: 'segment', color: 'warning', description: ''},
-    'PERSON': {icon: 'person', color: 'primary', description: ''},
-    'NORP': {icon: 'corporate_fare', color: 'link', description: ''},
-    'FAC': {icon: 'corporate_fare', color: 'link', description: ''},
-    'ORG': {icon: 'corporate_fare', color: 'info', description: ''},
-    'GPE': {icon: 'outlined_flag', color: 'link', description: ''},
-    'LOC': {icon: 'place', color: 'primary', description: ''},
-    'PRODUCT': {icon: 'inventory_2', color: 'grey', description: ''},
-    'EVENT': {icon: 'event', color: 'info', description: ''},
-    'WORK_OF_ART': {icon: 'image', color: 'warning', description: ''},
-    'LAW': {icon: 'policy', color: 'link', description: ''},
-    'LANGUAGE': {icon: 'language', color: 'primary', description: ''},
-    'DATE_TOKENS': {icon: 'date_range', color: 'info', description: ''},
-    'TIME': {icon: 'query_builder', color: 'warning', description: ''},
-    'PERCENT': {icon: 'money', color: 'link', description: ''},
-    'MONEY': {icon: 'attach_money', color: 'grey', description: ''},
-    'QUANTITY': {icon: 'pin', color: 'primary', description: ''},
-    'ORDINAL': {icon: 'looks_one', color: 'info', description: ''},
-    'CARDINAL': {icon: 'looks_one', color: 'link', description: ''}
+    'author': {icon: 'person', color: 'success',  label: 'author', description: ''},
+    'tokens': {icon: 'segment', color: 'warning', label: 'word', description: ''},
+    'PERSON': {icon: 'person', color: 'primary', label: 'person', description: ''},
+    'NORP': {icon: 'corporate_fare', color: 'link', label: 'identity', description: ''},
+    'FAC': {icon: 'corporate_fare', color: 'link', label: 'building', description: ''},
+    'ORG': {icon: 'corporate_fare', color: 'info', label: 'organization', description: ''},
+    'GPE': {icon: 'outlined_flag', color: 'link', label: 'geo-political entity', description: ''},
+    'LOC': {icon: 'place', color: 'primary', label: 'location', description: ''},
+    'PRODUCT': {icon: 'inventory_2', color: 'grey', label: 'product', description: ''},
+    'EVENT': {icon: 'event', color: 'info', label: 'event', description: ''},
+    'WORK_OF_ART': {icon: 'image', color: 'warning', label: 'work of art', description: ''},
+    'LAW': {icon: 'policy', color: 'link', label: 'law', description: ''},
+    'LANGUAGE': {icon: 'language', color: 'primary', label: 'language', description: ''},
+    'DATE_TOKENS': {icon: 'date_range', color: 'info', label: 'date', description: ''},
+    'TIME': {icon: 'query_builder', color: 'warning', label: 'time', description: ''},
+    'PERCENT': {icon: 'money', color: 'link', label: 'percent', description: ''},
+    'MONEY': {icon: 'attach_money', color: 'grey', label: 'money', description: ''},
+    'QUANTITY': {icon: 'pin', color: 'primary', label: 'quantity', description: ''},
+    'ORDINAL': {icon: 'looks_one', color: 'info', label: 'ordinal', description: ''},
+    'CARDINAL': {icon: 'looks_one', color: 'link', label: 'cardinal', description: ''}
   }
 
   let filterBody: HTMLElement
