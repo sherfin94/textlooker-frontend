@@ -16,7 +16,8 @@
   export let visualizationType: string
   export let startDate: string, startTime: string, endDate: string, endTime: string
   let insightTitle:string = ''
-  let inputBox
+  let description:string = ''
+  let inputBox: HTMLElement , descriptionBox: HTMLElement
   let showIssue = false
 
   let handleCreate = async () => {
@@ -30,7 +31,8 @@
       lookForHandle,
       dateRangeAvailable,
       startDate, startTime,
-      endDate, endTime
+      endDate, endTime,
+      description
     )
     if(status) {
       close()
@@ -54,7 +56,7 @@
   }
 
   afterUpdate(() => {
-    on && inputBox.focus()
+    on && inputBox !== document.activeElement && descriptionBox !== document.activeElement && inputBox.focus()
   })
 
 
@@ -84,6 +86,15 @@
               type="text"
               placeholder="Title"
               bind:value={insightTitle}
+              on:keypress={handleKeypress}
+            />
+            <textarea
+              bind:this={descriptionBox}
+              style="resize:none;"
+              class="textarea mt-3"
+              maxlength="300"
+              placeholder="Description"
+              bind:value={description}
               on:keypress={handleKeypress}
             />
           </div>

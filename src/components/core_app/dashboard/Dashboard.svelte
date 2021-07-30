@@ -56,6 +56,7 @@
               canvasIndex={index}
               visualizeTexts={visualizationData[insightID]['visualizeTexts']}
               title={visualizationData[insightID]['title']}
+              description={visualizationData[insightID]['description']}
             />
           {:else}
             <div class="notification is-warning">Unable to load this visualization. Please contact support.</div>

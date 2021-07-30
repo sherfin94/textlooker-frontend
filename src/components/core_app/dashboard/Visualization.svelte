@@ -7,11 +7,15 @@
   export let canvasIndex: number
   export let visualizeTexts: string
   export let title: string
+  export let description: string
 </script>
 
 <div class="container">
-  <p class="subtitle mb-5">
+  <p class="subtitle mb-2">
     {title}
+  </p>
+  <p class="content mb-5">
+    {description}
   </p>
   {#if type === 'barchart'}
     <AggregationChart

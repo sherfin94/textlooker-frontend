@@ -141,13 +141,13 @@ let api = {
     .catch(_ => [false, "could not fetch aggregation"])
   ,
 
-  postInsight: async (sourceID: number, title: string, filterItems: filterItem[], visualizeTextSet: string[], visualizationType: string, lookForHandle: string, dateRangeAvailable: boolean, startDate: string, startTime: string, endDate: string, endTime: string): Promise<boolean|any> => {
+  postInsight: async (sourceID: number, title: string, filterItems: filterItem[], visualizeTextSet: string[], visualizationType: string, lookForHandle: string, dateRangeAvailable: boolean, startDate: string, startTime: string, endDate: string, endTime: string, description: string): Promise<boolean|any> => {
     const filter = JSON.stringify({filter: filterItems})
     const visualizeTexts = JSON.stringify({visualizeTexts: visualizeTextSet})
     startDate = toServerDateFormat(startDate, startTime)
     endDate = toServerDateFormat(endDate, endTime)
 
-    return server.post('auth/insights', { sourceID, title, filter, visualizeTexts, lookForHandle, dateRangeAvailable, startDate, endDate, visualizationType })
+    return server.post('auth/insights', { sourceID, title, filter, visualizeTexts, lookForHandle, dateRangeAvailable, startDate, endDate, visualizationType, description })
       .then(response => response.status === 200)
       .catch(_ => false)
   },
