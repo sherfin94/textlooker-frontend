@@ -9,7 +9,7 @@
 
 {#if issues.length > 0}
   {#each issues as issue}
-    <div class="notification is-danger is-light is-size-7">
+    <div class="notification is-danger is-light is-size-8">
       {issue}
     </div>
   {/each}

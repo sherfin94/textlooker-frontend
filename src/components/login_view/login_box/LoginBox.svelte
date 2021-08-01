@@ -13,24 +13,28 @@
 
   let [email, password, loading] = ['', '', false]
   let disabled:boolean = true
-  let passwordIssues:string[]
 
   let handleChange = () => {
     const emailValid:boolean = validateEmail(email)
     const [ passwordValid, passwordIssues ] = validatePassword(password)
-    disabled = !emailValid || !passwordValid
+    disabled = false
   }
 
   let handleSignup = async () => {
     clearIssues()
     loading = true
-    const status = await api.signup(email, password)
+    const [status, errorMessage] = await api.signup(email, password)
     loading = false
     if(status) {
       setUserCredentials(email, password)
       navigate('/login/verification')
-    } else
-      setIssues(['Unable to create account. Please contact support.'])
+    } else if (errorMessage && errorMessage.includes('duplicate'))
+        setIssues(["You've already signed up with that email, please sign in."])
+      else if (errorMessage && errorMessage.includes("Key: 'UserRegistration.Email'"))
+        setIssues(["Please enter a valid email ID"])
+      else if (errorMessage && errorMessage.includes("Key: 'UserRegistration.Password'"))
+        setIssues(["Please enter an 8 letter long password"])
+        
   }
 
   let handleLogin = async () => {
@@ -42,7 +46,7 @@
       signInUser(email, password)
       navigate('/app')
     } else
-      setIssues(['Please check your email or password'])
+      setIssues(['Please check your email or password, contact support@textlooker.com if you feel there is an issue.'])
   }
 </script>
 

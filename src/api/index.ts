@@ -10,10 +10,10 @@ let server = axios.create({
 })
 
 let api = {
-  signup: async (email:string, password:string):Promise<boolean> => 
+  signup: async (email:string, password:string):Promise<[boolean| string]|any> => 
     server.post('/user_registrations', { email, password })
-      .then(response => response.status === 200)
-      .catch(_ => false)
+      .then(response => [response.status === 200, ''])
+      .catch(error => [false, error.response.data.error])
   ,
 
   verify: async (email:string, verificationToken:string):Promise<boolean> => 
