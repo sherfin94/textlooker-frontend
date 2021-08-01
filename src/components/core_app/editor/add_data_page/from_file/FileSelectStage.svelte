@@ -16,7 +16,7 @@
 <div>
   <h4 class="is-size-4">Select a CSV file</h4>
   <div class="notification mt-3 is-info is-light">
-    Currently you can upload data from a csv file. Each text record is expected to contain upto 5000 letters. Currently large text as a single record is not supported.
+    Currently you can upload data from a CSV file. Each text record is expected to contain upto 5000 letters. Those that contain more will be trimmed down to 5000 letters.
   </div>
   <div class="file mt-3">
     <label class="file-label">

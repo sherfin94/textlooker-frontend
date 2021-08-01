@@ -65,12 +65,12 @@
       </div>
     {:else}
       <div class="notification mt-3 is-info is-light">
-        Currently you can upload data from a csv file. Each text record is expected to contain upto 5000 letters. Currently large text as a single record is not supported.
+        Each text record can to contain upto 5000 letters.
       </div>
     {/if}
     <div class="field">
       <div class="control">
-        <textarea class="textarea" placeholder="Content" bind:value={content} rows={6} bind:this={textarea}></textarea>
+        <textarea class="textarea" placeholder="Content" bind:value={content} rows={6} maxlength="5000" bind:this={textarea}></textarea>
       </div>
     </div>
     {#if source && (source.authorAvailable || source.dateAvailable)}
