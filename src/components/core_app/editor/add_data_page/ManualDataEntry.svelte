@@ -33,12 +33,15 @@
         ...(source.dateAvailable ? { date } : {}),
         ...(source.dateAvailable ? { time } : {})
       }]
-      let [status, savedCount] = await api.createText(textSet, sourceID)
+      let [status, savedCount, errorMessage] = await api.createText(textSet, sourceID)
       if(status && savedCount > 0) {
         notificationText = 'Text added successfully.'
         notificationClass = 'is-success'
         content = ''
         author = ''
+      } else if (errorMessage.includes('Please upgrade your plan')) {
+        notificationText = errorMessage
+        notificationClass = 'is-warning'
       } else {
         notificationText = "This is an issue from our side, we'll inform you as soon as this is fixed. Meanwhile, please try to add data with different values"
         notificationClass = 'is-warning'

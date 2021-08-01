@@ -9,7 +9,7 @@ import { navigate } from "svelte-navigator";
   import { setIssues } from "../actions";
 
   let handleInput = () => {
-    disabled = token.length < 6
+    disabled = token.length < 5
   }
 
   let handleSubmit = async () => {

@@ -61,7 +61,7 @@ let api = {
       .catch(_ => false)
   ,
 
-  createText: async (textSet: text[], sourceID: number):Promise<[boolean, string]|any[]> => {
+  createText: async (textSet: text[], sourceID: number):Promise<[boolean, number, string]|any[]> => {
     let batch = {
       batch: textSet.map(text => ({
         content: text.content,
@@ -72,8 +72,8 @@ let api = {
     }
 
     return server.post('/auth/text', batch)
-      .then(response => [response.status === 200, response.data.savedTextCount])
-      .catch(_ => [false, ''])
+      .then(response => [response.status === 200, response.data.savedTextCount, ''])
+      .catch(error => [false, 0, error.response.data.error])
   },
 
   getText: async (sourceID:number, content:string, author: string[], startDate:string, endDate:string):Promise<[boolean, analyzedText[]]|any[]> =>
